@@ -5,3 +5,4 @@
 
 - DB name is graceshopper
 - npm install
+- Line of text
