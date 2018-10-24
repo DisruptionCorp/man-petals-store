@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser')
-const { conn, Product, Order, LineItem, User, seed } = require('../../db/index')
+const { Product, Order, LineItem, User } = require('../../db/index')
 
 router.use(bodyParser.json())
 
@@ -39,7 +39,7 @@ router.post('/api/users/:userId', (req, res, next) => {
 })
 
 //update user
-router.put('/api/usrs/:userId', (req, res, next) => {
+router.put('/api/users/:userId', (req, res, next) => {
     User
         .findById(req.params.id)
         .then(user => { user.update(req.body) })
