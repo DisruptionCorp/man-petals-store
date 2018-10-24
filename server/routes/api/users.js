@@ -16,7 +16,7 @@ router.get('/', (req, res, next) => {
 })
 
 //add user
-router.post('/api/users/', (req, res, next) => {
+router.post('/users', (req, res, next) => {
     const { name } = req.body
     User
         .create({ name })
@@ -26,7 +26,7 @@ router.post('/api/users/', (req, res, next) => {
 
 
 //delete user, send back all users
-router.post('/api/users/:userId', (req, res, next) => {
+router.post('/users/:userId', (req, res, next) => {
     User
         .destroy({
             where: {
@@ -39,7 +39,7 @@ router.post('/api/users/:userId', (req, res, next) => {
 })
 
 //update user
-router.put('/api/users/:userId', (req, res, next) => {
+router.put('/users/:userId', (req, res, next) => {
     User
         .findById(req.params.id)
         .then(user => { user.update(req.body) })
