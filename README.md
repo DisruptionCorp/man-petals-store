@@ -1,5 +1,6 @@
 # Disruption Corp Grace Shopper
 
+
 - Initial README text
 
 - DB name is graceshopper
