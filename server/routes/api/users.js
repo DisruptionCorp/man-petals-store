@@ -1,51 +1,53 @@
 const express = require('express');
 const router = express.Router();
-const bodyParser = require('body-parser')
-const { Product, Order, LineItem, User } = require('../../db/index')
+const bodyParser = require('body-parser');
+const { Product, Order, LineItem, User } = require('../../../db/index');
 
-router.use(bodyParser.json())
+router.use(bodyParser.json());
 
 //routes begin with /api/users/
 
 //all users
 router.get('/', (req, res, next) => {
-    User
-        .findAll()
-        .then(users => { res.send(users) })
-        .catch(next)
-})
+  User.findAll()
+    .then(users => {
+      res.send(users);
+    })
+    .catch(next);
+});
 
 //add user
 router.post('/users', (req, res, next) => {
-    const { name } = req.body
-    User
-        .create({ name })
-        .then(user => res.json(user))
-        .catch(next)
-})
-
+  const { name } = req.body;
+  User.create({ name })
+    .then(user => res.json(user))
+    .catch(next);
+});
 
 //delete user, send back all users
 router.post('/users/:userId', (req, res, next) => {
-    User
-        .destroy({
-            where: {
-                id: req.params.userId
-            }
-        })
-        .findAll()
-        .then(users => { res.send(users) })
-        .catch(next)
-})
+  User.destroy({
+    where: {
+      id: req.params.userId,
+    },
+  })
+    .findAll()
+    .then(users => {
+      res.send(users);
+    })
+    .catch(next);
+});
 
 //update user
 router.put('/users/:userId', (req, res, next) => {
-    User
-        .findById(req.params.id)
-        .then(user => { user.update(req.body) })
-        .then(user => { res.send(user) })
-        .catch(next)
-})
+  User.findById(req.params.id)
+    .then(user => {
+      user.update(req.body);
+    })
+    .then(user => {
+      res.send(user);
+    })
+    .catch(next);
+});
 
-
-module.exports = router
+module.exports = router;
