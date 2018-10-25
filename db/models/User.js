@@ -1,16 +1,14 @@
 const conn = require('../conn');
-
-const User = conn.define('User', {
-    Name: {
-        type: conn.Sequelize.STRING
-    },
-    Username: {
-        type: conn.Sequelize.STRING,
-        allowNull: false
-    },
-    Password: {
-        type: conn.Sequelize.STRING
-    }
-})
+const User = conn.define('user', {
+  name: {
+    type: conn.Sequelize.STRING,
+    allowNull: false,
+  },
+  password: {
+    type: conn.Sequelize.STRING,
+    allowNull: false,
+  },
+});
 
 module.exports = User;
+
