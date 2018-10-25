@@ -21,6 +21,7 @@
     "babel-preset-stage-2": "^6.24.1",
     "body-parser": "^1.18.3",
     "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "dotenv": "^6.1.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
