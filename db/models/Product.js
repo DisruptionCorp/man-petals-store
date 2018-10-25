@@ -8,8 +8,8 @@ const Product = conn.define('product', {
     unique: true,
     defaultValue: faker.commerce.productName(),
     validate: {
-      notEmpty: true
-    }
+      notEmpty: true,
+    },
   },
-})
+});
 module.exports = Product;
