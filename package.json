@@ -48,7 +48,7 @@
   },
   "scripts": {
     "postinstall": "npm run webpack",
-    "start": "node server/index.js",
+    "start": "nodemon server/index.js",
     "webpack": "./node_modules/webpack/bin/webpack.js",
     "start:dev": "npm run webpack -- --watch --mode=development & DATABASE_URL=postgres://localhost/graceshopper nodemon server/index.js --ignore src/ --ignore dist"
   },

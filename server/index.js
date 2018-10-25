@@ -11,13 +11,10 @@ app.use('/public', express.static(path.join(__dirname, '../public')));
 
 app.use('/api', router);
 
-// app.listen(port, () => {
-//   console.log("it's....").then(() => {
-//     setTimeout(() => {
-//       console.log('....alive.');
-//     }, 2000);
-//   });
-// });
-//****giving error- Please check Kevin****//
+app.listen(port, () => {
+  console.log("it's....")
+    setTimeout(() => {
+      console.log('....alive.');
+    }, 3000);
+});
 
-app.listen(port, () => console.log(`App listening on PORT ${port}`));
