@@ -50,9 +50,12 @@
     "postinstall": "npm run webpack",
     "start": "node server/index.js",
     "webpack": "./node_modules/webpack/bin/webpack.js",
-    "start:dev": "npm run webpack -- --watch --mode=development & DATABASE_URL=postgres://localhost/graceshopper nodemon server/index.js --ignore src/ --ignore dist"
+    "start:dev": "npm run webpack -- --watch --mode=development & DATABASE_URL=postgres://localhost/graceshopper nodemon server/index.js --ignore src/ --ignore dist",
+    "test:User": "mocha ./db/testing/User.test.js --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC"
 }
+
+
