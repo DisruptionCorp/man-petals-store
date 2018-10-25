@@ -5,20 +5,20 @@ export default class Navbar extends Component {
     render() {
         return (
             <div>
-                <li>
+                <ul>
                     <Link to="/home">
-                        <ul>Home</ul>
+                        <li>Home</li>
                     </Link>
                     <Link to="/cart">
-                        <ul>Cart</ul>
+                        <li>Cart</li>
                     </Link>
                     <Link to="/orders">
-                        <ul>Orders</ul>
+                        <li>Orders</li>
                     </Link>
                     <Link to="/login">
-                        <ul>Login</ul>
+                        <li>Login</li>
                     </Link>
-                </li>
+                </ul>
             </div>
         )
     }
