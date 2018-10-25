@@ -1,5 +1,4 @@
 const conn = require('../conn');
-
 const User = conn.define('user', {
   name: {
     type: conn.Sequelize.STRING,
@@ -12,3 +11,4 @@ const User = conn.define('user', {
 });
 
 module.exports = User;
+
