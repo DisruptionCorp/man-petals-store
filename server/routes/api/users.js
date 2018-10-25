@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const bodyParser = require('body-parser');
 const { Product, Order, LineItem, User } = require('../../../db/index');
 
-router.use(bodyParser.json());
 
 //routes begin with /api/users/
 
@@ -27,10 +25,10 @@ router.post('/users', (req, res, next) => {
 //delete user, send back all users
 router.post('/users/:userId', (req, res, next) => {
   User.destroy({
-    where: {
-      id: req.params.userId,
-    },
-  })
+      where: {
+        id: req.params.userId,
+      },
+    })
     .findAll()
     .then(users => {
       res.send(users);
