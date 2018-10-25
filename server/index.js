@@ -16,7 +16,7 @@ app.use(bodyParser.json())
 app.use('/api/products', productRouter)
 app.use('/api/users', userRouter);
 
-conn.sync({ force: true })
+sync()
   .then(() => {
     console.log('Database synced..')
     seed()
