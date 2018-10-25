@@ -40,4 +40,9 @@ const seed = () => {
         .catch(err => console.log(err));
 };
 
-module.exports = { conn, Product, Order, LineItem, User, seed };
+//Sync function
+const sync = ()=>{
+  return conn.sync({ force: true })
+}
+
+module.exports = { conn, Product, Order, LineItem, User, seed, sync };

@@ -20,12 +20,14 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "body-parser": "^1.18.3",
+    "chai": "^4.2.0",
     "dotenv": "^6.1.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "faker": "^4.1.0",
     "heroku": "^7.16.0",
     "jwt-simple": "^0.5.5",
+    "mocha": "^5.2.0",
     "morgan": "^1.9.1",
     "npm": "^6.4.1",
     "pg": "^7.4.3",
@@ -51,11 +53,10 @@
     "start": "nodemon server/index.js",
     "webpack": "./node_modules/webpack/bin/webpack.js",
     "start:dev": "npm run webpack -- --watch --mode=development & DATABASE_URL=postgres://localhost/graceshopper nodemon server/index.js --ignore src/ --ignore dist",
-    "test:User": "mocha ./db/testing/User.test.js --watch"
+    "test:User": "mocha ./db/testing/User.test.js --watch",
+    "test:Product": "DATABASE_URL=postgres://localhost/graceshopper mocha -w db/testing/product*"
   },
   "keywords": [],
   "author": "",
   "license": "ISC"
 }
-
-
