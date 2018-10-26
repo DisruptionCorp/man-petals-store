@@ -5,7 +5,8 @@ const userRouter = require('./routes/api/users');
 const productRouter = require('./routes/api/products')
 const port = process.env.PORT || 3000;
 const path = require('path');
-const { conn, seed } = require('../db/index')
+const { sync, seed } = require('../db/index')
+
 
 app.use(express.json());
 app.use(express.urlencoded());

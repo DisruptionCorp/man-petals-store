@@ -4,7 +4,7 @@ const faker = require('faker');
 
 const Product = conn.define('product', {
   name: {
-    type: Sequelize.STRING,
+    type: conn.Sequelize.STRING,
     allowNull: false,
     unique: true,
     defaultValue: faker.commerce.productName(),
