@@ -2,8 +2,9 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
-const userRouter = require('./routes/api/users');
-const productRouter = require('./routes/api/products')
+const userRouter = require('./api/users');
+const productRouter = require('./api/products')
+const orderRouter = require('./api/orders')
 const port = process.env.PORT || 3000;
 const path = require('path');
 const { sync, seed } = require('../db/index')
@@ -18,6 +19,7 @@ app.use(bodyParser.json())
 
 app.use('/api/products', productRouter)
 app.use('/api/users', userRouter);
+app.use('/api/orders', orderRouter)
 
 sync()
   .then(() => {

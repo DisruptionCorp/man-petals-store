@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Product, Order, LineItem, User } = require('../../../db/index');
+const { Product, Order, LineItem, User } = require('../../db/index');
 
 
 //routes begin with /api/users/
@@ -15,7 +15,7 @@ router.get('/', (req, res, next) => {
 });
 
 //add user
-router.post('/users', (req, res, next) => {
+router.post('/', (req, res, next) => {
   const { name } = req.body;
   User.create({ name })
     .then(user => res.json(user))
@@ -23,10 +23,10 @@ router.post('/users', (req, res, next) => {
 });
 
 //delete user, send back all users
-router.post('/users/:userId', (req, res, next) => {
+router.post('/:id', (req, res, next) => {
   User.destroy({
       where: {
-        id: req.params.userId,
+        id: req.params.id,
       },
     })
     .findAll()
@@ -37,7 +37,7 @@ router.post('/users/:userId', (req, res, next) => {
 });
 
 //update user
-router.put('/users/:userId', (req, res, next) => {
+router.put('/:id', (req, res, next) => {
   User.findById(req.params.id)
     .then(user => {
       user.update(req.body);
