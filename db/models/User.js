@@ -1,9 +1,10 @@
+const Sequelize = require('sequelize');
 const conn = require('../conn');
 const faker = require('faker');
 
 const User = conn.define('user', {
   name: {
-    type: conn.Sequelize.STRING,
+    type: Sequelize.STRING,
     allowNull: false,
     unique: true,
     defaultValue: faker.name.firstName(),
@@ -12,8 +13,14 @@ const User = conn.define('user', {
     },
   },
   password: {
-    type: conn.Sequelize.STRING,
+    type: Sequelize.STRING,
     allowNull: false,
+  },
+  email: {
+    type: Sequelize.STRING,
+    validate: {
+      isEmail: true
+    }
   },
 });
 
