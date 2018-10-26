@@ -41,3 +41,4 @@ const Order = conn.define('order', {
 });
 
 module.exports = Order;
+
