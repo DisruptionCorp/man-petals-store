@@ -56,7 +56,8 @@
     "start:dev": "npm run webpack -- --watch --mode=development & DATABASE_URL=postgres://localhost/graceshopper nodemon server/index.js --ignore src/ --ignore dist",
     "test:User": "mocha ./db/testing/User.test.js --watch",
     "test:Product": "mocha -w db/testing/product*",
-    "test:Order": "mocha -w db/testing/order*"
+    "test:Order": "mocha -w db/testing/order*",
+    "test:Review": "mocha -w db/testing/review*"
   },
   "keywords": [],
   "author": "",

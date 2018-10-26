@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const expect = chai.expect;
-const { sync, User, Order } = require('../index');
+const { User, Order } = require('../index');
 chai.use(chaiAsPromised);
 
 describe('User model', ()=> {

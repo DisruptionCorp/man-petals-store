@@ -3,6 +3,7 @@ const Product = require('./models/Product');
 const Order = require('./models/Order');
 const LineItem = require('./models/LineItem');
 const User = require('./models/User');
+const Review = require('./models/Review');
 
 //Associations
 Order.hasMany(LineItem, { as: 'Item' });
@@ -13,6 +14,12 @@ LineItem.belongsTo(Product);
 
 User.hasMany(Order);
 Order.belongsTo(User);
+
+Product.hasMany(Review);
+Review.belongsTo(Product);
+
+User.hasMany(Review);
+Review.belongsTo(User);
 
 //Seed function
 const seed = () => {
@@ -48,4 +55,4 @@ const sync = ()=>{
   return conn.sync({ force: true })
 }
 
-module.exports = { conn, Product, Order, LineItem, User, seed, sync };
+module.exports = { conn, Product, Order, LineItem, User, Review, seed, sync };

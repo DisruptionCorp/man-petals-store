@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const expect = chai.expect;
-const { sync, Product, LineItem } = require('../index');
+const { Product, LineItem } = require('../index');
 chai.use(chaiAsPromised);
 
 describe('Product Model', () => {
