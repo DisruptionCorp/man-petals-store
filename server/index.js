@@ -1,12 +1,15 @@
 const express = require('express');
 const app = express();
+const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const userRouter = require('./routes/api/users');
 const productRouter = require('./routes/api/products')
 const port = process.env.PORT || 3000;
 const path = require('path');
-const { conn, seed } = require('../db/index')
+const { sync, seed } = require('../db/index')
 
+
+app.use(morgan('dev'))
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.static(path.join(process.cwd(), 'public')));
@@ -27,7 +30,7 @@ sync()
       console.log("it's....")
       setTimeout(() => {
         console.log('....alive.');
-      }, 3000);
+      }, 1000);
     });
   })
   .catch(err => console.log(err))
