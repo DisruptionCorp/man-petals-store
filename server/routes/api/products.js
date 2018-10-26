@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
-// const bodyParser = require('body-parser')
 const { Product, Order, LineItem, User } = require('../../../db/index')
 
-// router.use(bodyParser.json())
 
 //routes begin with /api/product/
 
