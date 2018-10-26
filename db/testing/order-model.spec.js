@@ -7,11 +7,7 @@ chai.use(chaiAsPromised);
 
 describe('Order Model', () => {
   beforeEach(() => {
-  	return Promise.all([
-  		Order.sync({force: true}),
-  		User.sync(),
-  		LineItem.sync()
-  	]);
+  	return sync();
   });
 
   it('exists', () => {
@@ -60,6 +56,18 @@ describe('Order Model', () => {
   	expect(lineitem2.orderId).to.equal(order5.id);
   });
 
+  it('has one user', async () => {
+  	const [ order6, user1 ] = await Promise.all([
+  	  Order.create(),
+  	  User.create({ name: 'prof', password: 'eric', email: 'katz@gmail.com'})
+  	]);
+
+  	await order6.setUser(user1);
+  	const userOrders = await user1.getOrders().reduce((acc,curr)=>{return [...acc, curr.id]}, []);
+
+  	expect(order6.userId).to.equal(user1.id);
+  	expect(userOrders).to.include(order6.id);
+  })
   /*it('calculates order according to lineItems price*quantity', () => {
   	  	const [ order5, lineitem1, lineitem2 ] = await Promise.all([
   	  Order.create(),
