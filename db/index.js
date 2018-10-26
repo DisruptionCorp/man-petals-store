@@ -7,6 +7,7 @@ const User = require('./models/User');
 //Associations
 Order.hasMany(LineItem);
 Product.hasMany(LineItem);
+LineItem.belongsTo(Product);
 
 User.hasMany(Order);
 Order.belongsTo(User);
