@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { Order, LineItem, User, Review } = require('../../db/index');
+const { Order, LineItem, User } = require('../../db/index');
 module.exports = router;
 
 // get all orders
 router.get('/', (req, res, next) => {
     Order
-        .findAll()
+        .findAll({ include: [{ model: LineItem, as: 'Item'}, User ]})
         .then(orders => res.send(orders))
         .catch(next);
 });

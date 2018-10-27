@@ -60,7 +60,8 @@
     "test:Product": "mocha -w db/testing/product*",
     "test:Order": "mocha -w db/testing/order*",
     "test:Review": "mocha -w db/testing/review*",
-    "test:product-api": "mocha -w server/testing/product*"
+    "test:product-api": "mocha -w server/testing/product*",
+    "test:order-api": "mocha -w server/testing/order*"
   },
   "keywords": [],
   "author": "",
