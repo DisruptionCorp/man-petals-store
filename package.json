@@ -11,7 +11,7 @@
     ]
   },
   "dependencies": {
-    "@material-ui/core": "^3.2.2",
+    "@material-ui/core": "^3.3.1",
     "axios": "^0.18.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
@@ -43,6 +43,7 @@
     "sequelize": "^4.41.0",
     "supertest": "^3.3.0",
     "supertest-as-promised": "^4.0.2",
+    "typeface-roboto": "0.0.54",
     "webpack": "^4.16.5",
     "webpack-cli": "^3.1.0"
   },
