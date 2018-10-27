@@ -41,6 +41,8 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "sequelize": "^4.41.0",
+    "supertest": "^3.3.0",
+    "supertest-as-promised": "^4.0.2",
     "webpack": "^4.16.5",
     "webpack-cli": "^3.1.0"
   },
@@ -57,7 +59,8 @@
     "test:User": "mocha ./db/testing/User.test.js --watch",
     "test:Product": "mocha -w db/testing/product*",
     "test:Order": "mocha -w db/testing/order*",
-    "test:Review": "mocha -w db/testing/review*"
+    "test:Review": "mocha -w db/testing/review*",
+    "test:product-api": "mocha -w server/testing/product*"
   },
   "keywords": [],
   "author": "",
