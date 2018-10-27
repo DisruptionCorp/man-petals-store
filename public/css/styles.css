@@ -1,0 +1,7 @@
+.loginBox {
+  width: 175px;
+  border-color: lightgray;
+  border-style: solid;
+  padding: 10px;
+  border-radius: 5%;
+}
