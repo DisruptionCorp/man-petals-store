@@ -5,7 +5,7 @@ const { Product, Order, LineItem, User } = require('../../db/index')
 
 //routes begin with /api/product/
 
-//all users
+//all products
 router.get('/', (req, res, next) => {
     Product
         .findAll()
@@ -13,7 +13,7 @@ router.get('/', (req, res, next) => {
         .catch(next)
 })
 
-//add user
+//add product
 router.post('/', (req, res, next) => {
     const { name } = req.body
     Product
@@ -23,25 +23,25 @@ router.post('/', (req, res, next) => {
 })
 
 
-//delete user, send back all users
-router.post('/:id', (req, res, next) => {
-    Product
+//delete product, send back all products
+router.post('/:id', async (req, res, next) => {
+    await Product
         .destroy({
             where: {
                 id: req.params.id
             }
         })
-        .findAll()
+        await Product.findAll()
         .then(products => { res.send(products) })
         .catch(next)
 })
 
-//update user
+//update product
 router.put('/:id', (req, res, next) => {
-    User
+    Product
         .findById(req.params.id)
-        .then(user => { user.update(req.body) })
-        .then(user => { res.send(user) })
+        .then(product => product.update(req.body))
+        .then(product => res.send(product))
         .catch(next)
 })
 
