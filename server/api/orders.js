@@ -27,6 +27,13 @@ router.post('/:id/lineItems', (req, res, next) => {
     	.catch(next);
 });
 
+// create a lineItem
+router.post('/:id/lineItems/', (req, res, next)=> {
+LineItem.create({ orderId: req.params.id, quantity: req.body.quantity, productId: req.body.productId })
+    .then( lineItem => res.send(lineItem))
+    .catch(next);
+});
+
 // delete order
 router.post('/:id/delete', (req, res, next) => {
     Order
@@ -40,6 +47,18 @@ router.post('/:id/delete', (req, res, next) => {
         .catch(next);
 });
 
+//delete lineItem
+router.delete('/:id/lineItems/:liId', (req, res, next)=> {
+    LineItem.destroy({
+        where: {
+        orderId: req.params.id,
+        id: req.params.liId
+        }
+    })
+        .then(()=> res.sendStatus(204))
+        .catch(next);
+    });
+
 // update order
 router.put('/:id', (req, res, next) => {
   Order
@@ -48,3 +67,13 @@ router.put('/:id', (req, res, next) => {
       .then(order => res.send(order))
       .catch(next);
 });
+
+//update line item
+router.put('/:id/lineItems/:liId', (req, res, next)=> {
+    LineItem.findById(req.params.liId)
+      .then( lineItem => lineItem.update(req.body))
+      .then( lineItem => res.send(lineItem))
+      .catch(next);
+  });
+
+  

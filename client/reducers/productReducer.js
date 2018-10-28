@@ -16,7 +16,7 @@ const _getProducts = (products) => {
 
 //thunks
 export const getProducts = () => {
-    return dispatch => {
+    return (dispatch) => {
         return axios
             .get('/api/products')
             .then(resp => dispatch(_getProducts(resp.data)))
@@ -25,14 +25,15 @@ export const getProducts = () => {
 }
 
 //reducer
-const productReducer = (state = initialState, action) => {
+export const productReducer = (state = initialState, action) => {
     switch (action.type) {
     case GET_PRODUCTS:
-        return action.products;
+        console.log('products are: "', action.products);
+        return state = action.products;
 
     default:
         return state;
     }
 }
 
-export default productReducer
+// export default productReducer
