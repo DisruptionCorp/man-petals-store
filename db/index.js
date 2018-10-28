@@ -37,7 +37,7 @@ const seed = () => {
                 Product.create({ name: 'bodybag', price: 19.99  }),
                 Order.create({ status: 'ORDER', userId: kevin.id }),
                 Order.create({ status: 'ORDER', userId: daniel.id }),
-                Order.create({ status: 'CART', userId: andrew.id})
+                // Order.create({ status: 'CART', userId: andrew.id})
             ])
         })
         .then(([gloves, rope, axe, bodybag, order1, order2]) => {

@@ -1,32 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+//presentation components
+import Product from './home_components/Product';
+
 class Home extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
+        const { order } = this.props;
         const id = (this.props.order) ? this.props.order.id : '--';
+        const items = (this.props.order) ? this.props.order.Item : [];
 
         return (
             <div>
                 <h1>Welcome to Disrupt Co {'{'}<span style={{color: 'grey'}}>Grace Shopper</span>{'}'}</h1>
                 <div>
-                    Your Order/Cart ID is ({id}).
+                    Your Order ID is ({id}).
+                </div>
+                <div>
+                    Your cart contains:
+                    {items.map(item => {
+                        return (<div>{item.id}</div>)
+                    })}
                 </div>
                 <hr />
                 <div>
                     <h2>Products</h2>
-                    {this.props.products.map(product => {
-                        return (
-                        <div className="product-container" key={product.id}>
-                        <div className="product-home">
-                            <h2>{product.name}</h2>
-                            <p>{product.price}</p>
-                        </div>
-                        </div>
-                    )})}
+                    {this.props.products.map(_product => { 
+                        return <Product key={_product.id} product={_product} order={this.props.order}/>
+                    })}
                 </div>
             </div>
         );
@@ -36,10 +41,8 @@ class Home extends Component {
 const mapStateToProps = ({ products, orders }) => {
     // console.log('Products are: ', products)
     const order = orders.find(_order => {
-        console.log(_order)
         return (_order.status === 'CART') 
     });
-    console.log('Order is: ', order);
 
     return {
         products,
@@ -49,3 +52,5 @@ const mapStateToProps = ({ products, orders }) => {
 
 export default connect(mapStateToProps)(Home);
 
+
+// {(this.props.order) ? this.props.order.Item.length : '--'}
