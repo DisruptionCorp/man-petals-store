@@ -1,37 +1,43 @@
-import React from 'react';
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { incrementLineItem, decrementLineItem } from '../../reducers/orderReducer'
 
 
-
-const Product = ({ product, order, _handleIncrement, _handleDecrement }) => {
-    let disableDecButton;  
-    if (order) {
-        disableDecButton = ( 'Item' in order ) ? (!order.Item.find(item => item.productId == product.id)) : true;
+class Product extends Component {
+    render() {
+        const { product, order, itemQuantity, handleInc, handleDec } = this.props
+        return (
+            <div className="product-container">
+                <h4>{product.name}</h4>
+                Price: {product.price? `$${product.price}` : 'tbd'}<br/>
+                {itemQuantity} units in cart<br/>
+                <div className="product-buttons">
+                    <button onClick={()=>handleInc(product,order)}> + </button>
+                    <button onClick={()=>handleDec(product,order)} disabled={!itemQuantity}> - </button>
+                </div>
+            </div>
+        )
     }
-  
-    return (  
-        <div className="product-container" key={product.id}>
-            <div className="product-name-price">
-                <h2>{product.name}</h2>
-                <p>{product.price}</p>
-            </div>
-            <div className="product-buttons">
-                <button onClick={_handleIncrement}> + </button>
-                <button onClick={_handleDecrement} disabled={disableDecButton}> - </button>
-            </div>
-        </div>
-    )
 }
 
-const mapStateToProps = (state, { product, order, handleIncrement, handleDecrement }) => {
+const mapStateToProps = (state, { order, product }) => {
+    let item = (order) ? order.Item.find(item => item.productId === product.id) : null
     return {
-        product,
         order,
-        _handleIncrement: ()=> handleIncrement(product, order), 
-        _handleDecrement: ()=> handleDecrement(product, order)
+        product,
+        itemQuantity: item ? item.quantity : 0
     }
 }
 
-export default connect(mapStateToProps)(Product);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        handleInc: (product, order) => {
+            dispatch(incrementLineItem(product, order))
+        },
+        handleDec: (product, order) => {
+            dispatch(decrementLineItem(product, order))
+        },
+    }
+}
 
-  
+export default connect(mapStateToProps, mapDispatchToProps)(Product)

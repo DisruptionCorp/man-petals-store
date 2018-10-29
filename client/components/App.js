@@ -16,12 +16,12 @@ class App extends Component {
   }
 
   render() {
-    console.log('The this.props are: ', this.props);
+    //console.log('The this.props are: ', this.props);
     const renderNavbar = ({ location }) => {
       const path = location.pathname.split('/').pop();
       return <Navbar path={path} />;
     };
-    
+
     const renderLogin = ({ history }) => <Login history={history} />;
     const renderHome = ({ history }) => <Home />;
 
@@ -30,8 +30,8 @@ class App extends Component {
         <div>
           <Route render={renderNavbar} />
           <Route exact path="/login" render={renderLogin} />
-          <Route path="/home" component={Home} />
-          <Route path='/cart' component={Cart} />
+          <Route exact path="/home" component={Home} />
+          <Route exact path='/cart' component={Cart} />
         </div>
       </HashRouter>
     );

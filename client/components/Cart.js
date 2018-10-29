@@ -11,9 +11,9 @@ class Cart extends Component {
 
 
     render() {
-        const  { order, items, products } = this.props;
+        const { order, items, products } = this.props;
         const count = items.reduce((acc, el) => {
-            return acc+= el.quantity;
+            return acc += el.quantity;
         }, 0);
         const id = order ? order.id : 'loading';
 
@@ -26,7 +26,7 @@ class Cart extends Component {
                     <h3>There are {count} items in your cart.</h3>
                     <hr />
                         {items.map(item => {
-                            item.product = this.props.products.find(product => product.id == item.productId)   
+                            item.product = this.props.products.find(product => product.id == item.productId)
                              return (<LineItem key={item.id} item={item} orderId={id} handleDelete={()=> this.props.handleDelete(item, id)}/>)
                         })}
                 </div>
@@ -39,21 +39,21 @@ class Cart extends Component {
 const mapStateToProps = ({ products, orders }) => {
     console.log('state of orders in mapStateToProps: ', orders);
     const order = orders.find(_order => {
-        return (_order.status === 'CART') 
+        return (_order.status === 'CART')
     });
-    
+
     let items = order ? order.Item : [];
 
     return {
-       order,
-       items, 
-       products
+        order,
+        items,
+        products
     };
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        handleDelete: (lineItem, orderId)=>  dispatch(deleteLineItem(lineItem, orderId))
+        handleDelete: (lineItem, orderId) => dispatch(deleteLineItem(lineItem, orderId))
     }
 }
 
