@@ -28,7 +28,7 @@ export const getProducts = () => {
 export const productReducer = (state = initialState, action) => {
     switch (action.type) {
     case GET_PRODUCTS:
-        console.log('products are: "', action.products);
+        console.log('products loaded: "', action.products);
         return state = action.products;
 
     default:
