@@ -31,12 +31,13 @@ const seed = () => {
         ])
         .then(([kevin, daniel, andrew, sanjai]) => {
             return Promise.all([
-                Product.create({ name: 'gloves' }),
-                Product.create({ name: 'rope' }),
-                Product.create({ name: 'axe' }),
-                Product.create({ name: 'bodybag' }),
+                Product.create({ name: 'gloves', price: 19.99 }),
+                Product.create({ name: 'rope', price: 19.99  }),
+                Product.create({ name: 'axe', price: 19.99  }),
+                Product.create({ name: 'bodybag', price: 19.99  }),
                 Order.create({ status: 'ORDER', userId: kevin.id }),
                 Order.create({ status: 'ORDER', userId: daniel.id }),
+                // Order.create({ status: 'CART', userId: andrew.id})
             ])
         })
         .then(([gloves, rope, axe, bodybag, order1, order2]) => {
