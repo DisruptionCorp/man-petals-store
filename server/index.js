@@ -6,6 +6,7 @@ const userRouter = require('./api/users');
 const productRouter = require('./api/products');
 const orderRouter = require('./api/orders');
 const lineItemsRouter = require('./api/lineitems');
+const reviewsRouter = require('./api/reviews');
 const port = process.env.PORT || 3000;
 const path = require('path');
 const { sync, seed } = require('../db/index');
@@ -21,6 +22,7 @@ app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
 app.use('/api/lineitems', lineItemsRouter);
+app.use('api/reviews', reviewsRouter);
 
 sync()
   .then(() => {
