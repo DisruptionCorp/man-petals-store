@@ -51,7 +51,6 @@ export const getOrders = () => {
 //Increment and decrement lineitems, creating and deliting as needed
 export const incrementLineItem = (product, order) => { 
     let lineItem = order.Item.find(item => item.productId === product.id);
-    console.log('lineItem at increment is: ', lineItem)
 
     return (dispatch) => {
         if (lineItem) {
@@ -59,8 +58,10 @@ export const incrementLineItem = (product, order) => {
             dispatch(updateLineItem(lineItem, order.id))
         }
         else { 
-            lineItem = {orderId: order.id, productId: product.id}
-            console.log('the lineItem created is: ', lineItem);
+            lineItem = {
+                orderId: order.id, 
+                productId: product.id
+            }
             dispatch(createLineItem(lineItem, order.id))
         }
     }
@@ -68,7 +69,6 @@ export const incrementLineItem = (product, order) => {
 
 export const decrementLineItem = (product, order) => {
     let lineItem = order.Item.find(item => item.productId === product.id);
-    console.log('the lineitem at decrement is: ', lineItem)
 
     return (dispatch) => {
         if(lineItem) {
@@ -77,7 +77,6 @@ export const decrementLineItem = (product, order) => {
                 dispatch(updateLineItem(lineItem, order.id))
             }
             else if (lineItem.quantity === 1) { 
-                console.log('the lineItem deleted is: ', lineItem);
                 dispatch(deleteLineItem(lineItem, order.id))
             }
         }
@@ -112,28 +111,36 @@ const deleteLineItem = (lineItem, orderId) => {
 }
 
 
-
 //reducer
 export const orderReducer = (state = initialState, action) => {
-    console.log('state in reducer is: ', state);
-    const orderIdx = state.findIndex((_order) => { return _order.id === action.lineItem.orderId}); 
-    console.log('orderIdx is: ', orderIdx);
-    // 
-    // console.log('lineItemIdx is: ', lineItemIdx)
+    let lineItemIdx
+    const orderIdx = state.findIndex((_order) => { return _order.id === action.lineItem.orderId});
+    
+    if (orderIdx >= 0) {
+        lineItemIdx = state[orderIdx].Item.findIndex((_item) => { return _item.id === action.lineItem.id});
+    }
 
     switch (action.type) {
     case GET_ORDERS:
         return state = action.orders;
+        break;
     case CREATE_LINEITEM:
-        state[orderIdx].Item.push(action.lineItem);
-        return state;
+        return Object.assign([], state, {
+            orderIdx: state[orderIdx].Item.push(action.lineItem)
+        });
+        break;
     case UPDATE_LINEITEM:
-        state[orderIdx].Item[action.lineItem.id] = action.lineItem;
-        return state;
+        let orderUpdate = state[orderIdx].Item;
+        orderUpdate[lineItemIdx] = action.lineItem;
+        return Object.assign([], state, {
+            orderIdx: orderUpdate
+        });
+        break;
     case DELETE_LINEITEM:
-        const lineItemIdx = state[orderIdx].Item.findIndex((_item) => { return _item.id === action.lineItem.id});
-        state[orderIdx] = state[orderIdx].Item.splice(lineItemIdx, 1);
-        return state;
+        let updateOrder = Object.assign([], state);
+        updateOrder[orderIdx].Item.splice(lineItemIdx, 1)
+        return updateOrder;
+        break;
     default:
         return state
     }

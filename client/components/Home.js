@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { incrementLineItem, decrementLineItem } from '../reducers/orderReducer'
 
 //presentation components
 import Product from './home_components/Product';
@@ -7,12 +8,18 @@ import Product from './home_components/Product';
 class Home extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+        }
     }
 
     render() {
         const { order } = this.props;
         const id = (this.props.order) ? this.props.order.id : '--';
         const items = (this.props.order) ? this.props.order.Item : [];
+        const count = items.reduce((acc, el) => {
+            return acc+= el.quantity;
+        }, 0)
 
         return (
             <div>
@@ -21,16 +28,16 @@ class Home extends Component {
                     Your Order ID is ({id}).
                 </div>
                 <div>
-                    Your cart contains:
+                    Your cart contains {count} items.
                     {items.map(item => {
-                        return (<div>{item.id}</div>)
+                        return (<div key={item.productId}>{item.productId}: #{item.quantity}</div>)
                     })}
                 </div>
                 <hr />
                 <div>
                     <h2>Products</h2>
                     {this.props.products.map(_product => { 
-                        return <Product key={_product.id} product={_product} order={this.props.order}/>
+                        return <Product key={_product.id} product={_product} order={order} handleIncrement={this.props.handleIncrement} handleDecrement={this.props.handleDecrement} />
                     })}
                 </div>
             </div>
@@ -39,18 +46,20 @@ class Home extends Component {
 }
 
 const mapStateToProps = ({ products, orders }) => {
-    // console.log('Products are: ', products)
     const order = orders.find(_order => {
         return (_order.status === 'CART') 
     });
-
     return {
-        products,
-        order
+        products, order
     };
 }
 
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = (dispatch, ) => {
+    return {
+        handleIncrement: (product, order)=> dispatch(incrementLineItem(product, order)), 
+        handleDecrement: (product, order)=> dispatch(decrementLineItem(product, order))
+    }
+}
 
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
-// {(this.props.order) ? this.props.order.Item.length : '--'}

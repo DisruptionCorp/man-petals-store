@@ -1,10 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux'
 
-import { incrementLineItem, decrementLineItem } from '../../reducers/orderReducer'
 
-const Product = ({ product, order, handleIncrement, handleDecrement }) => {
-    // const lineItem = (order) ? order.Item.find(item => item.productId === product.id) : false;
+
+const Product = ({ product, order, _handleIncrement, _handleDecrement }) => {
+    let disableDecButton;  
+    if (order) {
+        disableDecButton = ( 'Item' in order ) ? (!order.Item.find(item => item.productId == product.id)) : true;
+    }
   
     return (  
         <div className="product-container" key={product.id}>
@@ -13,27 +16,22 @@ const Product = ({ product, order, handleIncrement, handleDecrement }) => {
                 <p>{product.price}</p>
             </div>
             <div className="product-buttons">
-                <button onClick={handleIncrement}> + </button>
-                <button onClick={handleDecrement}> - </button>
+                <button onClick={_handleIncrement}> + </button>
+                <button onClick={_handleDecrement} disabled={disableDecButton}> - </button>
             </div>
         </div>
     )
 }
 
-const mapStateToProps = (state, { product, order }) => {
+const mapStateToProps = (state, { product, order, handleIncrement, handleDecrement }) => {
     return {
         product,
-        order
+        order,
+        _handleIncrement: ()=> handleIncrement(product, order), 
+        _handleDecrement: ()=> handleDecrement(product, order)
     }
 }
 
-const mapDispatchToProps = (dispatch, { product, order }) => {
-    return {
-        handleIncrement: (ev)=> dispatch(incrementLineItem(product, order)), 
-        handleDecrement: ()=> dispatch(decrementLineItem(product, order))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Product);
+export default connect(mapStateToProps)(Product);
 
   
