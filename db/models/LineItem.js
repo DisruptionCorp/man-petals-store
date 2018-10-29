@@ -23,7 +23,9 @@ const LineItem = db.define('lineItem', {
 	  }
 	  }
 	}
-}*/);
+}*/, { 
+  include: [ Product ] 
+});
 
 module.exports = LineItem;
 
