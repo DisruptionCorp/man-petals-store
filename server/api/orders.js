@@ -11,8 +11,8 @@ router.get('/', (req, res, next) => {
             Order.findAll({ 
               include: [{ 
                 model: LineItem, as: 'Item' },
-				Product,
-				User
+                { include: [ Product ] }, 
+                User
             ]})
             .then(orders => res.send(orders))
         })
