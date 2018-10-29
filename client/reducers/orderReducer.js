@@ -1,19 +1,28 @@
-import axios from 'axios'
+import axios from 'axios';
 
 //intiial state
-const initialState = []
+const initialState = [];
 
 //action name
-const GET_ORDERS = 'GET_ORDERS'
-const CREATE_LINEITEM = 'CREATE_LINEITEM'
-const UPDATE_LINEITEM = 'UPDATE_LINEITEM'
-const DELETE_LINEITEM = 'DELETE_LINEITEM'
+const GET_ORDERS = 'GET_ORDERS';
+const GET_ORDER = 'GET_ORDER';
+
+const CREATE_LINEITEM = 'CREATE_LINEITEM';
+const UPDATE_LINEITEM = 'UPDATE_LINEITEM';
+const DELETE_LINEITEM = 'DELETE_LINEITEM';
 
 //action creator
 const _getOrders = (orders) => {
     return {
         type: GET_ORDERS,
         orders
+    }
+}
+
+const _getOrder = (order) => {
+    return {
+        type: GET_ORDER,
+        order
     }
 }
 
@@ -48,6 +57,15 @@ export const getOrders = () => {
     }
 }
 
+export const getOrder = (id) => {
+    return (dispatch) => {
+        return axios
+            .get(`/api/orders/${id}`)
+            .then(resp => dispatch(_getOrder(resp.data)))
+            .catch(console.error.bind(console))
+    }
+}
+
 //Increment and decrement lineitems, creating and deliting as needed
 export const incrementLineItem = (product, order) => { 
     let lineItem = order.Item.find(item => item.productId === product.id);
@@ -55,12 +73,15 @@ export const incrementLineItem = (product, order) => {
     return (dispatch) => {
         if (lineItem) {
             lineItem.quantity++;
+            lineItem.cost = lineItem.quantity * lineItem.cost;
             dispatch(updateLineItem(lineItem, order.id))
         }
         else { 
             lineItem = {
                 orderId: order.id, 
-                productId: product.id
+                productId: product.id,
+                cost: product.cost,
+                product
             }
             dispatch(createLineItem(lineItem, order.id))
         }
@@ -101,7 +122,7 @@ const updateLineItem = (lineItem, orderId) => {
     }
 }
 
-const deleteLineItem = (lineItem, orderId) => {
+export const deleteLineItem = (lineItem, orderId) => {
     return (dispatch) => {
         return axios
             .delete(`/api/orders/${orderId}/lineItems/${lineItem.id}`)
