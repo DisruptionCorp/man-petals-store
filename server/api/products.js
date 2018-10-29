@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Product, Order, LineItem, User } = require('../../db/index')
+const { Product, Review, LineItem, User } = require('../../db/index')
 
 
 //routes begin with /api/product/
@@ -8,7 +8,7 @@ const { Product, Order, LineItem, User } = require('../../db/index')
 //all products
 router.get('/', (req, res, next) => {
     Product
-        .findAll()
+        .findAll({ include: [ { model: LineItem, as: 'Item' }, Review ]})
         .then(products => { res.send(products) })
         .catch(next)
 })

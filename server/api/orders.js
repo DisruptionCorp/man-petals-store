@@ -8,12 +8,14 @@ router.get('/', (req, res, next) => {
     Order
         .findOrCreate({ where: { status: 'CART' } })    
         .then(() => {
-            Order.findAll({ include: [{ 
+            Order.findAll({ 
+              include: [{ 
                 model: LineItem, as: 'Item',
                 include: [{
                     model: Product
                 }]
-            }]})
+              }, User
+            ]})
             .then(orders => res.send(orders))
         })
         .catch(next);
@@ -57,14 +59,14 @@ router.delete('/:id/lineItems/:liId', (req, res, next)=> {
     });
 
 // delete order
-router.post('/:id/delete', (req, res, next) => {
-    Order
+router.post('/:id', async (req, res, next) => {
+    await Order
         .destroy({
             where: {
                 id: req.params.id
             }
         })
-        .findAll()
+    await Order.findAll()
         .then(orders => res.send(orders))
         .catch(next);
 });
@@ -73,9 +75,13 @@ router.post('/:id/delete', (req, res, next) => {
 // update order
 router.put('/:id', (req, res, next) => {
   Order
-  	  .findById(req.params.id)
-      .then(order => { user.update(req.body)})
-      .then(order => res.send(order))
+  	  .update(req.body, 
+  	  		  { where: { id: req.params.id}, 
+  	  		  returning: true, 
+  	  		  plain: true})
+      .then(([ numRows, updated ]) => { 
+      	res.send(updated)
+      })
       .catch(next);
 });
 

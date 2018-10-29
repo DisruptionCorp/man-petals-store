@@ -28,7 +28,8 @@ const Order = conn.define('order', {
 },*/ {
   hooks: {
     afterValidate(order){
-      if(order.total && order.total != 0) {
+      if(order.total) {
+        //console.log(order.total.toFixed(2))
         order.total = order.total.toFixed(2)
       }
     }/*,
