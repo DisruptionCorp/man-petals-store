@@ -8,7 +8,7 @@ const { Product, Review, LineItem, User } = require('../../db/index')
 //all products
 router.get('/', (req, res, next) => {
     Product
-        .findAll({ include: [ { model: LineItem, as: 'Item' }, Review ]})
+        .findAll({ include: [  Review ]})
         .then(products => { res.send(products) })
         .catch(next)
 })

@@ -22,7 +22,7 @@ router.get('/', (req, res, next) => {
 // get order by id
 router.get('/:id', (req, res, next) => {
     Order
-        .findById(req.params.id)
+        .findById(req.params.id, {include: [ { model: LineItem, as: 'Item', include: [ Product ]} ]} )
         .then(order => res.send(order))
         .catch(next);
 });

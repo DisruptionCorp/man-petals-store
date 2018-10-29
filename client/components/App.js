@@ -3,9 +3,12 @@ import { HashRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getProducts } from '../reducers/productReducer';
 import { getOrders } from '../reducers/orderReducer';
+
+//Components
 import Navbar from './Navbar';
 import Login from './Login';
 import Home from './Home';
+import Cart from './Cart';
 
 class App extends Component {
   componentDidMount() {
@@ -28,6 +31,7 @@ class App extends Component {
           <Route render={renderNavbar} />
           <Route exact path="/login" render={renderLogin} />
           <Route path="/home" component={Home} />
+          <Route path='/cart' component={Cart} />
         </div>
       </HashRouter>
     );
