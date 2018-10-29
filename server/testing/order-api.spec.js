@@ -109,18 +109,11 @@ describe('Order Routes', () => {
 
   describe('error handling', () => {
 
-    it('responds with a 404 if a product does not exist', () => {
+    it('responds with a 404 if a order does not exist', () => {
       return supertest
-        .get('/api/products/6')
+        .get('/api/orders/6')
         .expect(404)
       });
-
-    it('responds with a 400 if you attempt to add a product without content', () => {
-      return supertest
-        .post('/api/products')
-        .send({ name: '' })
-        .expect(500)
-    });
 
   })
 });

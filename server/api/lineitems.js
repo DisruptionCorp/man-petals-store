@@ -6,7 +6,7 @@ const { LineItem, Order, Product } = require('../../db');
 // create line items
 router.post('/', (req, res, next) => {
   LineItem
-  		.create()
+  		.findOrCreate(req.body)
   		.then(item => {
   		  res.send(item)
   		});
