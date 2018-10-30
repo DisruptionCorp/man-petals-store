@@ -20,7 +20,7 @@ export default class Navbar extends Component {
     }
 
     toggle(){
-      this.setState({ open: true})
+      this.setState({ open: !this.state.open})
     }
 
     handleClickAway(){
