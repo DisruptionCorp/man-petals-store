@@ -16,8 +16,7 @@ class Home extends Component {
         console.log('cart-order')
         console.log(order)
         return (
-            <div>
-                <h1>Welcome to Disrupt Co {'{'}<span style={{color: 'grey'}}>Grace Shopper</span>{'}'}</h1>
+            <div className="cartContainer">
                 <div>
                     Your Order ID is ({id}).
                 </div>
