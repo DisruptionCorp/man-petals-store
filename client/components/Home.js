@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { incrementLineItem, decrementLineItem } from '../reducers/orderReducer'
+import { Grid } from '@material-ui/core'
 
 //presentation components
 import Product from './home_components/Product';
@@ -30,7 +31,16 @@ class Home extends Component {
                 <div>
                     <h2>Products</h2>
                     {products.map(_product => {
-                        return <Product key={_product.id} product={_product} order={order}/>
+                        return (
+                        <Grid container spacing={24} 
+                                        direction="row"
+                                        display="flex"
+                                        justify="center"
+                                        alignItems="center" 
+                                        style={{ display: 'flex' }}>
+                          <Product key={_product.id} product={_product} order={order}/>
+                        </Grid>
+                        )
                     })}
                 </div>
             </div>
