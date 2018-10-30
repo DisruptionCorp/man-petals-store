@@ -1,21 +1,40 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { incrementLineItem, decrementLineItem } from '../../reducers/orderReducer'
+import { Grid, 
+         Paper, 
+         Typography, 
+         Button, 
+         ButtonBase, 
+         Icon } from '@material-ui/core'
 
 
 class Product extends Component {
     render() {
         const { product, order, itemQuantity, handleInc, handleDec } = this.props
+        const disable = product.quantity < 1;
+        console.log(disable)
         return (
-            <div className="product-container">
-                <h4>{product.name}</h4>
-                Price: {product.price? `$${product.price}` : 'tbd'}<br/>
-                {itemQuantity} units in cart<br/>
-                <div className="product-buttons">
-                    <button onClick={()=>handleInc(product,order)}> + </button>
-                    <button onClick={()=>handleDec(product,order)} disabled={!itemQuantity}> - </button>
-                </div>
+        <Grid item xs={4} style={{ padding: '25px'}} >
+          <Paper className="productContainer">
+            <Typography variant='display1' color='textPrimary'>{product.name}</Typography>
+            <Typography variant='body1'>Price: {product.price? `$${product.price}` : 'tbd'}</Typography>
+            <Typography variant='body1'>{itemQuantity} units in cart</Typography>
+            <div className="buttonContainer">
+            <Button variant='fab' 
+                    color='primary' 
+                    onClick={()=>handleInc(product,order)}>
+              <Icon>add</Icon>
+            </Button>
+            <Button disabled={disable}
+                    variant='fab' 
+                    color='secondary' 
+                    onClick={()=>handleDec(product,order)}>
+              <Icon>remove</Icon>
+            </Button>
             </div>
+          </Paper>
+        </Grid>
         )
     }
 }

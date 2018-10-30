@@ -8,5 +8,15 @@
 
 .cartContainer {
   padding: 40px;
-  align-items: 'center';
+}
+
+.productContainer {
+  height: 100%; 
+  padding: 10px;
+}
+
+.buttonContainer {
+  display: 'flex';
+  flex-direction: 'row';
+  justify-content: 'space-around';
 }

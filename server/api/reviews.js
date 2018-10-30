@@ -3,7 +3,7 @@ const router = express.Router();
 const { Review, Product, User } = require('../../db');
 
 // create a review for a product
-router.get('/', (res, req, next) => {
+router.post('/', (res, req, next) => {
   Review
     .create(req.body)
     .then(review => {
