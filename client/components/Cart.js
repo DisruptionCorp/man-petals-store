@@ -19,7 +19,7 @@ class Cart extends Component {
 
         // console.log('Cart Order is: ', order)
         return (
-            <div className="cart-container">
+            <div className="cartContainer" >
                 <div className="cart">
                     <h2>Your Order Information</h2>
                     <h3>Order #: {id}</h3>

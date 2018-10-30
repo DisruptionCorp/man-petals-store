@@ -5,3 +5,8 @@
   padding: 10px;
   border-radius: 5%;
 }
+
+.cartContainer {
+  padding: 40px;
+  align-items: 'center';
+}

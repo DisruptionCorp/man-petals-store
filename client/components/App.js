@@ -29,9 +29,9 @@ class App extends Component {
       <HashRouter>
         <div>
           <Route render={renderNavbar} />
-          <Route exact path="/login" render={renderLogin} />
-          <Route exact path="/home" component={Home} />
-          <Route exact path='/cart' component={Cart} />
+          <Route path="/login" render={renderLogin} />
+          <Route path="/home" component={Home} />
+          <Route path='/cart' component={Cart} />
         </div>
       </HashRouter>
     );

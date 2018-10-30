@@ -31,7 +31,8 @@ router.post('/:id', async (req, res, next) => {
                 id: req.params.id
             }
         })
-        await Product.findAll()
+    await Product
+        .findAll()
         .then(products => { res.send(products) })
         .catch(next)
 })
