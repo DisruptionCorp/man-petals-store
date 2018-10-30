@@ -23,6 +23,7 @@ class Login extends Component {
   }
 
   render() {
+    const user = this.state;
     return (
       <div>
         <div className="loginBox">
@@ -56,6 +57,7 @@ class Login extends Component {
             />
             <br />
             <Button
+              disabled={!(user.email && user.password)}
               label="Submit"
               color="primary"
               variant="contained"
