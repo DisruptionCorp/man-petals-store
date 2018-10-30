@@ -9,6 +9,7 @@ import Navbar from './Navbar';
 import Login from './Login';
 import Home from './Home';
 import Cart from './Cart';
+import Orders from './Orders';
 
 class App extends Component {
   componentDidMount() {
@@ -32,6 +33,7 @@ class App extends Component {
           <Route path="/login" render={renderLogin} />
           <Route path="/home" component={Home} />
           <Route path='/cart' component={Cart} />
+          <Route path='/orders' component={Orders} />
         </div>
       </HashRouter>
     );
