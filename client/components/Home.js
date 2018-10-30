@@ -34,8 +34,8 @@ class Home extends Component {
                         return (
                         <Grid container spacing={24} 
                                         direction="row"
-                                        display="flex"
-                                        justify="center"
+                                        display="space-around"
+                                        justify-xs-space-between
                                         alignItems="center" 
                                         style={{ display: 'flex' }}>
                           <Product key={_product.id} product={_product} order={order}/>
