@@ -6,6 +6,7 @@ const initialState = [];
 //action name
 const GET_ORDERS = 'GET_ORDERS';
 const GET_ORDER = 'GET_ORDER';
+const DELETE_ORDER = 'DELETE_ORDER'
 
 const CREATE_LINEITEM = 'CREATE_LINEITEM';
 const UPDATE_LINEITEM = 'UPDATE_LINEITEM';
@@ -44,6 +45,13 @@ const _deleteLineItem = (lineItem) => {
     return {
         type: DELETE_LINEITEM,
         lineItem
+    }
+}
+
+const _deleteOrder = (orderId) => {
+    return {
+        type: DELETE_ORDER,
+        orderId
     }
 }
 
@@ -131,14 +139,26 @@ export const deleteLineItem = (lineItem, orderId) => {
     }
 }
 
+export const deleteOrder = (orderId) => {
+    return (dispatch) => {
+        return axios
+            .delete(`/api/orders/${orderId}`)
+            .then(() => dispatch(_deleteOrder(orderId)))
+            .catch(console.error.bind(console))
+    }
+}
+
 
 //reducer
 export const orderReducer = (state = initialState, action) => {
-    let lineItemIdx
-    const orderIdx = state.findIndex((_order) => { return _order.id === action.lineItem.orderId });
 
-    if (orderIdx >= 0) {
-        lineItemIdx = state[orderIdx].Item.findIndex((_item) => { return _item.id === action.lineItem.id });
+    //need to refactor this, action.lineItem doesnt always exist
+    let lineItemIdx, orderIdx
+    if (action.lineItem) {
+        orderIdx = state.findIndex((_order) => { return _order.id === action.lineItem.orderId });
+        if (orderIdx >= 0) {
+            lineItemIdx = state[orderIdx].Item.findIndex((_item) => { return _item.id === action.lineItem.id });
+        }
     }
 
     switch (action.type) {
@@ -163,6 +183,9 @@ export const orderReducer = (state = initialState, action) => {
         updateOrder[orderIdx].Item.splice(lineItemIdx, 1)
         return updateOrder;
 
+    case DELETE_ORDER:
+        const _orders = state.filter(o => o.id != action.orderId)
+        return _orders
     default:
         return state
     }
