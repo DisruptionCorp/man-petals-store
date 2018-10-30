@@ -6,7 +6,7 @@ const app = require('../index')
 
 describe('Order Routes', () => {
   beforeEach(() => {
-  	return sync();
+  	return sync({force: true});
   })
 
   describe('/api/orders/', () => {

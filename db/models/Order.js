@@ -15,7 +15,6 @@ const Order = conn.define('order', {
   total: {
     type: conn.Sequelize.DECIMAL, //  to be calculated according to lineItem price*quantity
     allowNull: true, // change to false in the future
-    defaultValue: 0.00,
     validate: {
       isDecimal: true
     }
@@ -29,7 +28,6 @@ const Order = conn.define('order', {
   hooks: {
     afterValidate(order){
       if(order.total) {
-        //console.log(order.total.toFixed(2))
         order.total = order.total.toFixed(2)
       }
     }/*,
