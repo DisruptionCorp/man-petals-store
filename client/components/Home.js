@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   incrementLineItem,
   decrementLineItem,
   createOrder,
 } from '../reducers/orderReducer';
-import { Grid } from '@material-ui/core';
+import { Grid, Icon, Button } from '@material-ui/core';
 
 //presentation components
 import Product from './home_components/Product';
@@ -43,7 +44,7 @@ class Home extends Component {
             );
           })}
         </div>
-        <button onClick={() => createOrder(order)}>Create Order</button>
+        <Button onClick={() => createOrder(order)} component={Link} to='/orders'><Icon>shopping-cart-plus</Icon>{' CREATE'}</Button>
       </div>
     );
   }
