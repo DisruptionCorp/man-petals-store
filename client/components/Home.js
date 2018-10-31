@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 
+//Components
+import SearchBar from './SearchBar'
+
 export default class Home extends Component {
 
   render() {
 
     return (
-        <hr/>
+      <div >
+        <SearchBar />
+      </div>
     )
   }
 }

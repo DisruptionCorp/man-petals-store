@@ -4,7 +4,8 @@ import axios from 'axios'
 const initialState = []
 
 //action name
-const GET_PRODUCTS = 'GET_PRODUCTS'
+const GET_PRODUCTS = 'GET_PRODUCTS';
+const GET_TAGS = 'GET_TAGS';
 
 //action creator
 const _getProducts = (products) => {
@@ -13,6 +14,11 @@ const _getProducts = (products) => {
         products
     }
 }
+
+export const _getTags = search => ({
+  type: GET_TAGS,
+  tags: getTags(products)
+})
 
 //thunks
 export const getProducts = () => {
@@ -23,6 +29,7 @@ export const getProducts = () => {
             .catch(console.error.bind(console))
     }
 }
+
 
 //reducer
 export const productReducer = (state = initialState, action) => {
@@ -35,5 +42,14 @@ export const productReducer = (state = initialState, action) => {
         return state;
     }
 }
+
+// utils
+const getTags = (search) => {
+  return products.reduce((acc, curr) => {
+    return curr.tags ? 
+    [...acc, ...curr.tags.map(each => tags.push(each))] :
+    [...acc]
+  }, [])
+} 
 
 // export default productReducer
