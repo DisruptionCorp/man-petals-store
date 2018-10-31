@@ -7,9 +7,10 @@ import { getOrders } from '../reducers/orderReducer';
 //Components
 import Navbar from './Navbar';
 import Login from './Login';
-import Home from './Home';
+import ProductsList from './ProductsList';
 import Cart from './Cart';
 import Orders from './Orders';
+import Home from './Home';
 
 class App extends Component {
   componentDidMount() {
@@ -31,7 +32,7 @@ class App extends Component {
           <Route render={renderNavbar} />
           <Route path="/login" render={renderLogin} />
           <Route path="/home" component={Home} />
-          {/*<Route path="/products" component={Products} />*/}
+          <Route path="/products" component={ProductsList} />
           <Route path='/cart' component={Cart} />
           <Route path='/orders' component={Orders} />
           {/*<Route path='/myaccount' component={MyAccount} />
