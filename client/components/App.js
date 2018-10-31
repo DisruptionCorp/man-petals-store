@@ -24,7 +24,6 @@ class App extends Component {
     };
 
     const renderLogin = ({ history }) => <Login history={history} />;
-    const renderHome = ({ history }) => <Home />;
 
     return (
       <HashRouter>
@@ -32,11 +31,11 @@ class App extends Component {
           <Route render={renderNavbar} />
           <Route path="/login" render={renderLogin} />
           <Route path="/home" component={Home} />
-          /*<Route path="/products" component={Products} />*/
+          {/*<Route path="/products" component={Products} />*/}
           <Route path='/cart' component={Cart} />
           <Route path='/orders' component={Orders} />
-          /*<Route path='/myaccount' component={MyAccount} />
-          <Route path='/logout' />*/
+          {/*<Route path='/myaccount' component={MyAccount} />
+          <Route path='/logout' />*/}
         </div>
       </HashRouter>
     );
