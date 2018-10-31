@@ -19,8 +19,13 @@ const User = conn.define('user', {
   email: {
     type: Sequelize.STRING,
     validate: {
-      isEmail: true
-    }
+      isEmail: true,
+    },
+  },
+  admin: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
   },
 });
 
