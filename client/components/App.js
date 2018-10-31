@@ -7,7 +7,8 @@ import { getOrders } from '../reducers/orderReducer';
 //Components
 import Navbar from './Navbar';
 import Login from './Login';
-import ProductsList from './ProductsList';
+import Products from './Products';
+import ProductDetail from './products_components/ProductDetail';
 import Cart from './Cart';
 import Orders from './Orders';
 import Home from './Home';
@@ -18,12 +19,14 @@ class App extends Component {
   }
 
   render() {
-    //console.log('The this.props are: ', this.props);
     const renderNavbar = ({ location }) => {
       const path = location.pathname.split('/').pop();
       return <Navbar path={path} />;
     };
-
+    const renderProductDetail = ({ match }) => {
+      const productId = match.params.id;
+      return <ProductDetail productId={productId} />;
+    };
     const renderLogin = ({ history }) => <Login history={history} />;
 
     return (
@@ -32,9 +35,10 @@ class App extends Component {
           <Route render={renderNavbar} />
           <Route path="/login" render={renderLogin} />
           <Route path="/home" component={Home} />
-          <Route path="/products" component={ProductsList} />
-          <Route path='/cart' component={Cart} />
-          <Route path='/orders' component={Orders} />
+          <Route exact path="/products" component={Products} />
+          <Route exact path="/products/:id" render={renderProductDetail} />
+          <Route path="/cart" component={Cart} />
+          <Route path="/orders" component={Orders} />
           {/*<Route path='/myaccount' component={MyAccount} />
           <Route path='/logout' />*/}
         </div>
