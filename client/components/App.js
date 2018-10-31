@@ -32,8 +32,8 @@ class App extends Component {
           <Route render={renderNavbar} />
           <Route path="/login" render={renderLogin} />
           <Route path="/home" component={Home} />
-          <Route path='/cart' component={Cart} />
-          <Route path='/orders' component={Orders} />
+          <Route path="/cart" component={Cart} />
+          <Route path="/orders" component={Orders} />
         </div>
       </HashRouter>
     );
