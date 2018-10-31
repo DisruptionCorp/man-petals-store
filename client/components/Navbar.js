@@ -51,8 +51,8 @@ export default class Navbar extends Component {
                 <MenuItem><NavLink to="/products">Products</NavLink></MenuItem>
                 <MenuItem><NavLink to="/cart">Cart</NavLink></MenuItem>
                 <MenuItem><NavLink to="/orders">Orders</NavLink></MenuItem>
-                {/*userId ?
-                <MenuItem><NavLink to="/login">Login</NavLink></MenuItem> :
+                {/*userId ?*/}
+                <MenuItem><NavLink to="/login">Login</NavLink></MenuItem>{/* :
                 <MenuItem><NavLink to="/myaccount">My Account</NavLink></MenuItem>
                 <MenuItem><NavLink to="/logout">Logout</NavLink></MenuItem>
                 */}
