@@ -44,7 +44,10 @@ class Home extends Component {
             );
           })}
         </div>
-        <Button onClick={() => createOrder(order)} component={Link} to='/orders'><Icon>shopping-cart-plus</Icon>{' CREATE'}</Button>
+        <Button disabled={count == 0} 
+                onClick={() => createOrder(order)} 
+                component={Link} 
+                to='/orders'><Icon>shopping-cart-plus</Icon>{' CREATE'}</Button>
       </div>
     );
   }
