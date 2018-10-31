@@ -26,31 +26,31 @@ const seed = () => {
   return Promise.all([
     User.create({
       name: 'kevin',
-      email: 'k.gmail.com',
+      email: 'k@gmail.com',
       password: 'KEVIN',
       admin: true,
     }),
     User.create({
       name: 'daniel',
-      email: 'd.gmail.com',
+      email: 'd@gmail.com',
       password: 'DANIEL',
       admin: true,
     }),
     User.create({
       name: 'andrew',
-      email: 'a.gmail.com',
+      email: 'a@gmail.com',
       password: 'ANDREW',
       admin: true,
     }),
     User.create({
       name: 'sanjai',
-      email: 's.gmail.com',
+      email: 's@gmail.com',
       password: 'SANJAI',
       admin: true,
     }),
-    User.create({ name: 'moe', email: 'm.gmail.com', password: 'MOE' }),
-    User.create({ name: 'larry', email: 'l.gmail.com', password: 'LARRY' }),
-    User.create({ name: 'curly', email: 'c.gmail.com', password: 'CURLY' }),
+    User.create({ name: 'moe', email: 'm@gmail.com', password: 'MOE' }),
+    User.create({ name: 'larry', email: 'l@gmail.com', password: 'LARRY' }),
+    User.create({ name: 'curly', email: 'c@gmail.com', password: 'CURLY' }),
   ])
     .then(([kevin, daniel, andrew, sanjai, moe, larry, curly]) => {
       return Promise.all([
