@@ -27,6 +27,10 @@ const Product = conn.define('product', {
       isUrl: true
     }
   },
+  tags: {
+    type: Sequelize.ARRAY(Sequelize.STRING),
+    allowNull: true,
+  }
 }, {
   hooks: {
   	afterValidate(product){
