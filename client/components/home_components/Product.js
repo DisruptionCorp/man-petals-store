@@ -12,8 +12,7 @@ import { Grid,
 class Product extends Component {
     render() {
         const { product, order, itemQuantity, handleInc, handleDec } = this.props
-        const disable = product.quantity < 1;
-        console.log(disable)
+        const disable = itemQuantity == 0;
         return (
         <Grid item xs={4} style={{ padding: '25px'}} >
           <Paper className="productContainer">
