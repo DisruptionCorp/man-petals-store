@@ -5,6 +5,7 @@ import ProductReview from './ProductReview';
 class ProductDetail extends Component {
   render() {
     const { product } = this.props;
+    console.log(product);
     //defensive code to deal with products not having loaded yet
     if (!product) return null;
     const {

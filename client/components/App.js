@@ -12,6 +12,7 @@ import ProductDetail from './products_components/ProductDetail';
 import Cart from './Cart';
 import Orders from './Orders';
 import Home from './Home';
+import PaginatedProducts from './products_components/PaginatedProducts';
 
 class App extends Component {
   componentDidMount() {
@@ -39,6 +40,7 @@ class App extends Component {
           <Route exact path="/products/:id" render={renderProductDetail} />
           <Route path="/cart" component={Cart} />
           <Route path="/orders" component={Orders} />
+          <Route path="/home/search" component={PaginatedProducts} />
           {/*<Route path='/myaccount' component={MyAccount} />
           <Route path='/logout' />*/}
         </div>

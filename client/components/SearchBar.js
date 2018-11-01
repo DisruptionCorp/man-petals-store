@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getProductsByTags } from '../reducers/productReducer';
 import { Toolbar, 
@@ -48,7 +49,7 @@ class SearchBar extends Component {
   	console.log(this.props)
   	const { getProductsByTags } = this.props;
   	const { filteredTags } = this.state;
-  	getProductsByTags({filteredTags});
+  	getProductsByTags(filteredTags);
   }
 
   render() {
@@ -60,7 +61,7 @@ class SearchBar extends Component {
   	  <Toolbar style={{ display: 'flex', 
                         justifyContent: 'center' }}>
 
-          <Input autoComplete
+          <Input 
           		 placeholder="Search a tag..."
           		 name="input"
           		 value={input}
@@ -68,16 +69,7 @@ class SearchBar extends Component {
           		 onChange={handleChange}
           		 onOpen={handleOpen}>
           </Input>
-          {/*<MenuList>
-    	  {(isOpen && filteredTags) &&
-    	  	filteredTags.map(each => {
-		 	return (
-		 	  <MenuItem>{each}</MenuItem>
-		 	)
-		  })
-		  }
-		  </MenuList>*/}
-          <IconButton onClick={handleClick}><Icon>search_icon</Icon></IconButton>
+          <IconButton onClick={handleClick} component={Link} to='/home/search'><Icon>search_icon</Icon></IconButton>
       </Toolbar>
       <Typography align='center' variant="body1">Please be advised that tags have to begin with a {"#hash"}!</Typography>
     </div>

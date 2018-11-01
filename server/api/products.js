@@ -1,3 +1,4 @@
+const Sequelize = require('sequelize');
 const express = require('express');
 const router = express.Router();
 const { Product, Review, LineItem, User } = require('../../db/index')
@@ -47,24 +48,22 @@ router.put('/:id', (req, res, next) => {
 })
 
 //search products by tags
-router.post('/search', (req, res, next) => {
+router.post('/search/tags', (req, res, next) => {
   const Op = Sequelize.Op;
-  console.log(req.body.tags)
-  /*Product
+
+  Product
         .findAll({ where: {
           tags: {
-            [Op.contains] : {
-                ...req.body.tags.reduce((acc,each)=>{
-                  return {...acc, [Op.like]: '%'+each+'%'}
-                }, {})
-            }
+            [Op.contains] : [ ...req.body.tags.reduce((acc,each)=>{
+                  console.log(each);
+                  return [...acc, each]
+                }, []) ]
           }
         }})
         .then(products => {
-          console.log(products)
           if(products) res.send(products)
         })
-        .catch(next);*/
+        .catch(next);
 })
 
 

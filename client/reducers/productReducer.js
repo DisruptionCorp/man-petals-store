@@ -19,12 +19,6 @@ const _getProducts = products => {
 };
 
 
-=======
-export const _getTags = search => ({
-  type: GET_TAGS,
-  tags: getTags(products),
-});
-
 const _createProduct = product => ({ type: CREATE_PRODUCT, product });
 
 const _destroyProduct = product => ({ type: DESTROY_PRODUCT, product });
@@ -52,7 +46,7 @@ export const createProduct = product => dispatch =>
 export const getProductsByTags = tags => dispatch => {
     console.log(tags)
     return axios
-            .post('/api/products/search', tags)
+            .post('/api/products/search/tags', {tags})
             .then(response => dispatch(_getProducts(response.data)))
             .catch(console.error.bind(console))
 }
@@ -99,14 +93,6 @@ export const productReducer = (state = initialState, action) => {
 };
 
 // utils
-
-const getTags = search => {
-  return products.reduce((acc, curr) => {
-    return curr.tags
-      ? [...acc, ...curr.tags.map(each => tags.push(each))]
-      : [...acc];
-  }, []);
-};
 
 
 // export default productReducer
