@@ -55,7 +55,13 @@ const seed = () => {
     .then(([kevin, daniel, andrew, sanjai, moe, larry, curly]) => {
       return Promise.all([
         Product.create({ name: 'gloves', price: 19.99 }),
-        Product.create({ name: 'rope', price: 19.99 }),
+        Product.create({
+          name: 'assorted flowers',
+          price: 19.99,
+          photo:
+            'https://c.pxhere.com/photos/0d/f2/flowerful_flowery_flowerly-917069.jpg!d',
+          tags: ['Graduation', 'Birthday'],
+        }),
         Product.create({ name: 'axe', price: 19.99 }),
         Product.create({ name: 'bodybag', price: 19.99 }),
         Order.create({ status: 'ORDER', userId: kevin.id }),
@@ -63,9 +69,9 @@ const seed = () => {
         // Order.create({ status: 'CART', userId: andrew.id})
       ]);
     })
-    .then(([gloves, rope, axe, bodybag, order1, order2]) => {
+    .then(([gloves, assortedFlowers, axe, bodybag, order1, order2]) => {
       return Promise.all([
-        LineItem.create({ orderId: order1.id, productId: rope.id }),
+        LineItem.create({ orderId: order1.id, productId: assortedFlowers.id }),
         LineItem.create({ orderId: order2.id, productId: bodybag.id }),
         LineItem.create({ orderId: order2.id, productId: axe.id }),
         LineItem.create({ orderId: order2.id, productId: gloves.id }),
