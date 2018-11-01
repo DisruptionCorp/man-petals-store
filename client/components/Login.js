@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import FormGroup from '@material-ui/core/FormGroup';
+
+import { login } from '../reducers/authReducer'
 
 class Login extends Component {
   constructor(props) {
@@ -9,6 +12,7 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
+      err: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -20,6 +24,9 @@ class Login extends Component {
   handleClick(ev) {
     ev.preventDefault();
     console.log(this.state);
+    const { email, password } = this.state;
+    this.props.login({ email, password })
+      .catch(err => this.setState({ err: 'Invalid Login Credentials' }));
   }
 
   render() {
@@ -66,10 +73,17 @@ class Login extends Component {
               Sign in
             </Button>
           </FormGroup>
+          <h2>{this.state.err}</h2>
         </div>
       </div>
     );
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch, { history })=> {
+  return {
+    login: (credentials)=> dispatch(login(credentials, history))
+  };
+}
+
+export default connect(null, mapDispatchToProps)(Login);

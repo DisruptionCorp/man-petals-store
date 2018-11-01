@@ -5,9 +5,10 @@ const bodyParser = require('body-parser');
 const port = process.env.PORT || 3000;
 const path = require('path');
 const session = require('express-session');
+const jwt = require('jwt-simple');
 
 //File Imports
-const { sync, seed } = require('../db/index');
+const { sync, seed, User } = require('../db/index');
 
 //Router Imports
 const usersRouter = require('./api/users');
@@ -21,13 +22,40 @@ const authRouter = require('./api/auth');
 app.use(morgan('dev')); //logging
 app.use(express.json()); //body-parsing
 app.use(express.urlencoded()); //body-parsing
-app.use(session({ //session
-  secret: 'keep it secret, keep it safe',
-  resave: false,
-  saveUninitialized: false
-}));
 app.use(express.static(path.join(__dirname, '../public'))); //static
 app.use('/public', express.static(path.join(__dirname, '../public'))); //static
+
+//Token Authentication Middleware
+app.use((req, res, next)=> {
+  const token = req.headers.authorization;
+  console.log('app.use req.authorization is: ', token);
+  if(!token) {
+    return next();
+  }
+
+  let id;
+  try {
+    id = jwt.decode(token, process.env.JWT_SECRET).id;
+    console.log('app.use decoded id is: ', id);
+    User.findById(id)
+      .then( user => {
+        console.log('the found user is: ');
+        console.log(user);
+        req.user = user;
+        next();
+      })
+      .catch(next)
+  }
+  catch(ex) {
+    next({ status: 401 });
+  }
+})
+// app.use(session({ //session
+//   secret: 'keep it secret, keep it safe',
+//   resave: false,
+//   saveUninitialized: false
+// }));
+
 
 //Routers
 app.use('/api/products', productsRouter);
