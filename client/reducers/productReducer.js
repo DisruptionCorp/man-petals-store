@@ -15,11 +15,6 @@ const _getProducts = (products) => {
     }
 }
 
-export const _getTags = search => ({
-  type: GET_TAGS,
-  tags: getTags(products)
-})
-
 //thunks
 export const getProducts = () => {
     return (dispatch) => {
@@ -30,6 +25,13 @@ export const getProducts = () => {
     }
 }
 
+export const getProductsByTags = tags => dispatch => {
+    console.log(tags)
+    return axios
+            .post('/api/products/search', tags)
+            .then(response => dispatch(_getProducts(response.data)))
+            .catch(console.error.bind(console))
+}
 
 //reducer
 export const productReducer = (state = initialState, action) => {
@@ -44,12 +46,6 @@ export const productReducer = (state = initialState, action) => {
 }
 
 // utils
-const getTags = (search) => {
-  return products.reduce((acc, curr) => {
-    return curr.tags ? 
-    [...acc, ...curr.tags.map(each => tags.push(each))] :
-    [...acc]
-  }, [])
-} 
+
 
 // export default productReducer

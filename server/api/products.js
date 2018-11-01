@@ -46,5 +46,26 @@ router.put('/:id', (req, res, next) => {
         .catch(next)
 })
 
+//search products by tags
+router.post('/search', (req, res, next) => {
+  const Op = Sequelize.Op;
+  console.log(req.body.tags)
+  /*Product
+        .findAll({ where: {
+          tags: {
+            [Op.contains] : {
+                ...req.body.tags.reduce((acc,each)=>{
+                  return {...acc, [Op.like]: '%'+each+'%'}
+                }, {})
+            }
+          }
+        }})
+        .then(products => {
+          console.log(products)
+          if(products) res.send(products)
+        })
+        .catch(next);*/
+})
+
 
 module.exports = router

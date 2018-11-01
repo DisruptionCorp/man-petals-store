@@ -54,10 +54,10 @@ const seed = () => {
   ])
     .then(([kevin, daniel, andrew, sanjai, moe, larry, curly]) => {
       return Promise.all([
-        Product.create({ name: 'gloves', price: 19.99 }),
-        Product.create({ name: 'rope', price: 19.99 }),
-        Product.create({ name: 'axe', price: 19.99 }),
-        Product.create({ name: 'bodybag', price: 19.99 }),
+        Product.create({ name: 'gloves', price: 19.99, tags: ['#hands', '#stayclean', '#coolandcollected'] }),
+        Product.create({ name: 'rope', price: 19.99, tags: ['#climbing', '#tugowar', '#exercise'] }),
+        Product.create({ name: 'axe', price: 19.99, tags: ['#sharp', '#lumberjack', '#recreationaluse', '#dontbedangerous'] }),
+        Product.create({ name: 'bodybag', price: 19.99, tags: ['#trouble', '#staywarm', '#recreationaluse', '#warning'] }),
         Order.create({ status: 'ORDER', userId: kevin.id }),
         Order.create({ status: 'ORDER', userId: daniel.id }),
         // Order.create({ status: 'CART', userId: andrew.id})
