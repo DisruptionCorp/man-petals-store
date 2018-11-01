@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom'
 import {
     Paper,
@@ -13,10 +14,12 @@ import {
 }
 from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
+import { logout } from '../reducers/authReducer'
 
-export default class Navbar extends Component {
-    constructor() {
-        super()
+
+class Navbar extends Component {
+    constructor(props) {
+        super(props)
         this.state = { open: false }
         this.toggle = this.toggle.bind(this);
         this.handleClickAway = this.handleClickAway.bind(this);
@@ -52,7 +55,13 @@ export default class Navbar extends Component {
                 <MenuItem><NavLink to="/cart">Cart</NavLink></MenuItem>
                 <MenuItem><NavLink to="/orders">Orders</NavLink></MenuItem>
                 {/*userId ?*/}
-                <MenuItem><NavLink to="/login">Login</NavLink></MenuItem>{/* :
+                
+                {this.props.isLoggedIn ? (
+                    <MenuItem onClick={this.props.logout}><NavLink to="/login">Logout: {this.props.isLoggedIn.name}</NavLink></MenuItem>
+                    ) : (
+                    <MenuItem><NavLink to="/login">Login</NavLink></MenuItem>
+                )}
+                {/* :
                 <MenuItem><NavLink to="/myaccount">My Account</NavLink></MenuItem>
                 <MenuItem><NavLink to="/logout">Logout</NavLink></MenuItem>
                 */}
@@ -66,3 +75,17 @@ export default class Navbar extends Component {
         )
     }
 }
+
+const mapStateToProps = ({ auth }) => {
+    return {
+        isLoggedIn: auth.id ? auth : false
+    }  
+}
+
+const mapDispatchToProps = (dispatch)=> {
+    return {
+      logout: ()=> dispatch(logout())
+    }
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

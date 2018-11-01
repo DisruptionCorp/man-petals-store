@@ -59,14 +59,15 @@
     "postinstall": "npm run webpack",
     "start": "nodemon server/index.js",
     "webpack": "./node_modules/webpack/bin/webpack.js",
-    "start:dev": "npm run webpack -- --watch --mode=development & DATABASE_URL=postgres://localhost/graceshopper nodemon server/index.js --ignore src/ --ignore dist",
+    "start:dev": "npm run webpack -- --watch --mode=development & DATABASE_URL=postgres://localhost/graceshopper JWT_SECRET=foo nodemon server/index.js --ignore src/ --ignore dist",
     "test:User": "mocha ./db/testing/User.test.js --watch",
     "test:Product": "mocha -w db/testing/product*",
     "test:Order": "mocha -w db/testing/order*",
     "test:Review": "mocha -w db/testing/review*",
     "test:product-api": "mocha -w server/testing/product*",
     "test:order-api": "mocha -w server/testing/order*",
-    "test:user-api": "mocha -w server/testing/user*"
+    "test:user-api": "mocha -w server/testing/user*",
+    "test:auth-api": "JWT_SECRET=foo mocha -w server/testing/auth*"
   },
   "keywords": [],
   "author": "",
