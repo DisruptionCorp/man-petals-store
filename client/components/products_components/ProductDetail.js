@@ -21,7 +21,7 @@ class ProductDetail extends Component {
     if (inv_quantity === 0) stockRemaining = 'Sold Out';
     return (
       <div>
-        <img src={photo} alt={name} height="50" width="50" />
+        <img src={photo} alt={name} height="400" width="400" />
         <br />
         <h5>Product Info:</h5>
         <ul>
@@ -29,7 +29,7 @@ class ProductDetail extends Component {
           <li>{description}</li>
           <li>Price: ${price}</li>
           <li>{stockRemaining}</li>
-          <li>Tags: {tags.join(', ')}</li>
+          <li>Tags: {tags ? tags.join(', ') : ''}</li>
         </ul>
         <h5>Reviews:</h5>
         {reviews.map(review => {

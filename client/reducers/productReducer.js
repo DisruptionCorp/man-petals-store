@@ -71,7 +71,7 @@ export const productReducer = (state = initialState, action) => {
     case UPDATE_PRODUCT:
       //   state = state.filter(product => product.id !== action.product.id);
       //   state = [...state, action.product];
-      state.map(
+      state = state.map(
         product => (product.id === action.product.id ? action.product : product)
       );
       break;
