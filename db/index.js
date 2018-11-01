@@ -54,16 +54,11 @@ const seed = () => {
   ])
     .then(([kevin, daniel, andrew, sanjai, moe, larry, curly]) => {
       return Promise.all([
-        Product.create({ name: 'gloves', price: 19.99 }),
-        Product.create({
-          name: 'assorted flowers',
-          price: 19.99,
-          photo:
-            'https://c.pxhere.com/photos/0d/f2/flowerful_flowery_flowerly-917069.jpg!d',
-          tags: ['Graduation', 'Birthday'],
-        }),
-        Product.create({ name: 'axe', price: 19.99 }),
-        Product.create({ name: 'bodybag', price: 19.99 }),
+        Product.create({ name: 'gloves', price: 19.99, tags: ['#hands', '#stayclean', '#coolandcollected'] }),
+        Product.create({ name: 'rope', price: 19.99, tags: ['#climbing', '#tugowar', '#exercise'],  photo:
+            'https://c.pxhere.com/photos/0d/f2/flowerful_flowery_flowerly-917069.jpg!d' }),
+        Product.create({ name: 'axe', price: 19.99, tags: ['#sharp', '#lumberjack', '#recreationaluse', '#dontbedangerous'] }),
+        Product.create({ name: 'bodybag', price: 19.99, tags: ['#trouble', '#staywarm', '#recreationaluse', '#warning'] }),
         Order.create({ status: 'ORDER', userId: kevin.id }),
         Order.create({ status: 'ORDER', userId: daniel.id }),
         // Order.create({ status: 'CART', userId: andrew.id})
