@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import ProductReview from './ProductReview';
-import {
-  incrementLineItem,
-  decrementLineItem,
-} from '../../reducers/orderReducer';
 import {
   Grid,
   Paper,
@@ -81,24 +76,4 @@ class ProductDetail extends Component {
   }
 }
 
-// const mapStateToProps = ({ products }, { productId }) => {
-//   const product = products.find(p => p.id === productId * 1);
-//   return { product };
-// };
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     handleInc: (product, order) => {
-//       dispatch(incrementLineItem(product, order));
-//     },
-//     handleDec: (product, order) => {
-//       dispatch(decrementLineItem(product, order));
-//     },
-//   };
-// };
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(ProductDetail);
 export default ProductDetail;
