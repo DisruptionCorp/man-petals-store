@@ -9,16 +9,17 @@ import {
   Icon,
 } from '@material-ui/core';
 
+import { connect } from 'react-redux';
+import {
+  incrementLineItem,
+  decrementLineItem,
+} from '../../reducers/orderReducer';
+
 class ProductDetail extends Component {
   render() {
     console.log(this.props.location.state);
-    const {
-      order,
-      product,
-      itemQuantity,
-      handleInc,
-      handleDec,
-    } = this.props.location.state;
+    const { order, product } = this.props.location.state;
+    const { handleInc, handleDec, itemQuantity } = this.props;
 
     const disable = itemQuantity === 0;
     //defensive code to deal with products not having loaded yet
@@ -76,4 +77,31 @@ class ProductDetail extends Component {
   }
 }
 
-export default ProductDetail;
+const mapStateToProps = (state, ownProps) => {
+  const { order, product } = ownProps.location.state;
+  console.log(order, product);
+  let item = order
+    ? order.Item.find(item => item.productId === product.id)
+    : null;
+  return {
+    order,
+    product,
+    itemQuantity: item ? item.quantity : 0,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    handleInc: (product, order) => {
+      dispatch(incrementLineItem(product, order));
+    },
+    handleDec: (product, order) => {
+      dispatch(decrementLineItem(product, order));
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProductDetail);

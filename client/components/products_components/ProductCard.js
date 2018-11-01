@@ -29,9 +29,6 @@ class ProductCard extends Component {
                 state: {
                   product,
                   order,
-                  itemQuantity,
-                  handleDec,
-                  handleInc,
                 },
               }}
             >
