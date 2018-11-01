@@ -24,9 +24,9 @@ class App extends Component {
       const path = location.pathname.split('/').pop();
       return <Navbar path={path} />;
     };
-    const renderProductDetail = ({ match }) => {
+    const renderProductDetail = ({ match, location }) => {
       const productId = match.params.id;
-      return <ProductDetail productId={productId} />;
+      return <ProductDetail productId={productId} location={location} />;
     };
     const renderLogin = ({ history }) => <Login history={history} />;
 

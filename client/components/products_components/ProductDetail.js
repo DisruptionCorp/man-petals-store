@@ -1,13 +1,29 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import ProductReview from './ProductReview';
-import { Typography } from '@material-ui/core';
+import {
+  Grid,
+  Paper,
+  Typography,
+  Button,
+  ButtonBase,
+  Icon,
+} from '@material-ui/core';
+import { connect } from 'react-redux';
+import {
+  incrementLineItem,
+  decrementLineItem,
+} from '../../reducers/orderReducer';
+
 
 class ProductDetail extends Component {
 
 
   render() {
-    const { product } = this.props;
+    console.log(this.props.location.state);
+    const { order, product } = this.props.location.state;
+    const { handleInc, handleDec, itemQuantity } = this.props;
+
+    const disable = itemQuantity === 0;
     //defensive code to deal with products not having loaded yet
     if (!product) return null;
     const {
@@ -35,6 +51,26 @@ class ProductDetail extends Component {
           <li>{stockRemaining}</li>
           <li>Tags: {tags ? tags.join(', ') : ''}</li>
         </ul>
+        <Typography variant="body1">
+          Price: {product.price ? `$${product.price}` : 'tbd'}
+        </Typography>
+        <Typography variant="body1">{itemQuantity} units in cart</Typography>
+        <div className="buttonContainer">
+          <Button
+            variant="fab"
+            color="primary"
+            onClick={() => handleInc(product, order)}
+          >
+            <Icon>add</Icon>
+          </Button>
+          <Button
+            variant="fab"
+            color="secondary"
+            onClick={() => handleDec(product, order)}
+          >
+            <Icon>remove</Icon>
+          </Button>
+        </div>
         <h5>Reviews:</h5>
         {reviews ? 
           (reviews.map(review => {
@@ -48,10 +84,31 @@ class ProductDetail extends Component {
   }
 }
 
-const mapStateToProps = ({ products }, { productId }) => {
-  const product = products.find(p => p.id === productId * 1);
-  console.log(productId);
-  return { product };
+const mapStateToProps = (state, ownProps) => {
+  const { order, product } = ownProps.location.state;
+
+  let item = order
+    ? order.Item.find(item => item.productId === product.id)
+    : null;
+  return {
+    order,
+    product,
+    itemQuantity: item ? item.quantity : 0,
+  };
 };
 
-export default connect(mapStateToProps)(ProductDetail);
+const mapDispatchToProps = dispatch => {
+  return {
+    handleInc: (product, order) => {
+      dispatch(incrementLineItem(product, order));
+    },
+    handleDec: (product, order) => {
+      dispatch(decrementLineItem(product, order));
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProductDetail);

@@ -25,7 +25,6 @@ const _destroyProduct = product => ({ type: DESTROY_PRODUCT, product });
 
 const _updateProduct = product => ({ type: UPDATE_PRODUCT, product });
 
-
 //thunks
 export const getProducts = () => {
   return dispatch => {
@@ -42,14 +41,13 @@ export const createProduct = product => dispatch =>
     .then(resp => dispatch(_createProduct(resp.data)))
     .catch(console.error.bind(console));
 
-
 export const getProductsByTags = tags => dispatch => {
-    console.log(tags)
     return axios
             .post('/api/products/search/tags', {tags})
             .then(response => dispatch(_getProducts(response.data)))
             .catch(console.error.bind(console))
 }
+
 
 export const destroyProduct = product => dispatch =>
   axios
@@ -93,6 +91,5 @@ export const productReducer = (state = initialState, action) => {
 };
 
 // utils
-
 
 // export default productReducer
