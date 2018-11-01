@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ProductReview from './ProductReview';
+import { Typography } from '@material-ui/core';
 
 class ProductDetail extends Component {
+
+
   render() {
     const { product } = this.props;
-    console.log(product);
     //defensive code to deal with products not having loaded yet
     if (!product) return null;
     const {
@@ -22,7 +24,8 @@ class ProductDetail extends Component {
     if (inv_quantity === 0) stockRemaining = 'Sold Out';
     return (
       <div>
-        <img src={photo} alt={name} height="400" width="400" />
+
+          <img src={photo} alt={name} height="400" width="400" />
         <br />
         <h5>Product Info:</h5>
         <ul>
@@ -33,9 +36,13 @@ class ProductDetail extends Component {
           <li>Tags: {tags ? tags.join(', ') : ''}</li>
         </ul>
         <h5>Reviews:</h5>
-        {reviews.map(review => {
+        {reviews ? 
+          (reviews.map(review => {
           return <ProductReview review={review} key={review.id} />;
-        })}
+        })) :
+          <Typography variant='body1'>There are no reviews yet for this product!</Typography>
+        }
+
       </div>
     );
   }
@@ -43,6 +50,7 @@ class ProductDetail extends Component {
 
 const mapStateToProps = ({ products }, { productId }) => {
   const product = products.find(p => p.id === productId * 1);
+  console.log(productId);
   return { product };
 };
 

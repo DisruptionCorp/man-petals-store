@@ -10,7 +10,7 @@ import { Toolbar,
          Typography,
          MenuItem,
          MenuList } from '@material-ui/core'
-import Downshift from 'downshift';
+import { BeatLoader } from 'react-spinners';
 
 
 class SearchBar extends Component {
@@ -19,7 +19,8 @@ class SearchBar extends Component {
   	this.state = { 
   	  input: '',
   	  filteredTags: [],
-  	  isOpen: false
+  	  isOpen: false,
+  	  loading: false
   	}
   	this.handleChange=this.handleChange.bind(this);
   	this.handleOpen=this.handleOpen.bind(this);
@@ -49,7 +50,11 @@ class SearchBar extends Component {
   	console.log(this.props)
   	const { getProductsByTags } = this.props;
   	const { filteredTags } = this.state;
-  	getProductsByTags(filteredTags);
+  	/*this.setState({loading:true});
+  	setInterval(()=>{
+  		this.setState({loading:false})*/
+  		getProductsByTags(filteredTags)
+  	/*}, 3000)*/
   }
 
   render() {
@@ -58,6 +63,9 @@ class SearchBar extends Component {
   	console.log(filteredTags, 'original tags: ', this.props.tags)
   	return (
   	<div>
+  	{/*{this.state.loading ?
+        <BeatLoader /> :*/}
+        <div>
   	  <Toolbar style={{ display: 'flex', 
                         justifyContent: 'center' }}>
 
@@ -72,6 +80,7 @@ class SearchBar extends Component {
           <IconButton onClick={handleClick} component={Link} to='/home/search'><Icon>search_icon</Icon></IconButton>
       </Toolbar>
       <Typography align='center' variant="body1">Please be advised that tags have to begin with a {"#hash"}!</Typography>
+      </div>
     </div>
   	)
   }

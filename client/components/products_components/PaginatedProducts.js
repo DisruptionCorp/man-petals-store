@@ -15,10 +15,15 @@ class PaginatedProducts extends Component {
   	super()
   	this.state={ closeDialog: false }
   	this.handleClose = this.handleClose.bind(this);
+  	this.handleClick = this.handleClick.bind(this);
   }
 
   handleClose(){
   	this.setState(closeDialog: true)
+  }
+
+  handleClick(){
+
   }
   
   render() {
@@ -29,12 +34,12 @@ class PaginatedProducts extends Component {
   	  {products.map(product => {
   	  	return (
   	  	<Paper>
-  	  	  <ProductDetail />
+  	  	  <ProductDetail productId={product.id}/>
   	  	  <hr />
   	  	</Paper>
   	  	)
   	  })}
-  	  {products.length &&
+  	  {!products.length &&
   	  <Dialog
           open={true}
           onClose={handleClose}
