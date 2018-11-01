@@ -9,9 +9,9 @@ import {
 import { Grid, Icon, Button } from '@material-ui/core';
 
 //presentation components
-import Product from './home_components/Product';
+import ProductCard from './products_components/ProductCard';
 
-class Home extends Component {
+class Products extends Component {
   render() {
     const { products, order, createOrder } = this.props;
     const id = order ? order.id : '';
@@ -38,16 +38,26 @@ class Home extends Component {
                 display="space-around"
                 alignItems="center"
                 style={{ display: 'flex' }}
+                key={_product.id}
               >
-                <Product key={_product.id} product={_product} order={order} />
+                <ProductCard
+                  key={_product.id}
+                  product={_product}
+                  order={order}
+                />
               </Grid>
             );
           })}
         </div>
-        <Button disabled={count == 0} 
-                onClick={() => createOrder(order)} 
-                component={Link} 
-                to='/orders'><Icon>shopping-cart-plus</Icon>{' CREATE'}</Button>
+        <Button
+          disabled={count == 0}
+          onClick={() => createOrder(order)}
+          component={Link}
+          to="/orders"
+        >
+          <Icon>shopping-cart-plus</Icon>
+          {' CREATE'}
+        </Button>
       </div>
     );
   }
@@ -74,4 +84,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Home);
+)(Products);
