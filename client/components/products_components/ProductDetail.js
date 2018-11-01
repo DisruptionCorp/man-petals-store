@@ -8,14 +8,16 @@ import {
   ButtonBase,
   Icon,
 } from '@material-ui/core';
-
 import { connect } from 'react-redux';
 import {
   incrementLineItem,
   decrementLineItem,
 } from '../../reducers/orderReducer';
 
+
 class ProductDetail extends Component {
+
+
   render() {
     console.log(this.props.location.state);
     const { order, product } = this.props.location.state;
@@ -38,7 +40,8 @@ class ProductDetail extends Component {
     if (inv_quantity === 0) stockRemaining = 'Sold Out';
     return (
       <div>
-        <img src={photo} alt={name} height="400" width="400" />
+
+          <img src={photo} alt={name} height="400" width="400" />
         <br />
         <h5>Product Info:</h5>
         <ul>
@@ -69,9 +72,13 @@ class ProductDetail extends Component {
           </Button>
         </div>
         <h5>Reviews:</h5>
-        {reviews.map(review => {
+        {reviews ? 
+          (reviews.map(review => {
           return <ProductReview review={review} key={review.id} />;
-        })}
+        })) :
+          <Typography variant='body1'>There are no reviews yet for this product!</Typography>
+        }
+
       </div>
     );
   }
@@ -79,7 +86,7 @@ class ProductDetail extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { order, product } = ownProps.location.state;
-  console.log(order, product);
+
   let item = order
     ? order.Item.find(item => item.productId === product.id)
     : null;
