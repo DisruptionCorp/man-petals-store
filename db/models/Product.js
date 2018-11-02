@@ -37,13 +37,14 @@ const Product = conn.define(
     },
   },
   {
-    hooks: {
-      afterValidate(product) {
-        if (product.price) {
-          product.price = product.price.toFixed(2);
-        }
-      },
-    },
+    // hooks: {
+    //   afterValidate(product) {
+    //     if (product.price) {
+    //       product.price = product.price.toFixed(2);
+    //     }
+    //   },
+    // },
+    //can't add price from admin tool as per this hook
   }
 );
 

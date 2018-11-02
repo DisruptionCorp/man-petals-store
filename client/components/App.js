@@ -34,7 +34,7 @@ class App extends Component {
     const renderLogin = ({ history }) => <Login history={history} />;
 
     const renderAdmin = () => <AdminTool />;
-    const renderProductsTool = () => <ProductsTool />;
+    const renderProductsTool = history => <ProductsTool history={history} />;
     const renderOrdersTool = () => <OrdersTool />;
 
     return (
