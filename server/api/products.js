@@ -1,14 +1,16 @@
 const Sequelize = require('sequelize');
 const express = require('express');
 const router = express.Router();
-const { Product, Review } = require('../../db/index');
+const { Product, Review, LineItem, User } = require('../../db/index');
 
-//routes begin with /api/products/
+//routes begin with /api/product/
 
 //all products
 router.get('/', (req, res, next) => {
   Product.findAll({ include: [Review] })
-    .then(products => res.send(products))
+    .then(products => {
+      res.send(products);
+    })
     .catch(next);
 });
 
@@ -17,6 +19,20 @@ router.post('/', (req, res, next) => {
   Product.create(req.body)
     .then(product => res.send(product))
     .catch(next);
+});
+
+
+//delete product, send back all products
+router.post('/:id', async (req, res, next) => {
+  await Product.destroy({
+    where: {
+      id: req.params.id,
+    },
+  });
+  await Product.findAll()
+    .then(products => {
+      res.send(products);
+    })
 });
 
 //delete product

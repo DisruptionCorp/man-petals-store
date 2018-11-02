@@ -26,13 +26,12 @@ export const getProducts = () => dispatch =>
 export const createProduct = product => dispatch =>
   axios
     .post('/api/products', product)
-    .then(resp => dispatch(_createProduct(resp.data)))
-    .catch();
+    .then(resp => dispatch(_createProduct(resp.data)));
 
 export const destroyProduct = product => dispatch =>
   axios
-    .delete(`/api/products/:${product.id}`)
-    .then(() => dispatch(_destroyProduct(product)))
+    .post(`/api/products/:${product.id}`)
+    .then(() => dispatch(_destroyProduct(product)));
     .catch();
 
 export const updateProduct = product => dispatch =>
@@ -64,12 +63,12 @@ export const productReducer = (state = initialState, action) => {
       );
       break;
 
-    case DESTROY_PRODUCT: {
+    case DESTROY_PRODUCT:
       state = state.filter(product => product.id !== action.product.id);
       break;
-    }
 
     default:
       return state;
   }
+  return state;
 };
