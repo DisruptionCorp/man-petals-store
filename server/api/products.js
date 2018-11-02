@@ -55,13 +55,26 @@ router.post('/search/tags', (req, res, next) => {
         .findAll({ where: {
           tags: {
             [Op.contains] : [ ...req.body.tags.reduce((acc,each)=>{
-                  console.log(each);
                   return [...acc, each]
                 }, []) ]
           }
         }})
         .then(products => {
           if(products) res.send(products)
+        })
+        .catch(next);
+})
+
+//pagination count
+router.get('/page/:index?', (req, res, next) => {
+  let index = 1;
+  let limit = 2;
+  if(req.params.index) {index = req.params.index*1};
+  Product
+        .findAll({ offset: index*limit, limit: 2 })
+        .then(products => {
+            console.log(products.length)
+            res.send(products)
         })
         .catch(next);
 })

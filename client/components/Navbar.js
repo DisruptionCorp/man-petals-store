@@ -51,7 +51,7 @@ class Navbar extends Component {
             {this.state.open &&
             <MenuList>
                 <MenuItem><NavLink to="/home">Home</NavLink></MenuItem>
-                <MenuItem><NavLink to="/products">Products</NavLink></MenuItem>
+                <MenuItem><NavLink to={`/products/page/${1}`}>Products</NavLink></MenuItem>
                 <MenuItem><NavLink to="/cart">Cart</NavLink></MenuItem>
                 <MenuItem><NavLink to="/orders">Orders</NavLink></MenuItem>
                 {/*userId ?*/}

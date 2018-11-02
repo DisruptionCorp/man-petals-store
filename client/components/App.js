@@ -28,6 +28,12 @@ class App extends Component {
       const productId = match.params.id;
       return <ProductDetail productId={productId} location={location} />;
     };
+
+    const renderProductsByPage = ({ match }) => {
+      const idx = match.params.index;
+      return <Products productIdx={idx}/>
+    }
+
     const renderLogin = ({ history }) => <Login history={history} />;
 
     return (
@@ -36,7 +42,7 @@ class App extends Component {
           <Route render={renderNavbar} />
           <Route path="/login" render={renderLogin} />
           <Route path="/home" component={Home} />
-          <Route exact path="/products" component={Products} />
+          <Route path="/products/page/:index?" component={Products} />
           <Route exact path="/products/:id" render={renderProductDetail} />
           <Route path="/cart" component={Cart} />
           <Route path="/orders" component={Orders} />
@@ -49,7 +55,8 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ products, orders }) => {
+const mapStateToProps = ({ products, orders }, ownProps) => {
+  console.log(ownProps)
   return { products, orders };
 };
 
