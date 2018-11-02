@@ -18,26 +18,22 @@ const _updateProduct = product => ({ type: UPDATE_PRODUCT, product });
 
 //thunks
 export const getProducts = () => dispatch =>
-  axios
-    .get('/api/products')
-    .then(resp => dispatch(_getProducts(resp.data)))
-    .catch(console.error.bind(console));
+  axios.get('/api/products').then(resp => dispatch(_getProducts(resp.data)));
 
 export const createProduct = product => dispatch =>
   axios
     .post('/api/products', product)
-    .then(res => res.data)
-    .then(_product => dispatch(_createProduct(_product)));
+    .then(resp => dispatch(_createProduct(resp.data)));
 
 export const getProductsByTags = tags => dispatch =>
   axios
     .post('/api/products/search/tags', { tags })
-    .then(response => dispatch(_getProducts(response.data)));
+    .then(resp => dispatch(_getProducts(resp.data)));
 
 export const destroyProduct = product => dispatch =>
   axios
     .post(`/api/products/:${product.id}`)
-    .then(resp => dispatch(_destroyProduct(resp.data)));
+    .then(() => dispatch(_destroyProduct(product)));
 
 export const updateProduct = product => dispatch =>
   axios
@@ -54,7 +50,6 @@ export const productReducer = (state = initialState, action) => {
 
     case CREATE_PRODUCT:
       state = [...state, action.product];
-      console.log('I got here', state);
       break;
 
     case UPDATE_PRODUCT:
