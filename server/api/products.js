@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 const express = require('express');
 const router = express.Router();
-const { Product, Review, LineItem, User } = require('../../db/index');
+const { Product, Review } = require('../../db/index');
 
-//routes begin with /api/product/
+//routes begin with /api/products/
 
 //all products
 router.get('/', (req, res, next) => {
