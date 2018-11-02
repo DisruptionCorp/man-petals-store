@@ -18,33 +18,38 @@ const _updateProduct = product => ({ type: UPDATE_PRODUCT, product });
 
 //thunks
 export const getProducts = () => dispatch =>
-  axios.get('/api/products').then(resp => dispatch(_getProducts(resp.data)));
+  axios
+    .get('/api/products')
+    .then(resp => dispatch(_getProducts(resp.data)))
+    .catch();
 
 export const createProduct = product => dispatch =>
   axios
     .post('/api/products', product)
     .then(resp => dispatch(_createProduct(resp.data)));
 
-export const getProductsByTags = tags => dispatch =>
-  axios
-    .post('/api/products/search/tags', { tags })
-    .then(resp => dispatch(_getProducts(resp.data)));
-
 export const destroyProduct = product => dispatch =>
   axios
     .post(`/api/products/:${product.id}`)
     .then(() => dispatch(_destroyProduct(product)));
+    .catch();
 
 export const updateProduct = product => dispatch =>
   axios
     .put(`/api/products/:${product.id}`, product)
-    .then(resp => dispatch(_updateProduct(resp.data)));
+    .then(resp => dispatch(_updateProduct(resp.data)))
+    .catch();
+
+export const getProductsByTags = tags => dispatch =>
+  axios
+    .post('/api/products/search/tags', { tags })
+    .then(response => dispatch(_getProducts(response.data)))
+    .catch();
 
 //reducer
 export const productReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_PRODUCTS:
-      console.log('products loaded: "', action.products);
       state = action.products;
       break;
 
@@ -67,7 +72,3 @@ export const productReducer = (state = initialState, action) => {
   }
   return state;
 };
-
-// utils
-
-// export default productReducer

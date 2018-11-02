@@ -7,8 +7,8 @@ import { store } from './store';
 const root = document.getElementById('root');
 
 render(
-    <Provider store={store}>
+  <Provider store={store}>
     <App />
   </Provider>,
-    root
+  root
 );

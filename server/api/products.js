@@ -21,6 +21,7 @@ router.post('/', (req, res, next) => {
     .catch(next);
 });
 
+
 //delete product, send back all products
 router.post('/:id', async (req, res, next) => {
   await Product.destroy({
@@ -32,6 +33,13 @@ router.post('/:id', async (req, res, next) => {
     .then(products => {
       res.send(products);
     })
+});
+
+//delete product
+router.delete('/:id', (req, res, next) => {
+  Product.findById(req.params.id)
+    .then(product => product.destroy())
+    .then(() => res.sendStatus(204))
     .catch(next);
 });
 
