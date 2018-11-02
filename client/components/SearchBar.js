@@ -11,6 +11,7 @@ import {
   Typography,
   MenuItem,
   MenuList,
+  Chip
 } from '@material-ui/core';
 import { BeatLoader } from 'react-spinners';
 
@@ -45,24 +46,35 @@ class SearchBar extends Component {
   }
 
   handleClick(e) {
-    console.log(this.props);
     const { getProductsByTags } = this.props;
     const { filteredTags } = this.state;
-    /*this.setState({loading:true});
-  	setInterval(()=>{
-  		this.setState({loading:false})*/
-    getProductsByTags(filteredTags);
-    /*}, 3000)*/
+    if(e.target.label){ getProductsByTags(e.target.label) }
+    else { getProductsByTags(filteredTags) }
   }
 
   render() {
     const { input, filteredTags, isOpen } = this.state;
     const { handleChange, handleOpen, handleClick } = this;
-    console.log(filteredTags, 'original tags: ', this.props.tags);
+    const { tags } = this.props;
+    const random = Array(5).fill('').map(curr=>{
+    	return tags[Math.floor(Math.random()*tags.length)]});
     return (
       <div>
         {/*{this.state.loading ?
         <BeatLoader /> :*/}
+          <div style={{ padding: '20px', display: 'flex', justifyContent: 'center' }}>
+          {random.map((each, idx)=>{
+          	return(
+          	  <Chip
+              key={idx}
+              label={each}
+              onClick={handleClick}
+              color={idx%2=== 0 ? "secondary" : "primary"}
+              style={{ margin: '5px'}}
+            />
+          	)
+          })}
+          </div>
         <div>
           <Toolbar
             style={{

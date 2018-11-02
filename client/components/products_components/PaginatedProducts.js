@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import ProductDetail from './ProductDetail';
+import ProductCard from './ProductCard';
 import { Paper, 
 		 Dialog, 
 		 DialogTitle, 
@@ -15,28 +15,22 @@ class PaginatedProducts extends Component {
   	super()
   	this.state={ closeDialog: false }
   	this.handleClose = this.handleClose.bind(this);
-  	this.handleClick = this.handleClick.bind(this);
   }
 
   handleClose(){
-  	this.setState(closeDialog: true)
-  }
-
-  handleClick(){
-
+  	this.setState({closeDialog: true})
   }
   
   render() {
-  	const { products } = this.props;
+  	const { products, order } = this.props;
   	const { handleClose } = this;
   	return (
   	  <div style={{ padding: "50px" }}>
   	  {products.map(product => {
   	  	return (
-  	  	<Paper>
-  	  	  <ProductDetail productId={product.id}/>
-  	  	  <hr />
-  	  	</Paper>
+  	  	<div>
+  	  	  <ProductCard product={product} order={order}/>
+  	  	</div>
   	  	)
   	  })}
   	  {!products.length &&
@@ -63,7 +57,7 @@ class PaginatedProducts extends Component {
   }
 }
 
-const mapStateToProps = ({products}) => { 
+const mapStateToProps = ({products, order}) => { 
   return { products }
 }
 
