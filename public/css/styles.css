@@ -11,7 +11,7 @@
 }
 
 .productContainer {
-  height: 100%; 
+  height: 100%;
   padding: 10px;
 }
 
@@ -22,6 +22,49 @@
 }
 
 .searchToolbar {
-  display: "flex";
-  justify-content: "center";
+  display: 'flex';
+  justify-content: 'center';
+}
+
+.addDeleteProduct {
+  display: flex;
+  flex-direction: row;
+  margin: 10px, 10px, 50px, 50px;
+}
+.productCreate {
+  display: flex;
+  width: 315px;
+  height: 400px;
+  flex-direction: column;
+  margin: 20px;
+  border-color: lightgray;
+  border-style: solid;
+  padding: 10px;
+  border-radius: 5%;
+}
+.productDelete {
+  display: flex;
+  width: 315px;
+  height: 400px;
+  flex-direction: column;
+  margin: 20px;
+  border-color: lightgray;
+  border-style: solid;
+  padding: 10px;
+  border-radius: 5%;
+}
+label {
+  width: 200px;
+  margin-right: 10px;
+}
+
+input {
+  margin-left: 10x;
+  padding: 1px;
+  align-items: right;
+  border-radius: 5px;
+}
+
+.mytext {
+  width: 300px;
 }
