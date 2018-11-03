@@ -58,44 +58,46 @@ class App extends Component {
 
     const { auth } = this.props;
 
-    return auth ? (
+    return (
       <HashRouter>
-        <div>
-          <Route render={renderNavbar} />
-          <Route exact path="/" render={renderHome} />
-          <Route exact path="/login" render={renderLogin} />
-          <Route exact path="/home" render={renderHome} />
-          <Route exact path="/cart" component={Cart} />
-          <Route exact path="/orders" component={Orders} />
-          <Route
-            exact
-            path="/products/page/:index"
-            render={renderProductsByPage}
-          />
-          <Route exact path="/products/:id" render={renderProductDetail} />
-          <Route path="/admin" render={renderAdmin} />
-          <Route
-            exact
-            path="/search/tags/:index?"
-            render={renderSearchPaginated}
-          />
-          <Route exact path="/admin/products" render={renderProductsTool} />
-          <Route exact path="/admin/orders" render={renderOrdersTool} />
-        </div>
+        {!auth ? (
+          <div>
+            <Route render={renderNavbar} />
+            <Route path="/" render={renderLogin} />
+          </div>
+        ) : (
+          <div>
+            <Route render={renderNavbar} />
+            <Route exact path="/" render={renderHome} />
+            <Route exact path="/login" render={renderLogin} />
+            <Route exact path="/home" render={renderHome} />
+            <Route exact path="/cart" component={Cart} />
+            <Route exact path="/orders" component={Orders} />
+            <Route
+              exact
+              path="/products/page/:index"
+              render={renderProductsByPage}
+            />
+            <Route exact path="/products/:id" render={renderProductDetail} />
+            <Route path="/admin" render={renderAdmin} />
+            <Route
+              exact
+              path="/search/tags/:index?"
+              render={renderSearchPaginated}
+            />
+            <Route exact path="/admin/products" render={renderProductsTool} />
+            <Route exact path="/admin/orders" render={renderOrdersTool} />
+          </div>
+        )}
       </HashRouter>
-    ) :
-    (
-      <div>
-      <Login />
-      </div>
-      )
+    );
   }
 }
 
 const mapStateToProps = ({ products, orders }, ownProps) => {
-  const auth = window.localStorage.getItem('token') ? true : false
+  const auth = window.localStorage.getItem('token') ? true : false;
   const { allProducts } = products;
-  return { allProducts, orders, auth  };
+  return { allProducts, orders, auth };
 };
 
 const mapDispatchToProps = (dispatch, { history }) => {
