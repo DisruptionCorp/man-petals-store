@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter, Route } from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getProducts } from '../reducers/productReducer';
 import { getOrders } from '../reducers/orderReducer';
@@ -13,6 +13,9 @@ import Cart from './Cart';
 import Orders from './Orders';
 import Home from './Home';
 import PaginatedProducts from './products_components/PaginatedProducts';
+import AdminTool from './admin_components/AdminTool';
+import OrdersTool from './admin_components/OrdersTool';
+import ProductsTool from './admin_components/ProductsTool';
 
 class App extends Component {
   componentDidMount() {
@@ -28,7 +31,17 @@ class App extends Component {
       const productId = match.params.id;
       return <ProductDetail productId={productId} location={location} />;
     };
+
+    const renderProductsByPage = ({ match }) => {
+      const idx = match.params.index;
+      return <Products productIdx={idx}/>
+    }
+
     const renderLogin = ({ history }) => <Login history={history} />;
+
+    const renderAdmin = () => <AdminTool />;
+    const renderProductsTool = history => <ProductsTool history={history} />;
+    const renderOrdersTool = () => <OrdersTool />;
 
     return (
       <HashRouter>
@@ -36,7 +49,12 @@ class App extends Component {
           <Route render={renderNavbar} />
           <Route path="/login" render={renderLogin} />
           <Route path="/home" component={Home} />
-          <Route exact path="/products" component={Products} />
+          <Route path="/products/page/:index?" component={Products} />
+          <Route path="/admin" render={renderAdmin} />
+          <Switch>
+            <Route path="/admin/products" render={renderProductsTool} />
+            <Route path="/admin/orders" render={renderOrdersTool} />
+          </Switch>
           <Route exact path="/products/:id" render={renderProductDetail} />
           <Route path="/cart" component={Cart} />
           <Route path="/orders" component={Orders} />
@@ -49,7 +67,8 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ products, orders }) => {
+const mapStateToProps = ({ products, orders }, ownProps) => {
+  console.log(ownProps)
   return { products, orders };
 };
 

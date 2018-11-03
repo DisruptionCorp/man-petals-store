@@ -38,15 +38,16 @@ const Product = conn.define(
       allowNull: true,
     },
   },
-  // {
-  //   hooks: {
-  //     afterValidate(product) {
-  //       if (product.price) {
-  //         product.price = product.price;
-  //       }
-  //     },
-  //   },
-  // }
+  {
+    // hooks: {
+    //   afterValidate(product) {
+    //     if (product.price) {
+    //       product.price = product.price.toFixed(2);
+    //     }
+    //   },
+    // },
+    //can't add price from admin tool as per this hook
+  }
 );
 
 module.exports = Product;
