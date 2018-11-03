@@ -33,9 +33,9 @@ class App extends Component {
     };
 
     const renderProductsByPage = ({ match }) => {
-      const idx = match.params.index;
-      return <Products productIdx={idx}/>
-    }
+      const idx = match.params.index * 1;
+      return <Products idx={idx} />;
+    };
 
     const renderLogin = ({ history }) => <Login history={history} />;
 
@@ -49,7 +49,7 @@ class App extends Component {
           <Route render={renderNavbar} />
           <Route path="/login" render={renderLogin} />
           <Route path="/home" component={Home} />
-          <Route path="/products/page/:index?" component={Products} />
+          <Route path="/products/page/:index" render={renderProductsByPage} />
           <Route path="/admin" render={renderAdmin} />
           <Switch>
             <Route path="/admin/products" render={renderProductsTool} />
@@ -68,8 +68,9 @@ class App extends Component {
 }
 
 const mapStateToProps = ({ products, orders }, ownProps) => {
-  console.log(ownProps)
-  return { products, orders };
+  console.log(ownProps);
+  const { allProducts } = products;
+  return { allProducts, orders };
 };
 
 const mapDispatchToProps = dispatch => {

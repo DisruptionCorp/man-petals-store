@@ -11,7 +11,7 @@ import {
   Typography,
   MenuItem,
   MenuList,
-  Chip
+  Chip,
 } from '@material-ui/core';
 import { BeatLoader } from 'react-spinners';
 
@@ -48,33 +48,41 @@ class SearchBar extends Component {
   handleClick(e) {
     const { getProductsByTags } = this.props;
     const { filteredTags } = this.state;
-    if(e.target.label){ getProductsByTags(e.target.label) }
-    else { getProductsByTags(filteredTags) }
+    if (e.target.label) {
+      getProductsByTags(e.target.label);
+    } else {
+      getProductsByTags(filteredTags);
+    }
   }
 
   render() {
     const { input, filteredTags, isOpen } = this.state;
     const { handleChange, handleOpen, handleClick } = this;
     const { tags } = this.props;
-    const random = Array(5).fill('').map(curr=>{
-    	return tags[Math.floor(Math.random()*tags.length)]});
+    const random = Array(5)
+      .fill('')
+      .map(curr => {
+        return tags[Math.floor(Math.random() * tags.length)];
+      });
     return (
       <div>
         {/*{this.state.loading ?
         <BeatLoader /> :*/}
-          <div style={{ padding: '20px', display: 'flex', justifyContent: 'center' }}>
-          {random.map((each, idx)=>{
-          	return(
-          	  <Chip
-              key={idx}
-              label={each}
-              onClick={handleClick}
-              color={idx%2=== 0 ? "secondary" : "primary"}
-              style={{ margin: '5px'}}
-            />
-          	)
+        <div
+          style={{ padding: '20px', display: 'flex', justifyContent: 'center' }}
+        >
+          {random.map((each, idx) => {
+            return (
+              <Chip
+                key={idx}
+                label={each}
+                onClick={handleClick}
+                color={idx % 2 === 0 ? 'secondary' : 'primary'}
+                style={{ margin: '5px' }}
+              />
+            );
           })}
-          </div>
+        </div>
         <div>
           <Toolbar
             style={{
@@ -108,7 +116,8 @@ class SearchBar extends Component {
 }
 
 const mapStateToProps = ({ products }) => {
-  const tags = products.reduce((acc, curr) => {
+  const { allProducts } = products;
+  const tags = allProducts.reduce((acc, curr) => {
     return curr.tags ? [...acc, ...curr.tags] : [...acc];
   }, []);
   return { tags };
