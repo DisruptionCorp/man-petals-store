@@ -11,7 +11,6 @@ const Review = conn.define('review', {
   content: {
     type: Sequelize.TEXT,
     allowNull: false,
-    //defaultValue: faker.Lorem.paragraph(),
     validate: {
       notEmpty: true,
     },
