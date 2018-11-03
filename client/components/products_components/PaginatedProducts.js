@@ -10,12 +10,15 @@ import {
   DialogActions,
   DialogContentText,
   Button,
+  Icon,
+  CircularProgress,
 } from '@material-ui/core';
+import { _getProducts, getProductsByPage } from '../../reducers/productReducer';
 
 class PaginatedProducts extends Component {
   constructor() {
     super();
-    this.state = { closeDialog: false };
+    this.state = { closeDialog: false, loading: true };
     this.handleClose = this.handleClose.bind(this);
   }
 
@@ -23,18 +26,53 @@ class PaginatedProducts extends Component {
     this.setState({ closeDialog: true });
   }
 
+  componentDidMount() {
+    const { idx } = this.props;
+    setTimeout(() => {
+      this.setState({ loading: false });
+    }, 1000);
+  }
+
   render() {
-    const { products, order } = this.props;
+    const { products, order, totalPages, idx } = this.props;
     const { handleClose } = this;
-    return (
+    return this.state.loading ? (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          padding: '30px',
+        }}
+      >
+        <CircularProgress />
+      </div>
+    ) : (
       <div style={{ padding: '50px' }}>
-        {products.map(product => {
-          return (
-            <div>
-              <ProductCard product={product} order={order} />
-            </div>
-          );
-        })}
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button
+            disabled={idx < 2}
+            component={Link}
+            to={`/search/tags/${idx - 1}`}
+          >
+            <Icon>arrow_back</Icon>
+          </Button>
+          <Button
+            disabled={idx >= totalPages}
+            component={Link}
+            to={`/search/tags/${idx + 1}`}
+          >
+            <Icon>arrow_forward</Icon>
+          </Button>
+        </div>
+        <div>
+          {products.map(product => {
+            return (
+              <div>
+                <ProductCard product={product} order={order} />
+              </div>
+            );
+          })}
+        </div>
         {!products.length && (
           <Dialog
             open={true}
@@ -68,10 +106,27 @@ class PaginatedProducts extends Component {
   }
 }
 
+const mapStateToProps = ({ products, orders }, { idx }) => {
+  const { rows, count } = products.tagProducts;
+  const productsPerPage = 4;
+  const start = (idx - 1) * productsPerPage;
+  const end = start + productsPerPage;
+  const tagProductsPerPage = rows.slice(start, end);
+  const totalPages = count / productsPerPage;
+  return {
+    products: tagProductsPerPage,
+    orders,
+    totalPages,
+    idx,
+  };
+};
 
-const mapStateToProps = ({products, orders}) => { 
-  return { products: products.allProducts, orders }
-}
+const mapDispatchToProps = dispatch => ({
+  _getProducts: () => dispatch(_getProducts()),
+  getProductsByPage: idx => dispatch(getProductsByPage(idx)),
+});
 
-
-export default connect(mapStateToProps)(PaginatedProducts);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PaginatedProducts);
