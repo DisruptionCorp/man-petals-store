@@ -1,9 +1,13 @@
 import axios from 'axios';
 
 //initial state
-const initialState = [];
+const initialState = {
+  allProducts: [],
+  pageProducts: [],
+};
 
 //action name
+const GET_PRODUCTS_BY_PAGE = 'GET_PRODUCTS_BY_PAGE';
 const GET_PRODUCTS = 'GET_PRODUCTS';
 const GET_TAGS = 'GET_TAGS';
 const CREATE_PRODUCT = 'CREATE_PRODUCT';
@@ -11,18 +15,32 @@ const DESTROY_PRODUCT = 'DESTROY_PRODUCT';
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 
 //action creator
+const _getProductsByPage = products => ({
+  type: GET_PRODUCTS_BY_PAGE,
+  products,
+});
 const _getProducts = products => ({ type: GET_PRODUCTS, products });
 const _createProduct = product => ({ type: CREATE_PRODUCT, product });
 const _destroyProduct = product => ({ type: DESTROY_PRODUCT, product });
 const _updateProduct = product => ({ type: UPDATE_PRODUCT, product });
 
 //thunks
-export const getProducts = (index = 1) => {
+export const getProductsByPage = (index = 1) => {
   return dispatch => {
     return axios
       .get(`/api/products/page/${index}`)
       .then(resp => {
-        console.log(resp.data);
+        dispatch(_getProductsByPage(resp.data));
+      })
+      .catch(console.error.bind(console));
+  };
+};
+
+export const getProducts = () => {
+  return dispatch => {
+    return axios
+      .get(`/api/products`)
+      .then(resp => {
         dispatch(_getProducts(resp.data));
       })
       .catch(console.error.bind(console));
@@ -53,26 +71,28 @@ export const getProductsByTags = tags => dispatch =>
 //reducer
 export const productReducer = (state = initialState, action) => {
   switch (action.type) {
+    case GET_PRODUCTS_BY_PAGE:
+      return { ...state, pageProducts: action.products };
+
     case GET_PRODUCTS:
-      state = action.products;
-      break;
+      return { ...state, allProducts: action.products };
 
     case CREATE_PRODUCT:
-      state = [...state, action.product];
-      break;
+      return { ...state, allProducts: [...state.allProducts, action.product] };
 
     case UPDATE_PRODUCT:
-      state = state.map(
+      const updatedProducts = state.allProducts.map(
         product => (product.id === action.product.id ? action.product : product)
       );
-      break;
+      return { ...state, allProducts: updatedProducts };
 
     case DESTROY_PRODUCT:
-      state = state.filter(product => product.id !== action.product.id);
-      break;
+      const destroyedProducts = state.allProducts.filter(
+        product => product.id !== action.product.id
+      );
+      return { ...state, allProducts: destroyedProducts };
 
     default:
       return state;
   }
-  return state;
 };
