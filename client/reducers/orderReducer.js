@@ -85,7 +85,7 @@ export const getOrder = id => {
 //Increment and decrement lineitems, creating and deliting as needed
 export const incrementLineItem = (product, order) => {
   let lineItem = order.Item.find(item => item.productId === product.id);
-
+  console.log(product);
   return dispatch => {
     if (lineItem) {
       lineItem.quantity++;

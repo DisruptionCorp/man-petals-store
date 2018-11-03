@@ -68,9 +68,10 @@ class PaginatedProducts extends Component {
   }
 }
 
-const mapStateToProps = ({ products, order }) => {
-  const { allProducts } = products;
-  return { allProducts };
-};
+
+const mapStateToProps = ({products, orders}) => { 
+  return { products: products.allProducts, orders }
+}
+
 
 export default connect(mapStateToProps)(PaginatedProducts);
