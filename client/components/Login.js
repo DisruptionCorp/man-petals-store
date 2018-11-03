@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import FormGroup from '@material-ui/core/FormGroup';
+import { TextField, Button, Paper, FormGroup } from '@material-ui/core';
 
 import { login } from '../reducers/authReducer'
 
@@ -32,7 +30,9 @@ class Login extends Component {
   render() {
     const user = this.state;
     return (
-      <div>
+      <div style={{ display: 'flex', 
+                    justifyContent: 'center', 
+                    padding: '35px'}}>
         <div className="loginBox">
           <FormGroup>
             <TextField

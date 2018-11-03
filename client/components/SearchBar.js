@@ -122,12 +122,19 @@ const mapStateToProps = ({ products }) => {
   const tags = allProducts.reduce((acc, curr) => {
     return curr.tags ? [...acc, ...curr.tags] : [...acc];
   }, []);
-  const random = Array(5)
-    .fill('')
-    .map(curr => {
-      return tags[Math.floor(Math.random() * tags.length)];
-    });
-  return { tags, random };
+
+  const random = Array(5).fill('').map(curr=>{
+	return tags[Math.floor(Math.random()*tags.length)]
+  });
+  return { tags, random, allProducts };
+
+//   const random = Array(5)
+//     .fill('')
+//     .map(curr => {
+//       return tags[Math.floor(Math.random() * tags.length)];
+//     });
+//   return { tags, random };
+
 };
 
 const mapDispatchToProps = dispatch => ({
