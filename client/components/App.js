@@ -17,6 +17,7 @@ import PaginatedProducts from './products_components/PaginatedProducts';
 import AdminTool from './admin_components/AdminTool';
 import OrdersTool from './admin_components/OrdersTool';
 import ProductsTool from './admin_components/ProductsTool';
+import SignUp from './SignUp';
 
 class App extends Component {
   componentDidMount() {
@@ -56,6 +57,8 @@ class App extends Component {
     );
     const renderOrdersTool = () => <OrdersTool />;
 
+    const renderSignUp = ({ history }) => <SignUp history={history} />
+
     const { auth } = this.props;
 
     return (
@@ -63,13 +66,15 @@ class App extends Component {
         {!auth ? (
           <div>
             <Route render={renderNavbar} />
-            <Route path="/" render={renderLogin} />
+            <Route exact path="/" render={renderLogin} />
+            <Route exact path="/signup" render={renderSignUp}/>
           </div>
         ) : (
           <div>
             <Route render={renderNavbar} />
             <Route exact path="/" render={renderHome} />
             <Route exact path="/login" render={renderLogin} />
+            <Route exact path="/signup" render={renderSignUp}/>
             <Route exact path="/home" render={renderHome} />
             <Route exact path="/cart" component={Cart} />
             <Route exact path="/orders" component={Orders} />

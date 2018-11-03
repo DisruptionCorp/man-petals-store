@@ -4,11 +4,13 @@ import thunkMiddleware from 'redux-thunk';
 import { productReducer } from './reducers/productReducer';
 import { orderReducer } from './reducers/orderReducer';
 import { authReducer } from './reducers/authReducer'
+import { userReducer } from './reducers/userReducer'
 
 const reducer = combineReducers({
     products: productReducer,
     orders: orderReducer,
-    auth: authReducer
+    auth: authReducer,
+    user: userReducer,
 });
 
 
