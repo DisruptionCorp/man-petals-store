@@ -22,7 +22,7 @@ class Products extends Component {
   componentDidMount() {
     const { idx, getProductsByPage } = this.props;
     getProductsByPage(idx);
-    setInterval(() => {
+    setTimeout(() => {
       this.setState({ loading: false });
     }, 1000);
   }
