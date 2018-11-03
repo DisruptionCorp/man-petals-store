@@ -54,12 +54,12 @@ export const createProduct = product => dispatch =>
 
 export const destroyProduct = product => dispatch =>
   axios
-    .delete(`/api/products/:${product.id}`)
+    .delete(`/api/products/${product.id}`)
     .then(() => dispatch(_destroyProduct(product)));
 
 export const updateProduct = product => dispatch =>
   axios
-    .put(`/api/products/:${product.id}`, product)
+    .put(`/api/products/${product.id}`, product)
     .then(resp => dispatch(_updateProduct(resp.data)));
 
 export const getProductsByTags = tags => dispatch =>
