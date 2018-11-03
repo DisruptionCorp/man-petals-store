@@ -23,17 +23,7 @@ class ProductCard extends Component {
       <Grid item xs={4} style={{ padding: '25px' }}>
         <Paper className="productContainer">
           <Typography variant="display1" color="textPrimary">
-            <Link
-              to={{
-                pathname: `/products/${product.id}`,
-                state: {
-                  product,
-                  order,
-                },
-              }}
-            >
-              {product.name}
-            </Link>
+            <Link to={`/products/${product.id}`}>{product.name}</Link>
           </Typography>
           <Typography variant="body1">
             Price: {product.price ? `$${product.price}` : 'tbd'}

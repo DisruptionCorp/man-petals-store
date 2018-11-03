@@ -1,33 +1,26 @@
 import React, { Component } from 'react';
 import ProductReview from './ProductReview';
-import {
-  Grid,
-  Paper,
-  Typography,
-  Button,
-  ButtonBase,
-  Icon,
-} from '@material-ui/core';
 import { connect } from 'react-redux';
 import {
   incrementLineItem,
   decrementLineItem,
+  createOrder,
 } from '../../reducers/orderReducer';
-
+import ReviewForm from './ReviewForm';
 
 class ProductDetail extends Component {
-
-
   render() {
-    const { order, 
-            product, 
-            handleInc, 
-            handleDec, 
-            itemQuantity } = this.props;
-
-    const disable = itemQuantity === 0;
+    const {
+      handleInc,
+      handleDec,
+      createOrder,
+      product,
+      order,
+      quantity,
+      history,
+    } = this.props;
     //defensive code to deal with products not having loaded yet
-    if (!product) return null;
+    if (!product || !order) return null;
     const {
       name,
       description,
@@ -42,8 +35,7 @@ class ProductDetail extends Component {
     if (inv_quantity === 0) stockRemaining = 'Sold Out';
     return (
       <div>
-
-          <img src={photo} alt={name} height="400" width="400" />
+        <img src={photo} alt={name} height="100" width="100" />
         <br />
         <h5>Product Info:</h5>
         <ul>
@@ -53,49 +45,46 @@ class ProductDetail extends Component {
           <li>{stockRemaining}</li>
           <li>Tags: {tags ? tags.join(', ') : ''}</li>
         </ul>
-        <Typography variant="body1">
-          Price: {product.price ? `$${product.price}` : 'tbd'}
-        </Typography>
-        <Typography variant="body1">{itemQuantity} units in cart</Typography>
-        <div className="buttonContainer">
-          <Button
-            variant="fab"
-            color="primary"
-            onClick={() => handleInc(product, order)}
-          >
-            <Icon>add</Icon>
-          </Button>
-          <Button
-            variant="fab"
-            color="secondary"
-            onClick={() => handleDec(product, order)}
-          >
-            <Icon>remove</Icon>
-          </Button>
-        </div>
+        <p>{quantity} units in cart</p>
+        <button onClick={() => handleInc(product, order)}>Add to cart</button>
+        <button onClick={() => handleDec(product, order)}>
+          Remove from cart
+        </button>
+        <br />
+        <button
+          onClick={() => {
+            createOrder(order);
+            history.push('/orders');
+          }}
+        >
+          Create Order
+        </button>
         <h5>Reviews:</h5>
-        {reviews ? 
-          (reviews.map(review => {
-          return <ProductReview review={review} key={review.id} />;
-        })) :
-          <Typography variant='body1'>There are no reviews yet for this product!</Typography>
-        }
-
+        {reviews.length ? (
+          reviews.map(review => {
+            return <ProductReview review={review} key={review.id} />;
+          })
+        ) : (
+          <p>There are no reviews yet for this product!</p>
+        )}
+        <h5>Add Review</h5>
+        <ReviewForm product={product} />
       </div>
     );
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  console.log(ownProps.location.state.order);
-  const { order, product } = ownProps.location.state;
-  let item = order
-    ? order.Item.find(item => item.productId === product.id)
-    : null;
+const mapStateToProps = ({ products, orders }, { productId, history }) => {
+  const { allProducts } = products;
+  const product = allProducts.find(p => p.id === productId * 1);
+  const order = orders.find(o => o.status == 'CART');
+  const lineItem = order.Item.find(i => i.productId == productId * 1);
+  const quantity = lineItem ? lineItem.quantity : 0;
   return {
-    order,
     product,
-    itemQuantity: item ? item.quantity : 0,
+    order,
+    quantity,
+    history,
   };
 };
 
@@ -107,6 +96,7 @@ const mapDispatchToProps = dispatch => {
     handleDec: (product, order) => {
       dispatch(decrementLineItem(product, order));
     },
+    createOrder: order => dispatch(createOrder(order)),
   };
 };
 

@@ -14,12 +14,6 @@ class Products extends Component {
     getProductsByPage(idx);
   }
 
-  /*handleClick = (e) => {
-    const { getProducts, match } = this.props;
-    const index = match.params.index*1;
-    getProducts(index);
-  }*/
-
   componentDidUpdate(prev) {
     const { idx, getProductsByPage } = this.props;
     if (idx != prev.idx) {
@@ -28,14 +22,17 @@ class Products extends Component {
   }
 
   render() {
-    const { allProducts, pageProducts, order, createOrder, idx } = this.props;
-    const { handleClick } = this;
+    const {
+      allProducts,
+      pageProducts,
+      order,
+      count,
+      createOrder,
+      idx,
+    } = this.props;
     const id = order ? order.id : '';
-    const items = order ? order.Item : [];
     const lastPage = Math.ceil(allProducts.length / 2);
-    const count = items.reduce((acc, el) => {
-      return (acc += el.quantity);
-    }, 0);
+
     // console.log(this.props)
     return (
       <div className="cartContainer">
@@ -102,11 +99,17 @@ class Products extends Component {
 const mapStateToProps = ({ products, orders }, { idx }) => {
   const { allProducts, pageProducts } = products;
   const order = orders.find(_order => _order.status === 'CART');
+  const items = order ? order.Item : [];
+  const count = items.reduce((acc, el) => {
+    return (acc += el.quantity);
+  }, 0);
+
   return {
     allProducts,
     pageProducts,
     order,
     idx,
+    count,
   };
 };
 
