@@ -10,7 +10,8 @@ import {
     MenuList,
     MenuItem,
     ClickAwayListener,
-    Grow
+    Grow,
+    Badge
 }
 from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -52,8 +53,8 @@ class Navbar extends Component {
             <MenuList>
                 <MenuItem><NavLink to="/home">Home</NavLink></MenuItem>
                 <MenuItem><NavLink to={`/products/page/${1}`}>Products</NavLink></MenuItem>
-                <MenuItem><NavLink to="/cart">Cart</NavLink></MenuItem>
-                <MenuItem><NavLink to="/orders">Orders</NavLink></MenuItem>
+                <MenuItem><Badge badgeContent={0} color="primary" style={{padding:"1px"}}><NavLink to="/cart">Cart</NavLink></Badge></MenuItem>
+                <MenuItem><Badge badgeContent={0} color="primary" style={{padding:"1px"}}><NavLink to="/orders">Orders</NavLink></Badge></MenuItem>
                 {/*userId ?*/}
                 
                 {this.props.isLoggedIn ? (
@@ -76,9 +77,9 @@ class Navbar extends Component {
     }
 }
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth, orders }) => {
     return {
-        isLoggedIn: auth.id ? auth : false
+        isLoggedIn: auth.id ? auth : false,
     }  
 }
 
