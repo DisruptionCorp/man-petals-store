@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createOrder } from '../reducers/orderReducer';
-import { getProducts } from '../reducers/productReducer';
+import { getProductsByPage } from '../reducers/productReducer';
 import { Grid, Icon, Button, SvgIcon, CircularProgress } from '@material-ui/core';
 
 
@@ -14,13 +14,12 @@ class Products extends Component {
     super()
     this.state={ loading: true }
   }
-
-  componentDidMount(){
-    const { idx, getProducts } = this.props;
-    getProducts(idx);
+  componentDidMount() {
+    const { idx, getProductsByPage } = this.props;
+    getProductsByPage(idx);
     setInterval(()=>{ 
       this.setState({ loading: false })
-    }, 5000)
+    }, 1000)
   }
 
   /*handleClick = (e) => {
@@ -29,18 +28,19 @@ class Products extends Component {
     getProducts(index);
   }*/
 
-  componentDidUpdate(prev){
-    if(prev.props && prev.props.idx !== this.props.idx){
-      console.log('This is the previous: ', prev.props.idx)
-      this.props.getProducts(this.props.idx);
+  componentDidUpdate(prev) {
+    const { idx, getProductsByPage } = this.props;
+    if (idx != prev.idx) {
+      getProductsByPage(idx);
     }
   }
 
   render() {
-    const { products, order, createOrder, idx } = this.props;
+    const { allProducts, pageProducts, order, createOrder, idx } = this.props;
     const { handleClick } = this;
     const id = order ? order.id : '';
     const items = order ? order.Item : [];
+    const lastPage = Math.ceil(allProducts.length / 2);
     const count = items.reduce((acc, el) => {
       return (acc += el.quantity);
     }, 0);
@@ -60,20 +60,25 @@ class Products extends Component {
         <hr />
         <div>
           <h2>Products</h2>
-          <div >
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button disabled={idx<2} 
-                    component={Link} 
-                    to={`/products/page/${idx-1}`}>
-              <Icon>arrow_back</Icon>
-            </Button>
-            <Button component={Link} 
-                    to={`/products/page/${idx+1}`}>
-              <Icon>arrow_forward</Icon>
-            </Button>
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Button
+                disabled={idx < 2}
+                component={Link}
+                to={`/products/page/${idx - 1}`}
+              >
+                <Icon>arrow_back</Icon>
+              </Button>
+              <Button
+                disabled={idx >= lastPage}
+                component={Link}
+                to={`/products/page/${idx + 1}`}
+              >
+                <Icon>arrow_forward</Icon>
+              </Button>
             </div>
           </div>
-          {products.map(_product => {
+          {pageProducts.map(_product => {
             return (
               <Grid
                 container
@@ -107,20 +112,20 @@ class Products extends Component {
   }
 }
 
-const mapStateToProps = ({ products, orders }, { match }) => {
+const mapStateToProps = ({ products, orders }, { idx }) => {
+  const { allProducts, pageProducts } = products;
   const order = orders.find(_order => _order.status === 'CART');
-  const idx = match.params.index*1
-  console.log(products)
   return {
-    products,
+    allProducts,
+    pageProducts,
     order,
-    idx
+    idx,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-    getProducts: idx => dispatch(getProducts(idx)),
-    createOrder: order => dispatch(createOrder(order))
+  getProductsByPage: idx => dispatch(getProductsByPage(idx)),
+  createOrder: order => dispatch(createOrder(order)),
 });
 
 export default connect(
