@@ -17,11 +17,15 @@ const _destroyProduct = product => ({ type: DESTROY_PRODUCT, product });
 const _updateProduct = product => ({ type: UPDATE_PRODUCT, product });
 
 //thunks
-export const getProducts = () => dispatch =>
-  axios
-    .get('/api/products')
-    .then(resp => dispatch(_getProducts(resp.data)))
-    .catch();
+export const getProducts = (index=1) => {
+  return dispatch => {
+    return axios
+      .get(`/api/products/page/${index}`)
+      .then(resp => {
+        console.log(resp.data);
+        dispatch(_getProducts(resp.data)) })
+      .catch(console.error.bind(console));
+  };
 
 export const createProduct = product => dispatch =>
   axios
