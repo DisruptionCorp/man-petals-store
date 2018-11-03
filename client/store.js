@@ -10,7 +10,7 @@ const reducer = combineReducers({
   products: productReducer,
   orders: orderReducer,
   auth: authReducer,
-  images: imageReducer,
+  image: imageReducer,
 });
 
 export const store = createStore(

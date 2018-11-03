@@ -32,7 +32,9 @@ Image.upload = async function(data, bucketName = 'disruptcorpflowers') {
     }).promise();
 
     image.url = `https://s3.amazonaws.com/${bucketName}/${Key}`;
-    await image.save();
+    const imageInstance = await image.save();
+
+    return imageInstance;
   } catch (ex) {
     throw ex;
   }

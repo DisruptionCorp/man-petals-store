@@ -14,7 +14,7 @@ class ProductsTool extends Component {
       name: '',
       description: '',
       inv_quantity: '',
-      // photo: '',
+      photo: '',
       price: '',
       tags: [],
     };
@@ -23,8 +23,12 @@ class ProductsTool extends Component {
   componentDidMount() {
     const fileReader = new FileReader();
     fileReader.addEventListener('load', () => {
-      this.props.createImage(fileReader.result);
+      this.props
+        .createImage(fileReader.result)
+        .then(res => res.data)
+        .then(image => this.setState({ photo: image.url }));
     });
+
     this.el.addEventListener('change', () => {
       fileReader.readAsDataURL(this.el.files[0]);
     });
@@ -33,6 +37,11 @@ class ProductsTool extends Component {
   handleChange = ({ target }) => {
     let { name, value } = target;
     this.setState({ [name]: value });
+  };
+
+  handleImageChange = ev => {
+    console.log('i got here: images');
+    // if (ev.length) this.setState({ photo: ev[ev.length - 1].url });
   };
 
   onSave = ev => {
@@ -52,6 +61,7 @@ class ProductsTool extends Component {
             name: '',
             description: '',
             inv_quantity: '',
+            photo: '',
             price: '',
             tags: [],
           })
@@ -63,6 +73,7 @@ class ProductsTool extends Component {
           description: '',
           inv_quantity: '',
           price: '',
+          photo: '',
         })
       );
     }
@@ -70,6 +81,7 @@ class ProductsTool extends Component {
 
   render() {
     const { images } = this.props;
+    console.log('images testting', images);
     return (
       <div className="productTool">
         <Typography color="primary" variant="title" component="h4">
@@ -152,14 +164,11 @@ class ProductsTool extends Component {
               </Button>
             </div>
             <div>
-              <input ref={el => (this.el = el)} type="file" />
-              <ul>
-                {images.map(image => (
-                  <li key={image.id}>
-                    <img src={image.url} />
-                  </li>
-                ))}
-              </ul>
+              <input
+                ref={el => (this.el = el)}
+                type="file"
+                onChange={this.handleImageChange(images)}
+              />
             </div>
           </form>
           <form name="deleteProduct" className="productDelete">
@@ -174,9 +183,9 @@ class ProductsTool extends Component {
   }
 }
 
-const mapStateToProps = ({ images }) => {
+const mapStateToProps = ({ image }) => {
   return {
-    images,
+    image,
   };
 };
 const mapDispatchToProps = dispatch => {
