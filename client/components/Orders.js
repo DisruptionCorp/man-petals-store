@@ -16,7 +16,7 @@ class Orders extends Component {
                 <ul>
                   {items.map(item => {
                     const productName = allProducts.find(
-                      p => p.id == item.productId
+                      p => p.id === item.productId
                     ).name;
                     return (
                       <li key={item.id}>

@@ -3,30 +3,29 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createOrder } from '../reducers/orderReducer';
 import { getProductsByPage } from '../reducers/productReducer';
-import { Grid, Icon, Button, SvgIcon, CircularProgress } from '@material-ui/core';
-
+import {
+  Grid,
+  Icon,
+  Button,
+  SvgIcon,
+  CircularProgress,
+} from '@material-ui/core';
 
 //presentation components
 import ProductCard from './products_components/ProductCard';
 
 class Products extends Component {
-  constructor(){
-    super()
-    this.state={ loading: true }
+  constructor() {
+    super();
+    this.state = { loading: true };
   }
   componentDidMount() {
     const { idx, getProductsByPage } = this.props;
     getProductsByPage(idx);
-    setInterval(()=>{ 
-      this.setState({ loading: false })
-    }, 1000)
+    setInterval(() => {
+      this.setState({ loading: false });
+    }, 1000);
   }
-
-  /*handleClick = (e) => {
-    const { getProducts, match } = this.props;
-    const index = match.params.index*1;
-    getProducts(index);
-  }*/
 
   componentDidUpdate(prev) {
     const { idx, getProductsByPage } = this.props;
@@ -36,22 +35,29 @@ class Products extends Component {
   }
 
   render() {
-    const { allProducts, pageProducts, order, createOrder, idx } = this.props;
-    const { handleClick } = this;
+    const {
+      allProducts,
+      pageProducts,
+      order,
+      count,
+      createOrder,
+      idx,
+    } = this.props;
     const id = order ? order.id : '';
-    const items = order ? order.Item : [];
     const lastPage = Math.ceil(allProducts.length / 2);
-    const count = items.reduce((acc, el) => {
-      return (acc += el.quantity);
-    }, 0);
 
-    return this.state.loading ?
-      (<div style={{ display: 'flex', 
-                     justifyContent: 'center', 
-                     padding: '30px'}}>
+    return this.state.loading ? (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          padding: '30px',
+        }}
+      >
         <CircularProgress />
-      </div>) :
-      (<div className="cartContainer">
+      </div>
+    ) : (
+      <div className="cartContainer">
         <div>
           Your Order ID is ({id}
           ).
@@ -99,7 +105,7 @@ class Products extends Component {
           })}
         </div>
         <Button
-          disabled={count == 0}
+          disabled={!count}
           onClick={() => createOrder(order)}
           component={Link}
           to="/orders"
@@ -115,11 +121,17 @@ class Products extends Component {
 const mapStateToProps = ({ products, orders }, { idx }) => {
   const { allProducts, pageProducts } = products;
   const order = orders.find(_order => _order.status === 'CART');
+  const items = order ? order.Item : [];
+  const count = items.reduce((acc, el) => {
+    return (acc += el.quantity);
+  }, 0);
+
   return {
     allProducts,
     pageProducts,
     order,
     idx,
+    count,
   };
 };
 

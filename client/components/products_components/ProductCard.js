@@ -18,22 +18,12 @@ import {
 class ProductCard extends Component {
   render() {
     const { product, order, itemQuantity, handleInc, handleDec } = this.props;
-    const disable = itemQuantity === 0;
+
     return (
       <Grid item xs={4} style={{ padding: '25px' }}>
         <Paper className="productContainer">
           <Typography variant="display1" color="textPrimary">
-            <Link
-              to={{
-                pathname: `/products/${product.id}`,
-                state: {
-                  product,
-                  order,
-                },
-              }}
-            >
-              {product.name}
-            </Link>
+            <Link to={`/products/${product.id}`}>{product.name}</Link>
           </Typography>
           <Typography variant="body1">
             Price: {product.price ? `$${product.price}` : 'tbd'}
@@ -48,7 +38,7 @@ class ProductCard extends Component {
               <Icon>add</Icon>
             </Button>
             <Button
-              disabled={disable}
+              disabled={!itemQuantity}
               variant="fab"
               color="secondary"
               onClick={() => handleDec(product, order)}
