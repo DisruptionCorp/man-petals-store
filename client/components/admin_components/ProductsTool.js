@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 import DeleteProduct from './DeleteProduct';
+import { createImage } from '../../reducers/imageReducer';
 
 class ProductsTool extends Component {
   constructor() {
@@ -18,6 +19,17 @@ class ProductsTool extends Component {
       tags: [],
     };
   }
+
+  componentDidMount() {
+    const fileReader = new FileReader();
+    fileReader.addEventListener('load', () => {
+      this.props.createImage(fileReader.result);
+    });
+    this.el.addEventListener('change', () => {
+      fileReader.readAsDataURL(this.el.files[0]);
+    });
+  }
+
   handleChange = ({ target }) => {
     let { name, value } = target;
     this.setState({ [name]: value });
@@ -57,6 +69,7 @@ class ProductsTool extends Component {
   };
 
   render() {
+    const { images } = this.props;
     return (
       <div className="productTool">
         <Typography color="primary" variant="title" component="h4">
@@ -138,6 +151,16 @@ class ProductsTool extends Component {
                 <Icon>send</Icon>
               </Button>
             </div>
+            <div>
+              <input ref={el => (this.el = el)} type="file" />
+              <ul>
+                {images.map(image => (
+                  <li key={image.id}>
+                    <img src={image.url} />
+                  </li>
+                ))}
+              </ul>
+            </div>
           </form>
           <form name="deleteProduct" className="productDelete">
             <Typography color="primary" variant="subheading" component="h5">
@@ -151,13 +174,19 @@ class ProductsTool extends Component {
   }
 }
 
+const mapStateToProps = ({ images }) => {
+  return {
+    images,
+  };
+};
 const mapDispatchToProps = dispatch => {
   return {
     createProduct: product => dispatch(createProduct(product)),
+    createImage: data => dispatch(createImage(data)),
   };
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(ProductsTool);

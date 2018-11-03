@@ -30,3 +30,5 @@ router.post('/', (req, res, next) => {
     .then(image => res.send(image))
     .catch(next);
 });
+
+module.exports = router;

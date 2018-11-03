@@ -8,7 +8,8 @@ const session = require('express-session');
 const jwt = require('jwt-simple');
 
 //File Imports
-const { sync, seed, User } = require('../db/index');
+const { sync, User } = require('../db/index');
+const seed = require('../db/dev_seed');
 
 //Router Imports
 const usersRouter = require('./api/users');
