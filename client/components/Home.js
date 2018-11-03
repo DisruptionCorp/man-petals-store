@@ -6,11 +6,15 @@ import SearchBar from './SearchBar'
 
 export default class Home extends Component {
 
-  render() {
+    constructor(props){
+        super(props)
+    }
 
+  render() {
+    const {history} = this.props
     return (
       <div >
-        <SearchBar />
+        <SearchBar history={history}/>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <img  src="https://ak5.picdn.net/shutterstock/videos/6291365/thumb/1.jpg"/>
         </div>
