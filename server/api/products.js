@@ -72,8 +72,9 @@ router.post('/search/tags', (req, res, next) => {
 
 //pagination count
 router.get('/page/:index', (req, res, next) => {
-  let index = 1;
+  let index = 0;
   let limit = 2;
+  
   if (req.params.index) {
     index = req.params.index * 1 - 1;
   }
@@ -83,5 +84,6 @@ router.get('/page/:index', (req, res, next) => {
     })
     .catch(next);
 });
+
 
 module.exports = router;

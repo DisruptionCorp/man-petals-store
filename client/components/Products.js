@@ -3,15 +3,28 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createOrder } from '../reducers/orderReducer';
 import { getProductsByPage } from '../reducers/productReducer';
-import { Grid, Icon, Button, SvgIcon } from '@material-ui/core';
+import {
+  Grid,
+  Icon,
+  Button,
+  SvgIcon,
+  CircularProgress,
+} from '@material-ui/core';
 
 //presentation components
 import ProductCard from './products_components/ProductCard';
 
 class Products extends Component {
+  constructor() {
+    super();
+    this.state = { loading: true };
+  }
   componentDidMount() {
     const { idx, getProductsByPage } = this.props;
     getProductsByPage(idx);
+    setInterval(() => {
+      this.setState({ loading: false });
+    }, 1000);
   }
 
   componentDidUpdate(prev) {
@@ -33,8 +46,17 @@ class Products extends Component {
     const id = order ? order.id : '';
     const lastPage = Math.ceil(allProducts.length / 2);
 
-    // console.log(this.props)
-    return (
+    return this.state.loading ? (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          padding: '30px',
+        }}
+      >
+        <CircularProgress />
+      </div>
+    ) : (
       <div className="cartContainer">
         <div>
           Your Order ID is ({id}
@@ -83,7 +105,7 @@ class Products extends Component {
           })}
         </div>
         <Button
-          disabled={count == 0}
+          disabled={!count}
           onClick={() => createOrder(order)}
           component={Link}
           to="/orders"

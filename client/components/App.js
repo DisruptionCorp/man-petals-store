@@ -51,18 +51,21 @@ class App extends Component {
         <div>
           <Route render={renderNavbar} />
           <Route exact path="/" component={Home} />
-          <Route path="/login" render={renderLogin} />
+          <Route exact path="/login" render={renderLogin} />
           <Route exact path="/home" component={Home} />
-          <Route path="/products/page/:index" render={renderProductsByPage} />
-          <Route path="/admin" render={renderAdmin} />
-          <Switch>
-            <Route path="/admin/products" render={renderProductsTool} />
-            <Route path="/admin/orders" render={renderOrdersTool} />
-          </Switch>
+          <Route exact path="/cart" component={Cart} />
+          <Route exact path="/orders" component={Orders} />
+          <Route
+            exact
+            path="/products/page/:index"
+            render={renderProductsByPage}
+          />
           <Route exact path="/products/:id" render={renderProductDetail} />
-          <Route path="/cart" component={Cart} />
-          <Route path="/orders" component={Orders} />
-          <Route path="/home/search" component={PaginatedProducts} />
+          <Route path="/admin" render={renderAdmin} />
+          <Route exact path="/home/search" component={PaginatedProducts} />
+          <Route exact path="/admin/products" render={renderProductsTool} />
+          <Route exact path="/admin/orders" render={renderOrdersTool} />
+
           {/*<Route path='/myaccount' component={MyAccount} />
           <Route path='/logout' />*/}
         </div>

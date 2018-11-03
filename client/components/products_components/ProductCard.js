@@ -18,7 +18,7 @@ import {
 class ProductCard extends Component {
   render() {
     const { product, order, itemQuantity, handleInc, handleDec } = this.props;
-    const disable = itemQuantity === 0;
+
     return (
       <Grid item xs={4} style={{ padding: '25px' }}>
         <Paper className="productContainer">
@@ -38,7 +38,7 @@ class ProductCard extends Component {
               <Icon>add</Icon>
             </Button>
             <Button
-              disabled={disable}
+              disabled={!itemQuantity}
               variant="fab"
               color="secondary"
               onClick={() => handleDec(product, order)}
