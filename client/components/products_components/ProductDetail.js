@@ -110,3 +110,5 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(ProductDetail);
+
+//test
