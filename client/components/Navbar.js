@@ -74,12 +74,15 @@ class Navbar extends Component {
               </li>
               <li className="nav-item">
                 {isLoggedIn ? (
-                  <button class="btn btn-light my-2 my-sm-0" onClick={logout}>
+                  <button
+                    className="btn btn-light my-2 my-sm-0"
+                    onClick={logout}
+                  >
                     Logout
                   </button>
                 ) : (
                   <button
-                    class="btn btn-light my-2 my-sm-0"
+                    className="btn btn-light my-2 my-sm-0"
                     onClick={() => {
                       history.push('/login');
                     }}
@@ -107,12 +110,11 @@ const mapStateToProps = ({ auth, orders }, { id, history }) => {
   return {
     isLoggedIn: auth.id ? auth : false,
     count,
-    auth: true /*auth.id ? auth.admin : false*/,
+    auth,
     id,
     history,
   };
 };
-
 
 const mapDispatchToProps = dispatch => {
   return {
