@@ -50,12 +50,11 @@ export const getProducts = () => {
 export const createProduct = product => dispatch =>
   axios
     .post('/api/products', product)
-    .then(resp => dispatch(_createProduct(resp.data)))
-    .catch();
+    .then(resp => dispatch(_createProduct(resp.data)));
 
 export const destroyProduct = product => dispatch =>
   axios
-    .post(`/api/products/:${product.id}`)
+    .delete(`/api/products/:${product.id}`)
     .then(() => dispatch(_destroyProduct(product)));
 
 export const updateProduct = product => dispatch =>

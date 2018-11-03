@@ -7,9 +7,9 @@ class AdminTool extends Component {
     return (
       <div>
         <br />
-        <Link to="/admin/products">Products Tool</Link>
+        <Link to="/admin/products">Products Admin</Link>
         &nbsp; &nbsp;
-        <Link to="/admin/orders">Orders Tool</Link>
+        <Link to="/admin/orders">Orders Admin</Link>
       </div>
     );
   }
