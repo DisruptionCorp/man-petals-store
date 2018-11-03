@@ -25,7 +25,13 @@
   display: 'flex';
   justify-content: 'center';
 }
-
+.productTool {
+  border-color: lightgray;
+  border-style: solid;
+  padding: 10px;
+  border-radius: 2%;
+  width: 750px;
+}
 .addDeleteProduct {
   display: flex;
   flex-direction: row;

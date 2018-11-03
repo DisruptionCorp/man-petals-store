@@ -4,8 +4,6 @@ import { createProduct } from '../../reducers/productReducer';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
-// import ProductCreateForm from './ProductCreateForm';
-// import ProductDeleteForm from './ProductDeleteForm';
 
 class ProductsTool extends Component {
   constructor() {
@@ -61,11 +59,11 @@ class ProductsTool extends Component {
     return (
       <div className="productTool">
         <Typography color="primary" variant="title" component="h4">
-          Products Admin Tool
+          Products Admin
         </Typography>
         <div className="addDeleteProduct">
           <form name="addProduct" className="productCreate">
-            <Typography color="primary" variant="headline" component="h4">
+            <Typography color="primary" variant="subheading" component="h5">
               Add Product
             </Typography>
             <label htmlFor="name">name: </label>
@@ -141,7 +139,7 @@ class ProductsTool extends Component {
             </div>
           </form>
           <form name="deleteProduct" className="productDelete">
-            <Typography color="primary" variant="headline" component="h4">
+            <Typography color="primary" variant="subheading" component="h5">
               Delete Product
             </Typography>
           </form>

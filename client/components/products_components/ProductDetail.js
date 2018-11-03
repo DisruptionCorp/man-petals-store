@@ -14,16 +14,9 @@ import {
   decrementLineItem,
 } from '../../reducers/orderReducer';
 
-
 class ProductDetail extends Component {
-
-
   render() {
-    const { order, 
-            product, 
-            handleInc, 
-            handleDec, 
-            itemQuantity } = this.props;
+    const { order, product, handleInc, handleDec, itemQuantity } = this.props;
 
     const disable = itemQuantity === 0;
     //defensive code to deal with products not having loaded yet
@@ -42,8 +35,7 @@ class ProductDetail extends Component {
     if (inv_quantity === 0) stockRemaining = 'Sold Out';
     return (
       <div>
-
-          <img src={photo} alt={name} height="400" width="400" />
+        <img src={photo} alt={name} height="400" width="400" />
         <br />
         <h5>Product Info:</h5>
         <ul>
@@ -74,24 +66,28 @@ class ProductDetail extends Component {
           </Button>
         </div>
         <h5>Reviews:</h5>
-        {reviews ? 
-          (reviews.map(review => {
-          return <ProductReview review={review} key={review.id} />;
-        })) :
-          <Typography variant='body1'>There are no reviews yet for this product!</Typography>
-        }
-
+        {reviews ? (
+          reviews.map(review => {
+            return <ProductReview review={review} key={review.id} />;
+          })
+        ) : (
+          <Typography variant="body1">
+            There are no reviews yet for this product!
+          </Typography>
+        )}
       </div>
     );
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(ownProps.location.state.order);
+  console.log(ownProps.location.state);
   const { order, product } = ownProps.location.state;
   let item = order
     ? order.Item.find(item => item.productId === product.id)
     : null;
+  console.log('order is', order);
+  console.log('product is', product);
   return {
     order,
     product,
