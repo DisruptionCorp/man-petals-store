@@ -43,14 +43,13 @@ class SearchBar extends Component {
   handleClick(e) {
     const { getProductsByTags } = this.props;
     const { filteredTags } = this.state;
-    console.log(e.target);
 	getProductsByTags(e.target.label || filteredTags)
   }
 
   componentDidMount(){
   	setInterval(()=>{
   		this.setState({ loading: false })
-  	}, 7000)
+  	}, 2000)
   }
 
   render() {
@@ -79,7 +78,7 @@ class SearchBar extends Component {
             />
           	)
           })}
-          </div>
+        </div>
         <div>
           <Toolbar
             style={{
@@ -112,7 +111,8 @@ class SearchBar extends Component {
 }
 
 const mapStateToProps = ({ products }) => {
-  const tags = products.reduce((acc, curr) => {
+  const { allProducts } = products;
+  const tags = allProducts.reduce((acc, curr) => {
     return curr.tags ? [...acc, ...curr.tags] : [...acc];
   }, []);
   const random = Array(5).fill('').map(curr=>{
