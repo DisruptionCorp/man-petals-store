@@ -118,7 +118,7 @@ const mapStateToProps = ({ products }) => {
   const random = Array(5).fill('').map(curr=>{
 	return tags[Math.floor(Math.random()*tags.length)]
   });
-  return { tags, random };
+  return { tags, random, allProducts };
 };
 
 const mapDispatchToProps = dispatch => ({
