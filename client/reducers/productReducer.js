@@ -4,12 +4,13 @@ import axios from 'axios';
 const initialState = {
   allProducts: [],
   pageProducts: [],
+  tagProducts: { count: 0, rows: [] },
 };
 
 //action name
 const GET_PRODUCTS_BY_PAGE = 'GET_PRODUCTS_BY_PAGE';
+const GET_PRODUCTS_BY_TAG = 'GET_PRODUCTS_BY_TAG';
 const GET_PRODUCTS = 'GET_PRODUCTS';
-const GET_TAGS = 'GET_TAGS';
 const CREATE_PRODUCT = 'CREATE_PRODUCT';
 const DESTROY_PRODUCT = 'DESTROY_PRODUCT';
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
@@ -25,6 +26,7 @@ const _createProduct = product => ({ type: CREATE_PRODUCT, product });
 const _destroyProduct = product => ({ type: DESTROY_PRODUCT, product });
 const _updateProduct = product => ({ type: UPDATE_PRODUCT, product });
 const _addReview = review => ({ type: ADD_REVIEW, review });
+const _getByTag = products => ({ type: GET_PRODUCTS_BY_TAG, products });
 
 //thunks
 export const getProductsByPage = (index = 1) => {
@@ -37,7 +39,6 @@ export const getProductsByPage = (index = 1) => {
       .catch(console.error.bind(console));
   };
 };
-
 
 export const getProducts = () => {
   return dispatch => {
@@ -65,12 +66,11 @@ export const updateProduct = product => dispatch =>
     .put(`/api/products/${product.id}`, product)
     .then(resp => dispatch(_updateProduct(resp.data)));
 
-export const getProductsByTags = (tags, index=1) => dispatch =>
+export const getProductsByTags = (tags, index = 1) => dispatch =>
   axios
     .post(`/api/products/search/tags/${index}`, { tags })
     .then(response => {
-        console.log(response.data)
-        dispatch(_getProductsByPage(response.data))
+      dispatch(_getByTag(response.data));
     })
     .catch(console.error.bind(console));
 
@@ -89,7 +89,8 @@ export const productReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_PRODUCTS_BY_PAGE:
       return { ...state, pageProducts: action.products };
-
+    case GET_PRODUCTS_BY_TAG:
+      return { ...state, tagProducts: action.products };
     case GET_PRODUCTS:
       return { ...state, allProducts: action.products };
 
