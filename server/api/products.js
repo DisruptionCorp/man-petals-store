@@ -86,7 +86,6 @@ router.get('/page/:index', async (req, res, next) => {
   }
   Product.findAndCountAll({ offset: index * limit, limit: 4 })
     .then(products => {
-      // products.rows = await Math.ceil(products.rows/limit);
       res.send(products);
     })
     .catch(next);
