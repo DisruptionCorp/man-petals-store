@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import ProductReview from './ProductReview';
 import { connect } from 'react-redux';
-import {
-  incrementLineItem,
-  decrementLineItem,
-  createOrder,
-} from '../../reducers/orderReducer';
+import { incrementLineItem, decrementLineItem, createOrder } from '../../reducers/orderReducer';
+import { getProduct } from '../../reducers/productReducer'
 import ReviewForm from './ReviewForm';
 
 class ProductDetail extends Component {
+  
+  componentDidMount () {
+    this.props.getProduct(this.props.productId);
+  }
+
   render() {
     const {
       handleInc,
@@ -19,9 +21,10 @@ class ProductDetail extends Component {
       quantity,
       history,
     } = this.props;
+
+    console.log('the props are: ', this.props);
     // defensive code to deal with products not having loaded yet
     if (!product || !order) {
-      console.log('nothing loaded yet');
       return null;
     }
     const {
@@ -36,6 +39,7 @@ class ProductDetail extends Component {
     let stockRemaining = 'In Stock';
     if (inv_quantity < 10) stockRemaining = 'Limited Stock!';
     if (inv_quantity === 0) stockRemaining = 'Sold Out';
+    
     return (
       <div>
         <img src={photo} alt={name} height="100" width="100" />
@@ -79,12 +83,12 @@ class ProductDetail extends Component {
 }
 
 const mapStateToProps = ({ products, orders }, { productId, history }) => {
-  const { allProducts } = products;
-  const product = allProducts.find(p => p.id === productId);
+  const product = products.selectedProduct;
   const order = orders.find(o => o.status == 'CART');
   const lineItem = order ? order.Item.find(i => i.productId == productId) : [];
   const quantity = lineItem ? lineItem.quantity : 0;
   return {
+    productId,
     product,
     order,
     quantity,
@@ -94,6 +98,9 @@ const mapStateToProps = ({ products, orders }, { productId, history }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    getProduct: (productId)=> {
+      dispatch(getProduct(productId));
+    },
     handleInc: (product, order) => {
       dispatch(incrementLineItem(product, order));
     },

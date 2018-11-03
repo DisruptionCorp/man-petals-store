@@ -75,7 +75,6 @@ class App extends Component {
 }
 
 const mapStateToProps = ({ products, orders }, ownProps) => {
-  console.log(ownProps);
   const { allProducts } = products;
   return { allProducts, orders };
 };
