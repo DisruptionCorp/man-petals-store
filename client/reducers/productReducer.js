@@ -54,7 +54,7 @@ export const createProduct = product => dispatch =>
 
 export const destroyProduct = product => dispatch =>
   axios
-    .post(`/api/products/:${product.id}`)
+    .delete(`/api/products/:${product.id}`)
     .then(() => dispatch(_destroyProduct(product)));
 
 export const updateProduct = product => dispatch =>

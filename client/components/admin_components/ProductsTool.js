@@ -4,6 +4,7 @@ import { createProduct } from '../../reducers/productReducer';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
+import DeleteProduct from './DeleteProduct';
 
 class ProductsTool extends Component {
   constructor() {
@@ -142,6 +143,7 @@ class ProductsTool extends Component {
             <Typography color="primary" variant="subheading" component="h5">
               Delete Product
             </Typography>
+            <DeleteProduct />
           </form>
         </div>
       </div>
