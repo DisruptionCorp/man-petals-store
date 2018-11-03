@@ -1,15 +1,16 @@
+Object.assign(process.env, require('../.env'));
+
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
-const bodyParser = require('body-parser');
 const port = process.env.PORT || 3000;
+const secret = process.env.JWT_SECRET;
 const path = require('path');
-const session = require('express-session');
 const jwt = require('jwt-simple');
 
 //File Imports
 const { sync, User } = require('../db/index');
-const seed = require('../db/dev_seed')
+const seed = require('../db/dev_seed');
 
 //Router Imports
 const usersRouter = require('./api/users');
@@ -25,30 +26,26 @@ app.use(express.json()); //body-parsing
 app.use(express.urlencoded()); //body-parsing
 app.use(express.static(path.join(__dirname, '../public'))); //static
 
-
 //Token Authentication Middleware
-app.use((req, res, next)=> {
+app.use((req, res, next) => {
   const token = req.headers.authorization;
-  if(!token) {
+  if (!token) {
     return next();
   }
 
   let id;
   try {
-    id = jwt.decode(token, process.env.JWT_SECRET).id;
+    id = jwt.decode(token, secret).id;
     User.findById(id)
-      .then( user => {
-        console.log('the found user is: ');
-        console.log(user);
+      .then(user => {
         req.user = user;
         next();
       })
-      .catch(next)
-  }
-  catch(ex) {
+      .catch(next);
+  } catch (ex) {
     next({ status: 401 });
   }
-})
+});
 // app.use(session({ //session
 //   secret: 'keep it secret, keep it safe',
 //   resave: false,
@@ -80,7 +77,6 @@ sync()
       }, 500);
     });
   })
-  .catch(err => console.log(err))
-
+  .catch(err => console.log(err));
 
 module.exports = app;
