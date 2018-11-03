@@ -71,17 +71,19 @@ router.post('/search/tags', (req, res, next) => {
 });
 
 //pagination count
-router.get('/page/:index', (req, res, next) => {
+router.get('/page/:index', async (req, res, next) => {
   let index = 0;
-  let limit = 2;
+  let limit = 4;
   
   if (req.params.index) {
     index = req.params.index * 1 - 1;
   }
-  Product.findAll({ offset: index * limit, limit: 2 })
+  Product
+    .findAndCountAll({ offset: index * limit, limit: 4 })
     .then(products => {
-      res.send(products);
-    })
+      // products.rows = await Math.ceil(products.rows/limit);
+      res.send(products)
+      })
     .catch(next);
 });
 
