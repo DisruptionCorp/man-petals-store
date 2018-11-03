@@ -28,9 +28,7 @@ app.use(express.static(path.join(__dirname, '../public'))); //static
 
 //Token Authentication Middleware
 app.use((req, res, next)=> {
-  console.log(req.headers.authorization)
   const token = req.headers.authorization;
-  console.log('app.use req.authorization is: ', token);
   if(!token) {
     return next();
   }
@@ -38,7 +36,6 @@ app.use((req, res, next)=> {
   let id;
   try {
     id = jwt.decode(token, process.env.JWT_SECRET).id;
-    console.log('app.use decoded id is: ', id);
     User.findById(id)
       .then( user => {
         console.log('the found user is: ');
