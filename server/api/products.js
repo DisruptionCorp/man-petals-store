@@ -7,7 +7,14 @@ const { Product, Review, LineItem, User } = require('../../db/index');
 
 //all products
 router.get('/', (req, res, next) => {
-  Product.findAll({ include: [Review] })
+  Product.findAll({
+    include: [
+      {
+        model: Review,
+        include: [User],
+      },
+    ],
+  })
     .then(products => {
       res.send(products);
     })
@@ -65,14 +72,13 @@ router.put('/:id', (req, res, next) => {
 });
 
 //search products by tags
-router.post('/search/tags', (req, res, next) => {
+router.post('/search/tags/:index?', (req, res, next) => {
   const Op = Sequelize.Op;
-  Product.findAll({
+  Product.findAndCountAll({
     where: {
       tags: {
         [Op.contains]: [
           ...req.body.tags.reduce((acc, each) => {
-            console.log(each);
             return [...acc, each];
           }, []),
         ],
@@ -80,7 +86,7 @@ router.post('/search/tags', (req, res, next) => {
     },
   })
     .then(products => {
-      if (products) res.send(products);
+      res.send(products);
     })
     .catch(next);
 });
@@ -89,12 +95,11 @@ router.post('/search/tags', (req, res, next) => {
 router.get('/page/:index', async (req, res, next) => {
   let index = 0;
   let limit = 4;
-  
+
   if (req.params.index) {
     index = req.params.index * 1 - 1;
   }
-  Product
-    .findAndCountAll({ offset: index * limit, limit: 4 })
+  Product.findAndCountAll({ offset: index * limit, limit: 4 })
     .then(products => {
       // products.rows = await Math.ceil(products.rows/limit);
       console.log(products)
@@ -102,6 +107,5 @@ router.get('/page/:index', async (req, res, next) => {
       })
     .catch(next);
 });
-
 
 module.exports = router;
