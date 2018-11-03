@@ -36,7 +36,7 @@ class Navbar extends Component {
 
     render() {
         const { toggle, handleClickAway } = this;
-        const { count } = this.props;
+        const { count, auth, isLoggedIn } = this.props;
         return (
             <Paper style={{ width:'100%' }}>
             <Toolbar style={{ justifyContent: 'space-between'}}>
@@ -58,9 +58,10 @@ class Navbar extends Component {
                 <MenuItem><NavLink to={`/products/page/${1}`}>Products</NavLink></MenuItem>
                 <MenuItem><Badge badgeContent={count} color="primary" style={{padding:"1px"}}><NavLink to="/cart">Cart</NavLink></Badge></MenuItem>
                 <MenuItem><NavLink to="/orders">Orders</NavLink></MenuItem>
-                {/*userId ?*/}
-                
-                {this.props.isLoggedIn ? (
+                {auth &&
+                <MenuItem><NavLink to="/admin">Admin Tool</NavLink></MenuItem>
+                }
+                {isLoggedIn ? (
                     <MenuItem onClick={this.props.logout}><NavLink to="/login">Logout: {this.props.isLoggedIn.name}</NavLink></MenuItem>
                     ) : (
                     <MenuItem><NavLink to="/login">Login</NavLink></MenuItem>
@@ -90,7 +91,8 @@ const mapStateToProps = ({ auth, orders }) => {
   }, 0);
     return {
         isLoggedIn: auth.id ? auth : false,
-        count
+        count,
+        auth: true /*auth.id ? auth.admin : false*/
     }  
 }
 
