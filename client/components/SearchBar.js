@@ -12,7 +12,7 @@ import {
   MenuItem,
   MenuList,
   Chip,
-  CircularProgress
+  CircularProgress,
 } from '@material-ui/core';
 import { BeatLoader } from 'react-spinners';
 
@@ -43,40 +43,47 @@ class SearchBar extends Component {
   handleClick(e) {
     const { getProductsByTags } = this.props;
     const { filteredTags } = this.state;
-	getProductsByTags(e.target.label || filteredTags)
+    getProductsByTags(e.target.label || filteredTags);
   }
 
-  componentDidMount(){
-  	setInterval(()=>{
-  		this.setState({ loading: false })
-  	}, 2000)
+  componentDidMount() {
+    setInterval(() => {
+      this.setState({ loading: false });
+    }, 1000);
   }
 
   render() {
-    const { input, filteredTags } = this.state;
+    const { input, filteredTags, loading } = this.state;
     const { handleChange, handleClick } = this;
     const { tags, random } = this.props;
-    console.log('Tags: ', tags, 'Filtered: ', filteredTags)
+    console.log('Tags: ', tags, 'Filtered: ', filteredTags);
 
-    return this.state.loading ? 
-      (<div style={{ display: 'flex', 
-      				justifyContent: 'center', 
-      				padding: '30px'}}>
-        <CircularProgress /> 
-      </div>) :
-      (<div>
-      <div style={{ padding: '20px', display: 'flex', justifyContent: 'center' }}>
-          {random.map((each, idx)=>{
-          	return(
-          	  <Chip
-              key={idx}
-              label={each}
-              clickable={true}
-              onClick={handleClick}
-              color={idx%2=== 0 ? "secondary" : "primary"}
-              style={{ margin: '5px'}}
-            />
-          	)
+    return loading ? (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          padding: '30px',
+        }}
+      >
+        <CircularProgress />
+      </div>
+    ) : (
+      <div>
+        <div
+          style={{ padding: '20px', display: 'flex', justifyContent: 'center' }}
+        >
+          {random.map((each, idx) => {
+            return (
+              <Chip
+                key={idx}
+                label={each}
+                clickable={true}
+                onClick={handleClick}
+                color={idx % 2 === 0 ? 'secondary' : 'primary'}
+                style={{ margin: '5px' }}
+              />
+            );
           })}
         </div>
         <div>
@@ -115,10 +122,19 @@ const mapStateToProps = ({ products }) => {
   const tags = allProducts.reduce((acc, curr) => {
     return curr.tags ? [...acc, ...curr.tags] : [...acc];
   }, []);
+
   const random = Array(5).fill('').map(curr=>{
 	return tags[Math.floor(Math.random()*tags.length)]
   });
   return { tags, random, allProducts };
+
+//   const random = Array(5)
+//     .fill('')
+//     .map(curr => {
+//       return tags[Math.floor(Math.random() * tags.length)];
+//     });
+//   return { tags, random };
+
 };
 
 const mapDispatchToProps = dispatch => ({

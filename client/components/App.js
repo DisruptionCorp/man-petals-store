@@ -27,9 +27,9 @@ class App extends Component {
       const path = location.pathname.split('/').pop();
       return <Navbar path={path} />;
     };
-    const renderProductDetail = ({ match, location }) => {
+    const renderProductDetail = ({ match, history }) => {
       const productId = match.params.id;
-      return <ProductDetail productId={productId} location={location} />;
+      return <ProductDetail productId={productId} history={history} />;
     };
 
     const renderProductsByPage = ({ match }) => {
@@ -40,25 +40,32 @@ class App extends Component {
     const renderLogin = ({ history }) => <Login history={history} />;
 
     const renderAdmin = () => <AdminTool />;
-    const renderProductsTool = history => <ProductsTool history={history} />;
+
+    const renderProductsTool = ({ history }) => (
+      <ProductsTool history={history} />
+    );
     const renderOrdersTool = () => <OrdersTool />;
 
     return (
       <HashRouter>
         <div>
           <Route render={renderNavbar} />
-          <Route path="/login" render={renderLogin} />
-          <Route path="/home" component={Home} />
-          <Route path="/products/page/:index" render={renderProductsByPage} />
-          <Route path="/admin" render={renderAdmin} />
-          <Switch>
-            <Route path="/admin/products" render={renderProductsTool} />
-            <Route path="/admin/orders" render={renderOrdersTool} />
-          </Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/login" render={renderLogin} />
+          <Route exact path="/home" component={Home} />
+          <Route exact path="/cart" component={Cart} />
+          <Route exact path="/orders" component={Orders} />
+          <Route
+            exact
+            path="/products/page/:index"
+            render={renderProductsByPage}
+          />
           <Route exact path="/products/:id" render={renderProductDetail} />
-          <Route path="/cart" component={Cart} />
-          <Route path="/orders" component={Orders} />
-          <Route path="/home/search" component={PaginatedProducts} />
+          <Route path="/admin" render={renderAdmin} />
+          <Route exact path="/home/search" component={PaginatedProducts} />
+          <Route exact path="/admin/products" render={renderProductsTool} />
+          <Route exact path="/admin/orders" render={renderOrdersTool} />
+
           {/*<Route path='/myaccount' component={MyAccount} />
           <Route path='/logout' />*/}
         </div>
