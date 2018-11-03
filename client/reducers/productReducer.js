@@ -13,6 +13,7 @@ const GET_TAGS = 'GET_TAGS';
 const CREATE_PRODUCT = 'CREATE_PRODUCT';
 const DESTROY_PRODUCT = 'DESTROY_PRODUCT';
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
+const ADD_REVIEW = 'ADD_REVIEW';
 
 //action creator
 const _getProductsByPage = products => ({
@@ -23,6 +24,7 @@ const _getProducts = products => ({ type: GET_PRODUCTS, products });
 const _createProduct = product => ({ type: CREATE_PRODUCT, product });
 const _destroyProduct = product => ({ type: DESTROY_PRODUCT, product });
 const _updateProduct = product => ({ type: UPDATE_PRODUCT, product });
+const _addReview = review => ({ type: ADD_REVIEW, review });
 
 //thunks
 export const getProductsByPage = (index = 1) => {
@@ -72,6 +74,16 @@ export const getProductsByTags = (tags, index=1) => dispatch =>
     })
     .catch(console.error.bind(console));
 
+export const addReview = review => {
+  console.log(review);
+  return dispatch => {
+    return axios
+      .post('/api/reviews', review)
+      .then(response => dispatch(_addReview(response.data)))
+      .catch(err => console.log(err));
+  };
+};
+
 //reducer
 export const productReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -96,6 +108,15 @@ export const productReducer = (state = initialState, action) => {
       );
       return { ...state, allProducts: destroyedProducts };
 
+    case ADD_REVIEW:
+      const { productId } = action.review;
+      const allProductsWithReview = state.allProducts.map(p => {
+        if (p.id == productId) {
+          p.reviews = [...p.reviews, action.review];
+        }
+        return p;
+      });
+      return { ...state, allProducts: allProductsWithReview };
     default:
       return state;
   }

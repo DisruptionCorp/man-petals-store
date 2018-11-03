@@ -19,11 +19,11 @@ class ProductDetail extends Component {
       quantity,
       history,
     } = this.props;
-    //defensive code to deal with products not having loaded yet
-    // if (!product || !order) {
-    // console.log('nothing loaded');
-    // return null;
-    // }
+    // defensive code to deal with products not having loaded yet
+    if (!product || !order) {
+      console.log('nothing loaded yet');
+      return null;
+    }
     const {
       name,
       description,
@@ -80,8 +80,6 @@ class ProductDetail extends Component {
 
 const mapStateToProps = ({ products, orders }, { productId, history }) => {
   const { allProducts } = products;
-  console.log(allProducts);
-  console.log(productId);
   const product = allProducts.find(p => p.id === productId);
   const order = orders.find(o => o.status == 'CART');
   const lineItem = order ? order.Item.find(i => i.productId == productId) : [];

@@ -46,6 +46,8 @@ class Products extends Component {
       totalPages
     } = this.props;
     const id = order ? order.id : '';
+    const lastPage = Math.ceil(allProducts.length / 20);
+
 
     return this.state.loading ? (
       <div
