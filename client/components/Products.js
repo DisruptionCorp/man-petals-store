@@ -3,17 +3,24 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createOrder } from '../reducers/orderReducer';
 import { getProducts } from '../reducers/productReducer';
-import { Grid, Icon, Button, SvgIcon } from '@material-ui/core';
+import { Grid, Icon, Button, SvgIcon, CircularProgress } from '@material-ui/core';
 
 
 //presentation components
 import ProductCard from './products_components/ProductCard';
 
 class Products extends Component {
+  constructor(){
+    super()
+    this.state={ loading: true }
+  }
 
   componentDidMount(){
     const { idx, getProducts } = this.props;
     getProducts(idx);
+    setInterval(()=>{ 
+      this.setState({ loading: false })
+    }, 5000)
   }
 
   /*handleClick = (e) => {
@@ -37,9 +44,14 @@ class Products extends Component {
     const count = items.reduce((acc, el) => {
       return (acc += el.quantity);
     }, 0);
-    console.log(this.props)
-    return (
-      <div className="cartContainer">
+
+    return this.state.loading ?
+      (<div style={{ display: 'flex', 
+                     justifyContent: 'center', 
+                     padding: '30px'}}>
+        <CircularProgress />
+      </div>) :
+      (<div className="cartContainer">
         <div>
           Your Order ID is ({id}
           ).

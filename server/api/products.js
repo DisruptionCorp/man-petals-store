@@ -77,10 +77,11 @@ router.get('/page/:index?', (req, res, next) => {
   let index = 1;
   let limit = 2;
   if(req.params.index) {index = req.params.index*1};
+  let offset = index*limit;
   Product
-        .findAll({ offset: index*limit, limit: 2 })
+        .findAll(/*{ limit }*/)
         .then(products => {
-            console.log(products.length)
+            console.log(products)
             res.send(products)
         })
         .catch(next);
