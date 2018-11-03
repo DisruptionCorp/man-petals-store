@@ -43,7 +43,7 @@ class DeleteProduct extends Component {
 
     return (
       <div className="productsDelete">
-        <br />ç
+        <br />
         <select
           className="myselect"
           name="id"
