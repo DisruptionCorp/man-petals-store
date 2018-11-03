@@ -2,7 +2,8 @@
 <html lang="en">
 
 <head>
-  <link rel='icon' href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAP3SURBVGhD7dlbqFVFHMfxk0pIWBYWQUQPBYFZaSZEiRY+1EtYlkKXh/BBFLpIZVGJPpgQhEmQgRREUBBlYVHZS2lUXiopk5IgK7ALhVQPXTTt4vcLHvgzzNpr1t5rn3Me9g8+sDlnz6xZa6+ZNTNraJBBBhnxjMf1eBp78RN+xVd4FXfhdIzp3IID+L/GITyGSRhTOQkvIdfoTr7GNIyJnIh3kGtoid9wEUY9G5Fr4C7cjXmYDW+75/A30u9+i1G9zebgP8RGeYVvRFXOxYeIZWSfGbW8idiYPzELdbFPfYRY9i+cir7nBFyBlXgBW/AvYmPuQ2nOx1HE8h/jWdyL1vuNJ3AzvkQ8aOoPNL3PX0GurmE7cTV6zml4C7mDpLaiae5Arq6Uv9JEdJUzUPcrRE+haRwscnXlvA/7VqOMw3vIVejJPQH7w2o8A6ciD6JpvFhv40ncj+Ww7v3IHftlNMrtSCtxzrQAIxEv5K34BWk7FqEoPql/RCz8Hc7BSOcCHERsyxdwAKrNdYgFdSW6yWRcepyfu8lCpO2Zi9p4j8ZC9pWmmY7XEZ8Tfn4NF6NJvPqfI7bpYdTmXcRCPgCbxCvoND3WEfm/G9AkjyLW4YyiNnsQC9npSuPTuNNJDHMqcyFKswSxvNOb2nyAWMghsTRvIJbtxFuvNOmJ+MSvjVPtWKh07HbCdwSxbCd+92SUZD1i2c2ozWLEQq4fzkNdnPXGciUczeoyAa5XYrmHUBs3Bn5HLOgAUDfX6deJrEBazlGxKOuQFvZkzkJVTkHbt9ZNSKf621Ecp+O5+Y6LH58zVVfSDpyWqeIzpSqXw76Zrj5d/1yGRnEoTacH0QNIYxmH1tz3I7+T2z2Zgn3IldFadJUZ+AZpha7LqzbZfNj5y6Vlhvk/p0FV2YRcucdRNMeqyplIf+K6KbtX21sn9hk/+7ep6BQ3J9J+4e3cc5ygxUptkCvHkjgAzDzOz6Wxf8RjvoieswyxUver+p3bEI/pYq7nrEKstJWrUxOXDfGYLrB6jkvQWGmTOVK3uQrxmK5Oe45bnbHS79HT6FGQexCP+Ql6jqNIrFTXokmarA59v+JyNh7P/eVWYgePFfurlKzhnSE8jx9QMq8yaZ+UG+GtJLdutnHzUZVrEKc5h2F/q5p8uunhEjYeQ95Wrd7KVTuO7mmtgRM8V5N+/hS57+pn+FpuKdzacdG0AV6Y9Lv/wFcSrcb7/DOkB+unJqvTRnEV6C587qBt8pe4E32N96tDcm4ymXL0sX9dAtfz6WuInG0oHRhaiduadmjX0y66nH7bcN8nPoLcvX023I51v3gHdsOFki9SXQmOmRejgwwyyCD9zNDQMXWIeGXKjwAIAAAAAElFTkSuQmCC" type='image/png'>
+  <link rel='icon' href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAP3SURBVGhD7dlbqFVFHMfxk0pIWBYWQUQPBYFZaSZEiRY+1EtYlkKXh/BBFLpIZVGJPpgQhEmQgRREUBBlYVHZS2lUXiopk5IgK7ALhVQPXTTt4vcLHvgzzNpr1t5rn3Me9g8+sDlnz6xZa6+ZNTNraJBBBhnxjMf1eBp78RN+xVd4FXfhdIzp3IID+L/GITyGSRhTOQkvIdfoTr7GNIyJnIh3kGtoid9wEUY9G5Fr4C7cjXmYDW+75/A30u9+i1G9zebgP8RGeYVvRFXOxYeIZWSfGbW8idiYPzELdbFPfYRY9i+cir7nBFyBlXgBW/AvYmPuQ2nOx1HE8h/jWdyL1vuNJ3AzvkQ8aOoPNL3PX0GurmE7cTV6zml4C7mDpLaiae5Arq6Uv9JEdJUzUPcrRE+haRwscnXlvA/7VqOMw3vIVejJPQH7w2o8A6ciD6JpvFhv40ncj+Ww7v3IHftlNMrtSCtxzrQAIxEv5K34BWk7FqEoPql/RCz8Hc7BSOcCHERsyxdwAKrNdYgFdSW6yWRcepyfu8lCpO2Zi9p4j8ZC9pWmmY7XEZ8Tfn4NF6NJvPqfI7bpYdTmXcRCPgCbxCvoND3WEfm/G9AkjyLW4YyiNnsQC9npSuPTuNNJDHMqcyFKswSxvNOb2nyAWMghsTRvIJbtxFuvNOmJ+MSvjVPtWKh07HbCdwSxbCd+92SUZD1i2c2ozWLEQq4fzkNdnPXGciUczeoyAa5XYrmHUBs3Bn5HLOgAUDfX6deJrEBazlGxKOuQFvZkzkJVTkHbt9ZNSKf621Ecp+O5+Y6LH58zVVfSDpyWqeIzpSqXw76Zrj5d/1yGRnEoTacH0QNIYxmH1tz3I7+T2z2Zgn3IldFadJUZ+AZpha7LqzbZfNj5y6Vlhvk/p0FV2YRcucdRNMeqyplIf+K6KbtX21sn9hk/+7ep6BQ3J9J+4e3cc5ygxUptkCvHkjgAzDzOz6Wxf8RjvoieswyxUver+p3bEI/pYq7nrEKstJWrUxOXDfGYLrB6jkvQWGmTOVK3uQrxmK5Oe45bnbHS79HT6FGQexCP+Ql6jqNIrFTXokmarA59v+JyNh7P/eVWYgePFfurlKzhnSE8jx9QMq8yaZ+UG+GtJLdutnHzUZVrEKc5h2F/q5p8uunhEjYeQ95Wrd7KVTuO7mmtgRM8V5N+/hS57+pn+FpuKdzacdG0AV6Y9Lv/wFcSrcb7/DOkB+unJqvTRnEV6C587qBt8pe4E32N96tDcm4ymXL0sX9dAtfz6WuInG0oHRhaiduadmjX0y66nH7bcN8nPoLcvX023I51v3gHdsOFki9SXQmOmRejgwwyyCD9zNDQMXWIeGXKjwAIAAAAAElFTkSuQmCC"
+    type='image/png'>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -10,6 +11,21 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
   <link rel="stylesheet" href="/public/css/styles.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous" defer></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous" defer></script>
+
+
   <script src='/public/bundle.js' defer></script>
 </head>
 
