@@ -52,6 +52,7 @@ class ProductDetail extends Component {
         </button>
         <br />
         <button
+          disabled={!quantity}
           onClick={() => {
             createOrder(order);
             history.push('/orders');
@@ -78,7 +79,9 @@ const mapStateToProps = ({ products, orders }, { productId, history }) => {
   const { allProducts } = products;
   const product = allProducts.find(p => p.id === productId * 1);
   const order = orders.find(o => o.status == 'CART');
-  const lineItem = order.Item.find(i => i.productId == productId * 1);
+  const lineItem = order
+    ? order.Item.find(i => i.productId == productId * 1)
+    : [];
   const quantity = lineItem ? lineItem.quantity : 0;
   return {
     product,
