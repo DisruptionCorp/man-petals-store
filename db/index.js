@@ -73,7 +73,6 @@ const seed = () => {
       const products = JSON.parse(data);
       //Convert Tags from string to array to match Product.js model
       products.forEach(product => product.tags = [ product.tags ]);
-      console.log(products)
       console.log('Products Created');
       
       // Create Products

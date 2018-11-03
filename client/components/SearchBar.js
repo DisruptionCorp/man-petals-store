@@ -47,7 +47,7 @@ class SearchBar extends Component {
   }
 
   componentDidMount() {
-    setInterval(() => {
+    setTimeout(() => {
       this.setState({ loading: false });
     }, 1000);
   }
@@ -127,13 +127,6 @@ const mapStateToProps = ({ products }) => {
 	return tags[Math.floor(Math.random()*tags.length)]
   });
   return { tags, random, allProducts };
-
-//   const random = Array(5)
-//     .fill('')
-//     .map(curr => {
-//       return tags[Math.floor(Math.random() * tags.length)];
-//     });
-//   return { tags, random };
 
 };
 
