@@ -8,24 +8,62 @@ import { Paper,
 		 DialogContent, 
 		 DialogActions, 
 		 DialogContentText,
-		 Button } from '@material-ui/core';
+		 Button,
+		 Icon,
+		 CircularProgress } from '@material-ui/core';
+import { _getProducts, getProductsByPage } from '../../reducers/productReducer'
 
 class PaginatedProducts extends Component {
   constructor() {
   	super()
-  	this.state={ closeDialog: false }
+  	this.state={ closeDialog: false, loading: true }
   	this.handleClose = this.handleClose.bind(this);
   }
 
   handleClose(){
   	this.setState({closeDialog: true})
   }
+
+  componentDidMount() {
+  	const { idx } = this.props;
+    setTimeout(() => {
+      this.setState({ loading: false });
+    }, 1000);
+  }
+
   
   render() {
-  	const { products, order } = this.props;
+  	const { products, order, totalPages, idx } = this.props;
   	const { handleClose } = this;
-  	return (
+    return this.state.loading ? (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          padding: '30px',
+        }}
+      >
+        <CircularProgress />
+      </div>
+    ) : (
   	  <div style={{ padding: "50px" }}>
+  	  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Button
+                disabled={idx < 2}
+                component={Link}
+                to={`/search/tags/${idx - 1}`}
+              >
+                <Icon>arrow_back</Icon>
+              </Button>
+              <Button
+                disabled={idx >= totalPages}
+                component={Link}
+                to={`/search/tags/${idx + 1}`}
+              >
+                <Icon>arrow_forward</Icon>
+              </Button>
+            </div>
+      <div>
   	  {products.map(product => {
   	  	return (
   	  	<div>
@@ -33,6 +71,7 @@ class PaginatedProducts extends Component {
   	  	</div>
   	  	)
   	  })}
+  	  </div>
   	  {!products.length &&
   	  <Dialog
           open={true}
@@ -52,13 +91,26 @@ class PaginatedProducts extends Component {
             </Button>
           </DialogActions>
         </Dialog>}
+
+        <div>{totalPages}</div>
   	  </div>
   	)
   }
 }
 
-const mapStateToProps = ({products, orders}) => { 
-  return { products: products.allProducts, orders }
+const mapStateToProps = ({products, orders}, ownProps) => { 
+  console.log(products.pageProducts)
+  return { 
+  	products: products.pageProducts.rows, 
+  	orders,
+  	totalPages: products.pageProducts.count,
+  	idx: ownProps.idx
+  }
 }
 
-export default connect(mapStateToProps)(PaginatedProducts);
+const mapDispatchToProps = dispatch => ({
+  _getProducts: () => dispatch(_getProducts()),
+  getProductsByPage: idx => dispatch(getProductsByPage(idx))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(PaginatedProducts);

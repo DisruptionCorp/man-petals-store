@@ -41,9 +41,13 @@ class SearchBar extends Component {
   }
 
   handleClick(e) {
-    const { getProductsByTags } = this.props;
+    const { getProductsByTags, history } = this.props;
     const { filteredTags } = this.state;
-    getProductsByTags(e.target.label || filteredTags);
+    getProductsByTags(filteredTags)
+    .then(()=>{
+    	history.push('/search/tags/1')
+    })
+
   }
 
   componentDidMount() {
@@ -102,8 +106,6 @@ class SearchBar extends Component {
             />
             <IconButton
               onClick={handleClick}
-              component={Link}
-              to="/home/search"
             >
               <Icon>search_icon</Icon>
             </IconButton>
@@ -117,7 +119,7 @@ class SearchBar extends Component {
   }
 }
 
-const mapStateToProps = ({ products }) => {
+const mapStateToProps = ({ products },{history}) => {
   const { allProducts } = products;
   const tags = allProducts.reduce((acc, curr) => {
     return curr.tags ? [...acc, ...curr.tags] : [...acc];
@@ -126,7 +128,7 @@ const mapStateToProps = ({ products }) => {
   const random = Array(5).fill('').map(curr=>{
 	return tags[Math.floor(Math.random()*tags.length)]
   });
-  return { tags, random, allProducts };
+  return { tags, random, allProducts, history };
 
 };
 

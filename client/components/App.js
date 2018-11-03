@@ -37,6 +37,15 @@ class App extends Component {
       return <Products idx={idx} />;
     };
 
+    const renderSearchPaginated = ({ match }) => {
+      const idx = match.params.index * 1;
+      return <PaginatedProducts idx={idx} />
+    }
+
+    const renderHome =({history})=>{
+      return <Home history={history}/>
+    }
+
     const renderLogin = ({ history }) => <Login history={history} />;
 
     const renderAdmin = () => <AdminTool />;
@@ -50,9 +59,9 @@ class App extends Component {
       <HashRouter>
         <div>
           <Route render={renderNavbar} />
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" render={renderHome} />
           <Route exact path="/login" render={renderLogin} />
-          <Route exact path="/home" component={Home} />
+          <Route exact path="/home" render={renderHome} />
           <Route exact path="/cart" component={Cart} />
           <Route exact path="/orders" component={Orders} />
           <Route
@@ -62,7 +71,7 @@ class App extends Component {
           />
           <Route exact path="/products/:id" render={renderProductDetail} />
           <Route path="/admin" render={renderAdmin} />
-          <Route exact path="/home/search" component={PaginatedProducts} />
+          <Route exact path="/search/tags/:index?" render={renderSearchPaginated} />
           <Route exact path="/admin/products" render={renderProductsTool} />
           <Route exact path="/admin/orders" render={renderOrdersTool} />
 

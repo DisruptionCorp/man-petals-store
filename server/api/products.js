@@ -50,9 +50,15 @@ router.put('/:id', (req, res, next) => {
 });
 
 //search products by tags
-router.post('/search/tags', (req, res, next) => {
+router.post('/search/tags/:index?', (req, res, next) => {
   const Op = Sequelize.Op;
-  Product.findAll({
+  let index = 0;
+  let limit = 4;
+  if (req.params.index) {
+    index = req.params.index * 1 - 1;
+  }
+  let offset = index*limit;
+  Product.findAndCountAll({
     where: {
       tags: {
         [Op.contains]: [
@@ -63,9 +69,11 @@ router.post('/search/tags', (req, res, next) => {
         ],
       },
     },
+    offset,
+    limit
   })
     .then(products => {
-      if (products) res.send(products);
+        res.send(products);
     })
     .catch(next);
 });

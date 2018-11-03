@@ -36,6 +36,7 @@ export const getProductsByPage = (index = 1) => {
   };
 };
 
+
 export const getProducts = () => {
   return dispatch => {
     return axios
@@ -62,10 +63,14 @@ export const updateProduct = product => dispatch =>
     .put(`/api/products/${product.id}`, product)
     .then(resp => dispatch(_updateProduct(resp.data)));
 
-export const getProductsByTags = tags => dispatch =>
+export const getProductsByTags = (tags, index=1) => dispatch =>
   axios
-    .post('/api/products/search/tags', { tags })
-    .then(response => dispatch(_getProducts(response.data)));
+    .post(`/api/products/search/tags/${index}`, { tags })
+    .then(response => {
+        console.log(response.data)
+        dispatch(_getProductsByPage(response.data))
+    })
+    .catch(console.error.bind(console));
 
 //reducer
 export const productReducer = (state = initialState, action) => {
