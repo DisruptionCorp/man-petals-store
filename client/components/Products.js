@@ -9,6 +9,7 @@ import {
   Button,
   SvgIcon,
   CircularProgress,
+  Typography
 } from '@material-ui/core';
 
 //presentation components
@@ -22,7 +23,7 @@ class Products extends Component {
   componentDidMount() {
     const { idx, getProductsByPage } = this.props;
     getProductsByPage(idx);
-    setInterval(() => {
+    setTimeout(() => {
       this.setState({ loading: false });
     }, 1000);
   }
@@ -42,9 +43,11 @@ class Products extends Component {
       count,
       createOrder,
       idx,
+      totalPages
     } = this.props;
     const id = order ? order.id : '';
-    const lastPage = Math.ceil(allProducts.length / 2);
+    const lastPage = Math.ceil(allProducts.length / 20);
+
 
     return this.state.loading ? (
       <div
@@ -76,7 +79,7 @@ class Products extends Component {
                 <Icon>arrow_back</Icon>
               </Button>
               <Button
-                disabled={idx >= lastPage}
+                disabled={idx >= totalPages}
                 component={Link}
                 to={`/products/page/${idx + 1}`}
               >
@@ -104,6 +107,7 @@ class Products extends Component {
             );
           })}
         </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between'}}>
         <Button
           disabled={!count}
           onClick={() => createOrder(order)}
@@ -113,6 +117,20 @@ class Products extends Component {
           <Icon>shopping-cart-plus</Icon>
           {' CREATE'}
         </Button>
+        <div>
+        <div style={{ display: 'flex', justifyContent: 'row'}}>
+        {idx > 1 && <Button component={Link} to='/products/page/1'>1</Button>}
+        {idx > 1 && <Typography>..</Typography>}
+        {idx > 1 && <Button component={Link} to={`/products/page/${idx-1}`}>{idx-1}</Button>}
+        <Button>{idx}</Button>
+        {idx+1 < totalPages && <Button component={Link} to={`/products/page/${idx+1}`}>{idx+1}</Button>}
+        {idx < totalPages && <Typography>..</Typography>}
+        {idx !== totalPages && <Button component={Link} to={`/products/page/${totalPages}`}>{totalPages}</Button>}
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'center'}}><Typography variant='body1'>Page {idx} of {totalPages}</Typography></div>
+        </div>
+        </div>
       </div>
     );
   }
@@ -128,7 +146,8 @@ const mapStateToProps = ({ products, orders }, { idx }) => {
 
   return {
     allProducts,
-    pageProducts,
+    pageProducts: pageProducts.rows,
+    totalPages: Math.ceil(pageProducts.count/4),
     order,
     idx,
     count,
