@@ -17,15 +17,16 @@ const _destroyProduct = product => ({ type: DESTROY_PRODUCT, product });
 const _updateProduct = product => ({ type: UPDATE_PRODUCT, product });
 
 //thunks
-export const getProducts = (index=1) => {
+export const getProducts = (index = 1) => {
   return dispatch => {
     return axios
       .get(`/api/products/page/${index}`)
       .then(resp => {
         console.log(resp.data);
-        dispatch(_getProducts(resp.data)) })
+        dispatch(_getProducts(resp.data));
+      })
       .catch(console.error.bind(console));
-  }
+  };
 };
 
 export const createProduct = product => dispatch =>
@@ -37,20 +38,17 @@ export const createProduct = product => dispatch =>
 export const destroyProduct = product => dispatch =>
   axios
     .post(`/api/products/:${product.id}`)
-    .then(() => dispatch(_destroyProduct(product)))
-    .catch();
+    .then(() => dispatch(_destroyProduct(product)));
 
 export const updateProduct = product => dispatch =>
   axios
     .put(`/api/products/:${product.id}`, product)
-    .then(resp => dispatch(_updateProduct(resp.data)))
-    .catch();
+    .then(resp => dispatch(_updateProduct(resp.data)));
 
 export const getProductsByTags = tags => dispatch =>
   axios
     .post('/api/products/search/tags', { tags })
-    .then(response => dispatch(_getProducts(response.data)))
-    .catch();
+    .then(response => dispatch(_getProducts(response.data)));
 
 //reducer
 export const productReducer = (state = initialState, action) => {

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { createProduct } from '../../reducers/productReducer';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
+import Typography from '@material-ui/core/Typography';
 // import ProductCreateForm from './ProductCreateForm';
 // import ProductDeleteForm from './ProductDeleteForm';
 
@@ -35,7 +36,15 @@ class ProductsTool extends Component {
       });
       this.props
         .createProduct(Object.assign({}, this.state, { tags: tempTags }))
-        .then(() => this.props.history.push('/admin/products'));
+        .then(() =>
+          this.setState({
+            name: '',
+            description: '',
+            inv_quantity: '',
+            price: '',
+            tags: [],
+          })
+        );
     } else {
       this.props.createProduct(this.state).then(() =>
         this.setState({
@@ -50,11 +59,15 @@ class ProductsTool extends Component {
 
   render() {
     return (
-      <div>
-        <h4>Products Admin Tool </h4>
+      <div className="productTool">
+        <Typography color="primary" variant="title" component="h4">
+          Products Admin Tool
+        </Typography>
         <div className="addDeleteProduct">
           <form name="addProduct" className="productCreate">
-            <h5>Add Product</h5>
+            <Typography color="primary" variant="headline" component="h4">
+              Add Product
+            </Typography>
             <label htmlFor="name">name: </label>
             <input
               className="mytext"
@@ -113,7 +126,6 @@ class ProductsTool extends Component {
                 disabled={
                   !(
                     this.state.name &&
-                    this.state.description &&
                     this.state.inv_quantity &&
                     this.state.price
                   )
@@ -129,7 +141,9 @@ class ProductsTool extends Component {
             </div>
           </form>
           <form name="deleteProduct" className="productDelete">
-            <h5>Delete Product</h5>
+            <Typography color="primary" variant="headline" component="h4">
+              Delete Product
+            </Typography>
           </form>
         </div>
       </div>
