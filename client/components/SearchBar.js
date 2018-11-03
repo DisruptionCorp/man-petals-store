@@ -43,11 +43,9 @@ class SearchBar extends Component {
   handleClick(e) {
     const { getProductsByTags, history } = this.props;
     const { filteredTags } = this.state;
-    getProductsByTags(filteredTags)
-    .then(()=>{
-    	history.push('/search/tags/1')
-    })
-
+    getProductsByTags(filteredTags).then(() => {
+      history.push('/search/tags/1');
+    });
   }
 
   componentDidMount() {
@@ -60,7 +58,6 @@ class SearchBar extends Component {
     const { input, filteredTags, loading } = this.state;
     const { handleChange, handleClick } = this;
     const { tags, random } = this.props;
-    console.log('Tags: ', tags, 'Filtered: ', filteredTags);
 
     return loading ? (
       <div
@@ -104,9 +101,7 @@ class SearchBar extends Component {
               type="text"
               onChange={handleChange}
             />
-            <IconButton
-              onClick={handleClick}
-            >
+            <IconButton onClick={handleClick}>
               <Icon>search_icon</Icon>
             </IconButton>
           </Toolbar>
@@ -119,17 +114,18 @@ class SearchBar extends Component {
   }
 }
 
-const mapStateToProps = ({ products },{history}) => {
+const mapStateToProps = ({ products }, { history }) => {
   const { allProducts } = products;
   const tags = allProducts.reduce((acc, curr) => {
     return curr.tags ? [...acc, ...curr.tags] : [...acc];
   }, []);
 
-  const random = Array(5).fill('').map(curr=>{
-	return tags[Math.floor(Math.random()*tags.length)]
-  });
+  const random = Array(5)
+    .fill('')
+    .map(curr => {
+      return tags[Math.floor(Math.random() * tags.length)];
+    });
   return { tags, random, allProducts, history };
-
 };
 
 const mapDispatchToProps = dispatch => ({
