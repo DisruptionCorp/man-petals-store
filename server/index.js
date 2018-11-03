@@ -24,10 +24,11 @@ app.use(morgan('dev')); //logging
 app.use(express.json()); //body-parsing
 app.use(express.urlencoded()); //body-parsing
 app.use(express.static(path.join(__dirname, '../public'))); //static
-app.use('/public', express.static(path.join(__dirname, '../public'))); //static
+
 
 //Token Authentication Middleware
 app.use((req, res, next)=> {
+  console.log(req.headers.authorization)
   const token = req.headers.authorization;
   console.log('app.use req.authorization is: ', token);
   if(!token) {
@@ -57,6 +58,7 @@ app.use((req, res, next)=> {
 //   saveUninitialized: false
 // }));
 
+app.use('/public', express.static(path.join(__dirname, '../public'))); //static
 
 //Routers
 app.use('/api/products', productsRouter);

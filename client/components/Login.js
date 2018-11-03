@@ -29,6 +29,7 @@ class Login extends Component {
 
   render() {
     const user = this.state;
+    console.log(window.localStorage)
     return (
       <div style={{ display: 'flex', 
                     justifyContent: 'center', 

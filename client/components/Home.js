@@ -11,6 +11,7 @@ export default class Home extends Component {
     }
 
   render() {
+    console.log(window.localStorage)
     const {history} = this.props
     return (
       <div >
