@@ -54,7 +54,6 @@ router.put('/:id', (req, res, next) => {
 //search products by tags
 router.post('/search/tags', (req, res, next) => {
   const Op = Sequelize.Op;
-
   Product.findAll({
     where: {
       tags: {
@@ -72,5 +71,20 @@ router.post('/search/tags', (req, res, next) => {
     })
     .catch(next);
 });
+
+//pagination count
+router.get('/page/:index?', (req, res, next) => {
+  let index = 1;
+  let limit = 2;
+  if(req.params.index) {index = req.params.index*1};
+  let offset = index*limit;
+  Product
+        .findAll(/*{ limit }*/)
+        .then(products => {
+            console.log(products)
+            res.send(products)
+        })
+        .catch(next);
+})
 
 module.exports = router;

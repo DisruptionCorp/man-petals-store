@@ -11,6 +11,8 @@ import {
   Typography,
   MenuItem,
   MenuList,
+  Chip,
+  CircularProgress
 } from '@material-ui/core';
 import { BeatLoader } from 'react-spinners';
 
@@ -20,16 +22,10 @@ class SearchBar extends Component {
     this.state = {
       input: '',
       filteredTags: [],
-      isOpen: false,
-      loading: false,
+      loading: true,
     };
     this.handleChange = this.handleChange.bind(this);
-    this.handleOpen = this.handleOpen.bind(this);
     this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleOpen() {
-    this.state.input ? this.setState({ isOpen: true }) : null;
   }
 
   handleChange(e) {
@@ -45,24 +41,44 @@ class SearchBar extends Component {
   }
 
   handleClick(e) {
-    console.log(this.props);
     const { getProductsByTags } = this.props;
     const { filteredTags } = this.state;
-    /*this.setState({loading:true});
+	getProductsByTags(e.target.label || filteredTags)
+  }
+
+  componentDidMount(){
   	setInterval(()=>{
-  		this.setState({loading:false})*/
-    getProductsByTags(filteredTags);
-    /*}, 3000)*/
+  		this.setState({ loading: false })
+  	}, 2000)
   }
 
   render() {
-    const { input, filteredTags, isOpen } = this.state;
-    const { handleChange, handleOpen, handleClick } = this;
-    console.log(filteredTags, 'original tags: ', this.props.tags);
-    return (
-      <div>
-        {/*{this.state.loading ?
-        <BeatLoader /> :*/}
+    const { input, filteredTags } = this.state;
+    const { handleChange, handleClick } = this;
+    const { tags, random } = this.props;
+    console.log('Tags: ', tags, 'Filtered: ', filteredTags)
+
+    return this.state.loading ? 
+      (<div style={{ display: 'flex', 
+      				justifyContent: 'center', 
+      				padding: '30px'}}>
+        <CircularProgress /> 
+      </div>) :
+      (<div>
+      <div style={{ padding: '20px', display: 'flex', justifyContent: 'center' }}>
+          {random.map((each, idx)=>{
+          	return(
+          	  <Chip
+              key={idx}
+              label={each}
+              clickable={true}
+              onClick={handleClick}
+              color={idx%2=== 0 ? "secondary" : "primary"}
+              style={{ margin: '5px'}}
+            />
+          	)
+          })}
+        </div>
         <div>
           <Toolbar
             style={{
@@ -76,7 +92,6 @@ class SearchBar extends Component {
               value={input}
               type="text"
               onChange={handleChange}
-              onOpen={handleOpen}
             />
             <IconButton
               onClick={handleClick}
@@ -86,9 +101,9 @@ class SearchBar extends Component {
               <Icon>search_icon</Icon>
             </IconButton>
           </Toolbar>
-          <Typography align="center" variant="body1">
+          {/*<Typography align="center" variant="body1">
             Please be advised that tags have to begin with a {'#hash'}!
-          </Typography>
+          </Typography>*/}
         </div>
       </div>
     );
@@ -96,10 +111,14 @@ class SearchBar extends Component {
 }
 
 const mapStateToProps = ({ products }) => {
-  const tags = products.reduce((acc, curr) => {
+  const { allProducts } = products;
+  const tags = allProducts.reduce((acc, curr) => {
     return curr.tags ? [...acc, ...curr.tags] : [...acc];
   }, []);
-  return { tags };
+  const random = Array(5).fill('').map(curr=>{
+	return tags[Math.floor(Math.random()*tags.length)]
+  });
+  return { tags, random };
 };
 
 const mapDispatchToProps = dispatch => ({

@@ -19,9 +19,11 @@ class ProductDetail extends Component {
 
 
   render() {
-    console.log(this.props.location.state);
-    const { order, product } = this.props.location.state;
-    const { handleInc, handleDec, itemQuantity } = this.props;
+    const { order, 
+            product, 
+            handleInc, 
+            handleDec, 
+            itemQuantity } = this.props;
 
     const disable = itemQuantity === 0;
     //defensive code to deal with products not having loaded yet
@@ -85,8 +87,8 @@ class ProductDetail extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  console.log(ownProps.location.state.order);
   const { order, product } = ownProps.location.state;
-
   let item = order
     ? order.Item.find(item => item.productId === product.id)
     : null;

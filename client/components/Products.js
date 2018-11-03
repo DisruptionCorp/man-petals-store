@@ -1,26 +1,57 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {
-  incrementLineItem,
-  decrementLineItem,
-  createOrder,
-} from '../reducers/orderReducer';
-import { Grid, Icon, Button } from '@material-ui/core';
+import { createOrder } from '../reducers/orderReducer';
+import { getProductsByPage } from '../reducers/productReducer';
+import { Grid, Icon, Button, SvgIcon, CircularProgress } from '@material-ui/core';
+
 
 //presentation components
 import ProductCard from './products_components/ProductCard';
 
 class Products extends Component {
+  constructor(){
+    super()
+    this.state={ loading: true }
+  }
+  componentDidMount() {
+    const { idx, getProductsByPage } = this.props;
+    getProductsByPage(idx);
+    setInterval(()=>{ 
+      this.setState({ loading: false })
+    }, 1000)
+  }
+
+  /*handleClick = (e) => {
+    const { getProducts, match } = this.props;
+    const index = match.params.index*1;
+    getProducts(index);
+  }*/
+
+  componentDidUpdate(prev) {
+    const { idx, getProductsByPage } = this.props;
+    if (idx != prev.idx) {
+      getProductsByPage(idx);
+    }
+  }
+
   render() {
-    const { products, order, createOrder } = this.props;
+    const { allProducts, pageProducts, order, createOrder, idx } = this.props;
+    const { handleClick } = this;
     const id = order ? order.id : '';
     const items = order ? order.Item : [];
+    const lastPage = Math.ceil(allProducts.length / 2);
     const count = items.reduce((acc, el) => {
       return (acc += el.quantity);
     }, 0);
-    return (
-      <div className="cartContainer">
+
+    return this.state.loading ?
+      (<div style={{ display: 'flex', 
+                     justifyContent: 'center', 
+                     padding: '30px'}}>
+        <CircularProgress />
+      </div>) :
+      (<div className="cartContainer">
         <div>
           Your Order ID is ({id}
           ).
@@ -29,7 +60,25 @@ class Products extends Component {
         <hr />
         <div>
           <h2>Products</h2>
-          {products.map(_product => {
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Button
+                disabled={idx < 2}
+                component={Link}
+                to={`/products/page/${idx - 1}`}
+              >
+                <Icon>arrow_back</Icon>
+              </Button>
+              <Button
+                disabled={idx >= lastPage}
+                component={Link}
+                to={`/products/page/${idx + 1}`}
+              >
+                <Icon>arrow_forward</Icon>
+              </Button>
+            </div>
+          </div>
+          {pageProducts.map(_product => {
             return (
               <Grid
                 container
@@ -63,23 +112,21 @@ class Products extends Component {
   }
 }
 
-const mapStateToProps = ({ products, orders }) => {
+const mapStateToProps = ({ products, orders }, { idx }) => {
+  const { allProducts, pageProducts } = products;
   const order = orders.find(_order => _order.status === 'CART');
   return {
-    products,
+    allProducts,
+    pageProducts,
     order,
+    idx,
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    handleIncrement: (product, order) =>
-      dispatch(incrementLineItem(product, order)),
-    handleDecrement: (product, order) =>
-      dispatch(decrementLineItem(product, order)),
-    createOrder: order => dispatch(createOrder(order)),
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  getProductsByPage: idx => dispatch(getProductsByPage(idx)),
+  createOrder: order => dispatch(createOrder(order)),
+});
 
 export default connect(
   mapStateToProps,
