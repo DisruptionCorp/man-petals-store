@@ -21,7 +21,6 @@ router.post('/', (req, res, next) => {
     .catch(next);
 });
 
-
 //delete product, send back all products
 router.post('/:id', async (req, res, next) => {
   await Product.destroy({
@@ -29,10 +28,9 @@ router.post('/:id', async (req, res, next) => {
       id: req.params.id,
     },
   });
-  await Product.findAll()
-    .then(products => {
-      res.send(products);
-    })
+  await Product.findAll().then(products => {
+    res.send(products);
+  });
 });
 
 //delete product
@@ -73,17 +71,17 @@ router.post('/search/tags', (req, res, next) => {
 });
 
 //pagination count
-router.get('/page/:index?', (req, res, next) => {
+router.get('/page/:index', (req, res, next) => {
   let index = 1;
   let limit = 2;
-  if(req.params.index) {index = req.params.index*1};
-  Product
-        .findAll({ offset: index*limit, limit: 2 })
-        .then(products => {
-            console.log(products.length)
-            res.send(products)
-        })
-        .catch(next);
-})
+  if (req.params.index) {
+    index = req.params.index * 1 - 1;
+  }
+  Product.findAll({ offset: index * limit, limit: 2 })
+    .then(products => {
+      res.send(products);
+    })
+    .catch(next);
+});
 
 module.exports = router;
