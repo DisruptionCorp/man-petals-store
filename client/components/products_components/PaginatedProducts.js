@@ -57,7 +57,7 @@ class PaginatedProducts extends Component {
   }
 }
 
-const mapStateToProps = ({products, order}) => { 
+const mapStateToProps = ({products, orders}) => { 
   return { products: products.allProducts, orders }
 }
 
