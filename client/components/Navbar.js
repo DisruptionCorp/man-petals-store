@@ -113,6 +113,7 @@ const mapStateToProps = ({ auth, orders }, { id, history }) => {
   };
 };
 
+
 const mapDispatchToProps = dispatch => {
   return {
     logout: () => dispatch(logout()),
