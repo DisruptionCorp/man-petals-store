@@ -39,12 +39,12 @@ class App extends Component {
 
     const renderSearchPaginated = ({ match }) => {
       const idx = match.params.index * 1;
-      return <PaginatedProducts idx={idx} />
-    }
+      return <PaginatedProducts idx={idx} />;
+    };
 
-    const renderHome =({history})=>{
-      return <Home history={history}/>
-    }
+    const renderHome = ({ history }) => {
+      return <Home history={history} />;
+    };
 
     const renderLogin = ({ history }) => <Login history={history} />;
 
@@ -71,7 +71,11 @@ class App extends Component {
           />
           <Route exact path="/products/:id" render={renderProductDetail} />
           <Route path="/admin" render={renderAdmin} />
-          <Route exact path="/search/tags/:index?" render={renderSearchPaginated} />
+          <Route
+            exact
+            path="/search/tags/:index?"
+            render={renderSearchPaginated}
+          />
           <Route exact path="/admin/products" render={renderProductsTool} />
           <Route exact path="/admin/orders" render={renderOrdersTool} />
 
