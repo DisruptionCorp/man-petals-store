@@ -89,7 +89,6 @@ export const getProductsByTags = (tags, index = 1) => dispatch =>
     .catch(console.error.bind(console));
 
 export const addReview = review => {
-  console.log(review);
   return dispatch => {
     return axios
       .post('/api/reviews', review)

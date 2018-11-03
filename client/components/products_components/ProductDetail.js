@@ -17,6 +17,7 @@ class ProductDetail extends Component {
       handleDec,
       createOrder,
       product,
+      reviews,
       order,
       quantity,
       history,
@@ -27,15 +28,7 @@ class ProductDetail extends Component {
     if (!product || !order) {
       return null;
     }
-    const {
-      name,
-      description,
-      photo,
-      tags,
-      reviews,
-      inv_quantity,
-      price,
-    } = product;
+    const { name, description, photo, tags, inv_quantity, price } = product;
     let stockRemaining = 'In Stock';
     if (inv_quantity < 10) stockRemaining = 'Limited Stock!';
     if (inv_quantity === 0) stockRemaining = 'Sold Out';
@@ -84,12 +77,14 @@ class ProductDetail extends Component {
 
 const mapStateToProps = ({ products, orders }, { productId, history }) => {
   const product = products.selectedProduct;
+  const reviews = product ? product.reviews : {};
   const order = orders.find(o => o.status == 'CART');
   const lineItem = order ? order.Item.find(i => i.productId == productId) : [];
   const quantity = lineItem ? lineItem.quantity : 0;
   return {
     productId,
     product,
+    reviews,
     order,
     quantity,
     history,
