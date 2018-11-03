@@ -81,9 +81,6 @@ class App extends Component {
           />
           <Route exact path="/admin/products" render={renderProductsTool} />
           <Route exact path="/admin/orders" render={renderOrdersTool} />
-
-          {/*<Route path='/myaccount' component={MyAccount} />
-          <Route path='/logout' />*/}
         </div>
       </HashRouter>
     ) :
