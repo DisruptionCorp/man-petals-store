@@ -5,11 +5,16 @@ const faker = require('faker');
 const Product = conn.define(
   'product',
   {
+    id: {
+      type: Sequelize.UUID,
+      primaryKey: true, 
+      defaultValue: Sequelize.UUIDV4
+    },
     name: {
-      type: conn.Sequelize.STRING,
+      type: Sequelize.STRING,
       allowNull: false,
       unique: true,
-      defaultValue: faker.commerce.productName(),
+      // defaultValue: faker.commerce.productName(),
       validate: {
         notEmpty: true,
       },
@@ -19,9 +24,6 @@ const Product = conn.define(
     price: {
       type: Sequelize.DECIMAL(10, 2),
       allowNull: true, // to be changed to false when app gets up and running
-      validate: {
-        isDecimal: true,
-      },
     },
     photo: {
       type: Sequelize.STRING,
@@ -36,15 +38,15 @@ const Product = conn.define(
       allowNull: true,
     },
   },
-  {
-    hooks: {
-      afterValidate(product) {
-        if (product.price) {
-          product.price = product.price.toFixed(2);
-        }
-      },
-    },
-  }
+  // {
+  //   hooks: {
+  //     afterValidate(product) {
+  //       if (product.price) {
+  //         product.price = product.price;
+  //       }
+  //     },
+  //   },
+  // }
 );
 
 module.exports = Product;
