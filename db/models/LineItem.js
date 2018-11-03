@@ -1,21 +1,23 @@
 const Sequelize = require('sequelize');
 const db = require('../conn');
-const { Product } = require('../index')
+const { Product } = require('../index');
 
-const LineItem = db.define('lineitem', {
-        quantity: {
-            type: db.Sequelize.INTEGER,
-            defaultValue: 1,
-        },
-        cost: {
-            type: Sequelize.DECIMAL,
-            allowNull: true,
-            validate: {
-                isDecimal: true
-            }
-        }
-    }
-    /*, {
+const LineItem = db.define(
+  'lineitem',
+  {
+    quantity: {
+      type: db.Sequelize.INTEGER,
+      defaultValue: 1,
+    },
+    cost: {
+      type: Sequelize.DECIMAL,
+      allowNull: true,
+      validate: {
+        isDecimal: true,
+      },
+    },
+  },
+  /*, {
     	hook: {
     	  afterValidate (lineItem){
     	  	if(productId){
@@ -25,8 +27,9 @@ const LineItem = db.define('lineitem', {
     	  }
     	}
     }*/
-    , {
-        include: [Product]
-    });
+  {
+    include: [Product],
+  }
+);
 
 module.exports = LineItem;
