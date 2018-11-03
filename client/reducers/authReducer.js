@@ -7,7 +7,7 @@ const _setAuth = auth => ({
   auth,
 });
 
-const exchangeTokenForAuth = history => {
+export const exchangeTokenForAuth = history => {
   return dispatch => {
     const token = window.localStorage.getItem('token');
 

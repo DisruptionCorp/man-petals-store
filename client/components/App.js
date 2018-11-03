@@ -3,6 +3,7 @@ import { HashRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getProducts } from '../reducers/productReducer';
 import { getOrders } from '../reducers/orderReducer';
+import { exchangeTokenForAuth } from '../reducers/authReducer';
 
 //Components
 import Navbar from './Navbar';
@@ -55,7 +56,9 @@ class App extends Component {
     );
     const renderOrdersTool = () => <OrdersTool />;
 
-    return (
+    const { auth } = this.props;
+
+    return auth ? (
       <HashRouter>
         <div>
           <Route render={renderNavbar} />
@@ -80,18 +83,25 @@ class App extends Component {
           <Route exact path="/admin/orders" render={renderOrdersTool} />
         </div>
       </HashRouter>
-    );
+    ) :
+    (
+      <div>
+      <Login />
+      </div>
+      )
   }
 }
 
 const mapStateToProps = ({ products, orders }, ownProps) => {
+  const auth = window.localStorage.getItem('token') ? true : false
   const { allProducts } = products;
-  return { allProducts, orders };
+  return { allProducts, orders, auth  };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, { history }) => {
   return {
     init: () => {
+      dispatch(exchangeTokenForAuth(history));
       dispatch(getProducts());
       dispatch(getOrders());
     },

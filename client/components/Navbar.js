@@ -89,6 +89,9 @@ const mapStateToProps = ({ auth, orders }) => {
   const count = items.reduce((acc, el) => {
     return (acc += el.quantity);
   }, 0);
+
+  const auth2 = window.localStorage.getItem('token') ? true : false
+
     return {
         isLoggedIn: auth.id ? auth : false,
         count,

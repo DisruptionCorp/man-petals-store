@@ -21,7 +21,6 @@ class Login extends Component {
   }
   handleClick(ev) {
     ev.preventDefault();
-    console.log(this.state);
     const { email, password } = this.state;
     this.props.login({ email, password })
       .catch(err => this.setState({ err: 'Invalid Login Credentials' }));
