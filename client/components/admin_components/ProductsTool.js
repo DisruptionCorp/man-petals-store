@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 import DeleteProduct from './DeleteProduct';
-import { createImage } from '../../reducers/imageReducer';
+import axios from 'axios';
 
 class ProductsTool extends Component {
   constructor() {
@@ -22,9 +22,10 @@ class ProductsTool extends Component {
 
   componentDidMount() {
     const fileReader = new FileReader();
+
     fileReader.addEventListener('load', () => {
-      this.props
-        .createImage(fileReader.result)
+      axios
+        .post('/api/images', { data: fileReader.result })
         .then(res => res.data)
         .then(image => this.setState({ photo: image.url }));
     });
@@ -37,11 +38,6 @@ class ProductsTool extends Component {
   handleChange = ({ target }) => {
     let { name, value } = target;
     this.setState({ [name]: value });
-  };
-
-  handleImageChange = ev => {
-    console.log('i got here: images');
-    // if (ev.length) this.setState({ photo: ev[ev.length - 1].url });
   };
 
   onSave = ev => {
@@ -164,11 +160,7 @@ class ProductsTool extends Component {
               </Button>
             </div>
             <div>
-              <input
-                ref={el => (this.el = el)}
-                type="file"
-                onChange={this.handleImageChange(images)}
-              />
+              <input ref={el => (this.el = el)} type="file" />
             </div>
           </form>
           <form name="deleteProduct" className="productDelete">
@@ -183,19 +175,13 @@ class ProductsTool extends Component {
   }
 }
 
-const mapStateToProps = ({ image }) => {
-  return {
-    image,
-  };
-};
 const mapDispatchToProps = dispatch => {
   return {
     createProduct: product => dispatch(createProduct(product)),
-    createImage: data => dispatch(createImage(data)),
   };
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(ProductsTool);
