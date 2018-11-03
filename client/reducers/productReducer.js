@@ -25,12 +25,14 @@ export const getProducts = (index=1) => {
         console.log(resp.data);
         dispatch(_getProducts(resp.data)) })
       .catch(console.error.bind(console));
-  };
+  }
+};
 
 export const createProduct = product => dispatch =>
   axios
     .post('/api/products', product)
-    .then(resp => dispatch(_createProduct(resp.data)));
+    .then(resp => dispatch(_createProduct(resp.data)))
+    .catch();
 
 export const destroyProduct = product => dispatch =>
   axios
