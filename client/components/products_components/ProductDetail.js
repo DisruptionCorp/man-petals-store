@@ -8,6 +8,8 @@ import {
 } from '../../reducers/orderReducer';
 import { getProduct } from '../../reducers/productReducer';
 import ReviewForm from './ReviewForm';
+import { Typography, Icon, Button, Card, CardContent, ExpansionPanel, ExpansionPanelSummary } from '@material-ui/core'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 class ProductDetail extends Component {
   componentDidMount() {
@@ -38,32 +40,34 @@ class ProductDetail extends Component {
 
     return (
       <div>
+        <Card style={{ margin: '50px', padding: '25px' }}>
+        <CardContent>
         <img src={photo} alt={name} height="100" width="100" />
         <br />
-        <h5>Product Info:</h5>
-        <ul>
-          <li>{name}</li>
-          <li>{description}</li>
-          <li>Price: ${price}</li>
-          <li>{stockRemaining}</li>
-          <li>Tags: {tags ? tags.join(', ') : ''}</li>
-        </ul>
-        <p>{quantity} units in cart</p>
-        <button onClick={() => handleInc(product, order)}>Add to cart</button>
-        <button onClick={() => handleDec(product, order)}>
-          Remove from cart
-        </button>
+        <Typography variant="headline">Product Info:</Typography>
+          <Typography variant="title">{name}</Typography>
+          <Typography variant="subheading">{description}</Typography>
+           <Typography variant="subheading">Price: ${price}</Typography>
+           <Typography variant="subheading">{stockRemaining}</Typography>
+           <Typography variant="subheading">Tags: {tags ? tags.join(', ') : ''}</Typography>
+        <Typography variant="subheading">{quantity} {name}s in cart</Typography>
+        <Button onClick={() => handleInc(product, order)}>Add to cart</Button>
+        <Button onClick={() => handleDec(product, order)}>Remove from cart</Button>
         <br />
-        <button
+        <Button
           disabled={!quantity}
           onClick={() => {
             createOrder(order);
             history.push('/orders');
           }}
         >
+        <Icon>shopping-cart-plus</Icon>
           Create Order
-        </button>
-        <h5>Reviews:</h5>
+        </Button>
+        <ExpansionPanel>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography>Reviews</Typography>
+            </ExpansionPanelSummary>
         {reviews.length ? (
           reviews.map(review => {
             return <ProductReview review={review} key={review.id} />;
@@ -71,6 +75,9 @@ class ProductDetail extends Component {
         ) : (
           <p>There are no reviews yet for this product!</p>
         )}
+        </ExpansionPanel>
+        </CardContent>
+        </Card>
         <h5>Add Review</h5>
         <ReviewForm product={product} />
       </div>
