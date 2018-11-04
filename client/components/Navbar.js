@@ -51,14 +51,17 @@ class Navbar extends Component {
                 </Link>
               </li>
               <li className={id == 'cart' ? 'nav-item active' : 'nav-item'}>
-              {isAuth === true ? (<Badge badgeContent={count} color="secondary">
-                <Link to="/cart" className="nav-link">
-                  Cart
-                </Link>
-              </Badge>) :
-              (<Link to="/cart" className="nav-link">
-                  Cart
-                </Link>)}
+                {isAuth === true ? (
+                  <Badge badgeContent={count} color="secondary">
+                    <Link to="/cart" className="nav-link">
+                      Cart
+                    </Link>
+                  </Badge>
+                ) : (
+                  <Link to="/cart" className="nav-link">
+                    Cart
+                  </Link>
+                )}
               </li>
               <li className={id == 'orders' ? 'nav-item active' : 'nav-item'}>
                 <Link to="/orders" className="nav-link">
@@ -80,6 +83,7 @@ class Navbar extends Component {
                   {isLoggedIn ? `Logged in as ${auth.name}` : `Not logged in`}
                 </p>
               </li>
+              &nbsp; &nbsp;
               <li className="nav-item">
                 {isLoggedIn ? (
                   <button
