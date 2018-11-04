@@ -78,7 +78,6 @@ class ProductDetail extends Component {
         </ExpansionPanel>
         </CardContent>
         </Card>
-        <h5>Add Review</h5>
         <ReviewForm product={product} />
       </div>
     );

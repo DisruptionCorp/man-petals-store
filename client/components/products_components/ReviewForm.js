@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addReview } from '../../reducers/productReducer';
+import { Card, 
+         CardContent, 
+         Typography, 
+         Button, 
+         FormLabel, 
+         TextField, 
+         Select, 
+         OutlinedInput, 
+         FormControl } from '@material-ui/core';
 
 class ReviewForm extends Component {
   constructor() {
@@ -42,23 +51,45 @@ class ReviewForm extends Component {
     const { author } = this.props;
     const { content, rating } = this.state;
     return (
+      <Card style={{ margin: '50px', padding: '25px' }}>
+      <CardContent>
+      <Typography variant="display1">Add Review</Typography>
+      <hr />
       <form onSubmit={this.handleSubmit}>
-        <label>Author: {author}</label>
+        <FormLabel style={{ textColor: 'black'}}>Author: {author}</FormLabel>
         <br />
-        <label>Review: </label>
-        <input name="content" value={content} onChange={this.handleChange} />
+        <FormControl variant="outlined">
+        <FormLabel>Review: </FormLabel>
+        <TextField name="content" value={content} onChange={this.handleChange} fullWidth/>
+        </FormControl>
         <br />
-        <label>Rating: </label>
-        <select name="rating" value={rating} onChange={this.handleChange}>
+        <FormControl variant="outlined">
+        <FormLabel>Rating: </FormLabel>
+        <Select native
+                name="rating" 
+                value={rating} 
+                onChange={this.handleChange}
+                input={
+                <OutlinedInput
+                name="age"
+                labelWidth={this.state.labelWidth}
+                id="outlined-age-native-simple"
+              />
+            }>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
           <option value="4">4</option>
           <option value="5">5</option>
-        </select>
+        </Select>
+        </FormControl>
         <br />
-        <button type="submit">Submit Review</button>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Button type="submit">Submit Review</Button>
+        </div>
       </form>
+      </CardContent>
+      </Card>
     );
   }
 }
