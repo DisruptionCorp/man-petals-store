@@ -3,6 +3,7 @@ import { HashRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getProducts } from '../reducers/productReducer';
 import { getOrders } from '../reducers/orderReducer';
+import { exchangeTokenForAuth } from '../reducers/authReducer';
 
 //Components
 import Navbar from './Navbar';
@@ -23,9 +24,9 @@ class App extends Component {
   }
 
   render() {
-    const renderNavbar = ({ location }) => {
-      const path = location.pathname.split('/').pop();
-      return <Navbar path={path} />;
+    const renderNavbar = ({ history, location }) => {
+      const id = location.pathname.split('/').pop();
+      return <Navbar id={id} history={history} />;
     };
     const renderProductDetail = ({ match, history }) => {
       const productId = match.params.id;
@@ -55,47 +56,54 @@ class App extends Component {
     );
     const renderOrdersTool = () => <OrdersTool />;
 
+    const { auth } = this.props;
+
     return (
       <HashRouter>
-        <div>
-          <Route render={renderNavbar} />
-          <Route exact path="/" render={renderHome} />
-          <Route exact path="/login" render={renderLogin} />
-          <Route exact path="/home" render={renderHome} />
-          <Route exact path="/cart" component={Cart} />
-          <Route exact path="/orders" component={Orders} />
-          <Route
-            exact
-            path="/products/page/:index"
-            render={renderProductsByPage}
-          />
-          <Route exact path="/products/:id" render={renderProductDetail} />
-          <Route path="/admin" render={renderAdmin} />
-          <Route
-            exact
-            path="/search/tags/:index?"
-            render={renderSearchPaginated}
-          />
-          <Route exact path="/admin/products" render={renderProductsTool} />
-          <Route exact path="/admin/orders" render={renderOrdersTool} />
-
-          {/*<Route path='/myaccount' component={MyAccount} />
-          <Route path='/logout' />*/}
-        </div>
+        {!auth ? (
+          <div>
+            <Route render={renderNavbar} />
+            <Route path="/" render={renderLogin} />
+          </div>
+        ) : (
+          <div>
+            <Route render={renderNavbar} />
+            <Route exact path="/" render={renderHome} />
+            <Route exact path="/login" render={renderLogin} />
+            <Route exact path="/home" render={renderHome} />
+            <Route exact path="/cart" component={Cart} />
+            <Route exact path="/orders" component={Orders} />
+            <Route
+              exact
+              path="/products/page/:index"
+              render={renderProductsByPage}
+            />
+            <Route exact path="/products/:id" render={renderProductDetail} />
+            <Route path="/admin" render={renderAdmin} />
+            <Route
+              exact
+              path="/search/tags/:index?"
+              render={renderSearchPaginated}
+            />
+            <Route exact path="/admin/products" render={renderProductsTool} />
+            <Route exact path="/admin/orders" render={renderOrdersTool} />
+          </div>
+        )}
       </HashRouter>
     );
   }
 }
 
 const mapStateToProps = ({ products, orders }, ownProps) => {
-  console.log(ownProps);
+  const auth = window.localStorage.getItem('token') ? true : false;
   const { allProducts } = products;
-  return { allProducts, orders };
+  return { allProducts, orders, auth };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, { history }) => {
   return {
     init: () => {
+      dispatch(exchangeTokenForAuth(history));
       dispatch(getProducts());
       dispatch(getOrders());
     },
