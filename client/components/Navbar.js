@@ -80,7 +80,10 @@ class Navbar extends Component {
             <ul className="navbar-nav my-2 my-lg-0">
               <li className="nav-item">
                 <p className="navbar-text">
-                  {isLoggedIn ? `Logged in as ${auth.name}` : `Not logged in`}
+                  {isLoggedIn
+                    ? `Logged in as ${auth.name.charAt(0).toUpperCase() +
+                        auth.name.slice(1)}`
+                    : `Not logged in`}
                 </p>
               </li>
               &nbsp; &nbsp;
