@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Typography,
+         ExpansionPanelDetails } from '@material-ui/core';
 
 export default class ProductReview extends Component {
   render() {
@@ -6,13 +8,11 @@ export default class ProductReview extends Component {
     const { rating, content, user } = review;
     const name = user ? user.name : 'Anonymous';
     return (
-      <div>
-        <ul>
-          <li>Author: {name}</li>
-          <li>Review: {content}</li>
-          <li>Rating: {' *'.repeat(rating)}</li>
-        </ul>
-      </div>
+        <ExpansionPanelDetails style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
+          <Typography variant="subheading"><strong>Author:</strong> {name}</Typography>
+          <Typography variant="subheading"><strong>Review:</strong> {content}</Typography>
+          <Typography variant="subheading"><strong>Rating:</strong> {' *'.repeat(rating)}</Typography>
+        </ExpansionPanelDetails>
     );
   }
 }
