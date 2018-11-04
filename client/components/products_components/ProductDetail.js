@@ -20,10 +20,6 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 class ProductDetail extends Component {
-  componentDidMount() {
-    this.props.getProduct(this.props.productId);
-  }
-
   render() {
     const {
       handleInc,
@@ -40,6 +36,8 @@ class ProductDetail extends Component {
     if (!product || !order || !reviews) {
       return null;
     }
+    console.log('product detail props');
+    console.log(this.props);
     const { name, description, photo, tags, inv_quantity, price } = product;
     let stockRemaining = 'In Stock';
     if (inv_quantity < 10) stockRemaining = 'Limited Stock!';
@@ -100,8 +98,9 @@ class ProductDetail extends Component {
 }
 
 const mapStateToProps = ({ products, orders }, { productId, history }) => {
-  const product = products ? products.selectedProduct : null;
-  const reviews = product ? product.reviews : [];
+  const { allProducts } = products;
+  const product = allProducts ? allProducts.find(p => p.id == productId) : [];
+  const reviews = product ? product.reviews : null;
   const order = orders.find(o => o.status == 'CART');
   const lineItem = order ? order.Item.find(i => i.productId == productId) : [];
   const quantity = lineItem ? lineItem.quantity : 0;
