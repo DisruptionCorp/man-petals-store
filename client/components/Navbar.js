@@ -18,7 +18,7 @@ import { logout } from '../reducers/authReducer';
 
 class Navbar extends Component {
   render() {
-    const { auth, isLoggedIn, id, logout, history, count } = this.props;
+    const { auth, isLoggedIn, id, logout, history, count, admin } = this.props;
     return (
       <div>
         <nav className="navbar navbar-expand-md navbar-dark bg-dark">
@@ -61,11 +61,13 @@ class Navbar extends Component {
                   Orders
                 </Link>
               </li>
-              <li className={id == 'admin' ? 'nav-item active' : 'nav-item'}>
-                <Link to="/admin" className="nav-link">
-                  Admin
-                </Link>
-              </li>
+              {admin ? (
+                <li className={id == 'admin' ? 'nav-item active' : 'nav-item'}>
+                  <Link to="/admin" className="nav-link">
+                    Admin
+                  </Link>
+                </li>
+              ) : null}
             </ul>
 
             <ul className="navbar-nav my-2 my-lg-0">
@@ -109,12 +111,14 @@ const mapStateToProps = ({ auth, orders }, { id, history }) => {
   const count = items.reduce((acc, el) => {
     return (acc += el.quantity);
   }, 0);
+  const admin = auth ? auth.admin : false;
   return {
     isLoggedIn: auth.id ? auth : false,
     count,
     auth,
     id,
     history,
+    admin,
   };
 };
 
