@@ -44,8 +44,7 @@ class SearchBar extends Component {
     const { getProductsByTags, history } = this.props;
     const { filteredTags } = this.state;
     const { name } = e.target;
-    getProductsByTags(name || filteredTags)
-    .then(() => {
+    getProductsByTags(name || filteredTags).then(() => {
       history.push('/search/tags/1');
     });
   }
@@ -73,23 +72,6 @@ class SearchBar extends Component {
       </div>
     ) : (
       <div>
-        <div
-          style={{ padding: '20px', display: 'flex', justifyContent: 'center' }}
-        >
-          {random.map((each, idx) => {
-            return (
-              <Chip
-              	name={each}
-                key={idx}
-                label={each}
-                clickable={true}
-                onClick={handleClick}
-                color={idx % 2 === 0 ? 'secondary' : 'primary'}
-                style={{ margin: '5px' }}
-              />
-            );
-          })}
-        </div>
         <div>
           <Toolbar
             style={{
@@ -108,9 +90,22 @@ class SearchBar extends Component {
               <Icon>search_icon</Icon>
             </IconButton>
           </Toolbar>
-          {/*<Typography align="center" variant="body1">
-            Please be advised that tags have to begin with a {'#hash'}!
-          </Typography>*/}
+        </div>
+        <div
+          style={{ padding: '20px', display: 'flex', justifyContent: 'center' }}
+        >
+          {random.map((each, idx) => {
+            return (
+              <Chip
+                name={each}
+                key={idx}
+                label={each}
+                clickable={false}
+                color={'default'}
+                style={{ margin: '5px' }}
+              />
+            );
+          })}
         </div>
       </div>
     );
