@@ -22,13 +22,12 @@ class ProductsTool extends Component {
 
   fileSelectedHandler = ev => {
     const files = ev.target.files;
-    console.log('got here', ev.target.files);
     const reader = new FileReader();
     reader.readAsDataURL(files[0]);
 
-    reader.onload = e => {
+    reader.onload = event => {
       axios
-        .post('/api/images', { data: e.target.result })
+        .post('/api/images', { data: event.target.result })
         .then(res => res.data)
         .then(image => this.setState({ photo: image.url }));
     };
@@ -74,13 +73,13 @@ class ProductsTool extends Component {
             photo: '',
           })
         )
-        .then(() => (this.fileInput.value = ''));
+        .then(() => {
+          this.fileInput.value = '';
+        });
     }
   };
 
   render() {
-    const { images } = this.props;
-    console.log('images testting', images);
     return (
       <div className="productTool">
         <Typography color="primary" variant="title" component="h4">
@@ -144,8 +143,8 @@ class ProductsTool extends Component {
               onChange={this.handleChange}
             />
             <br />
-            <div class="file">
-              <label for="file-input">Pick an image</label>
+            <div className="file">
+              <label htmlFor="file-input">Pick an image</label>
               <input
                 id="file-input"
                 type="file"
