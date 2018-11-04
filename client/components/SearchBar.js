@@ -43,7 +43,9 @@ class SearchBar extends Component {
   handleClick(e) {
     const { getProductsByTags, history } = this.props;
     const { filteredTags } = this.state;
-    getProductsByTags(filteredTags).then(() => {
+    const { name } = e.target;
+    getProductsByTags(name || filteredTags)
+    .then(() => {
       history.push('/search/tags/1');
     });
   }
@@ -77,6 +79,7 @@ class SearchBar extends Component {
           {random.map((each, idx) => {
             return (
               <Chip
+              	name={each}
                 key={idx}
                 label={each}
                 clickable={true}

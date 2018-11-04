@@ -79,7 +79,7 @@ router.post('/search/tags/:index?', (req, res, next) => {
       tags: {
         [Op.contains]: [
           ...req.body.tags.reduce((acc, each) => {
-            return [...acc, each];
+            return [...acc, each.toLowerCase()];
           }, []),
         ],
       },

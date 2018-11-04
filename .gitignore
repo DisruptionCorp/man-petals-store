@@ -1,7 +1,6 @@
 node_modules/
 package-lock.json
 public/bundle.js
-db/S3.js
 .DS_Store
 .env.js
 db/env.js
