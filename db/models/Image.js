@@ -12,7 +12,7 @@ const Image = conn.define('image', {
   },
 });
 
-Image.upload = async function(data, bucketName = 'disruptcorpflowers') {
+Image.upload = async function(data, bucketName) {
   try {
     const regex = /data:image\/(\w+);base64,(.*)/;
     const matches = regex.exec(data);
