@@ -23,7 +23,6 @@ router.get('/', (req, res, next) => {
 
 //get product by id
 router.get('/:id', (req, res, next) => {
-  console.log(req.params.id);
   Product.findOne({
     where: { id: req.params.id },
     include: [
@@ -95,12 +94,12 @@ router.post('/search/tags/:index?', (req, res, next) => {
 //pagination count
 router.get('/page/:index', async (req, res, next) => {
   let index = 0;
-  let limit = 4;
+  let limit = 12;
 
   if (req.params.index) {
     index = req.params.index * 1 - 1;
   }
-  Product.findAndCountAll({ offset: index * limit, limit: 4 })
+  Product.findAndCountAll({ offset: index * limit, limit })
     .then(products => {
       res.send(products);
     })
