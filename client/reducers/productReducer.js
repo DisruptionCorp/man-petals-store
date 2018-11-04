@@ -20,14 +20,13 @@ const DESTROY_PRODUCT = 'DESTROY_PRODUCT';
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 const ADD_REVIEW = 'ADD_REVIEW';
 
-
 //action creator
 const _getProductsByPage = products => ({
   type: GET_PRODUCTS_BY_PAGE,
   products,
 });
 const _getProducts = products => ({ type: GET_PRODUCTS, products });
-const _getProduct = product => ({type: GET_PRODUCT, product});
+const _getProduct = product => ({ type: GET_PRODUCT, product });
 const _createProduct = product => ({ type: CREATE_PRODUCT, product });
 const _destroyProduct = product => ({ type: DESTROY_PRODUCT, product });
 const _updateProduct = product => ({ type: UPDATE_PRODUCT, product });
@@ -57,13 +56,13 @@ export const getProducts = () => {
   };
 };
 
-export const getProduct = (id) => {
+export const getProduct = id => {
   return dispatch => {
     return axios
       .get(`api/products/${id}`)
-      .then(resp => dispatch(_getProduct(resp.data)))
-  }
-}
+      .then(resp => dispatch(_getProduct(resp.data)));
+  };
+};
 
 export const createProduct = product => dispatch =>
   axios
@@ -82,7 +81,7 @@ export const updateProduct = product => dispatch =>
 
 export const getProductsByTags = (tags, index = 1) => dispatch =>
   axios
-    .post(`/api/products/search/tags/${index}`, { tags })
+    .post(`/api/products/search/tags`, { tags })
     .then(response => {
       dispatch(_getByTag(response.data));
     })
@@ -108,8 +107,7 @@ export const productReducer = (state = initialState, action) => {
       return { ...state, allProducts: action.products };
 
     case GET_PRODUCT:
-      console.log('product thunk action is: ', action )
-      return {...state, selectedProduct: action.product};
+      return { ...state, selectedProduct: action.product };
 
     case CREATE_PRODUCT:
       return { ...state, allProducts: [...state.allProducts, action.product] };

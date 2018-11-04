@@ -44,6 +44,7 @@ class SearchBar extends Component {
     const { getProductsByTags, history } = this.props;
     const { filteredTags } = this.state;
     const { name } = e.target;
+
     getProductsByTags(name || filteredTags).then(() => {
       history.push('/search/tags/1');
     });
