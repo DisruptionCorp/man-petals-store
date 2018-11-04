@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 import DeleteProduct from './DeleteProduct';
+import axios from 'axios';
 
 class ProductsTool extends Component {
   constructor() {
@@ -13,11 +14,25 @@ class ProductsTool extends Component {
       name: '',
       description: '',
       inv_quantity: '',
-      // photo: '',
+      photo: '',
       price: '',
       tags: [],
     };
   }
+
+  fileSelectedHandler = ev => {
+    const files = ev.target.files;
+    const reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+
+    reader.onload = event => {
+      axios
+        .post('/api/images', { data: event.target.result })
+        .then(res => res.data)
+        .then(image => this.setState({ photo: image.url }));
+    };
+  };
+
   handleChange = ({ target }) => {
     let { name, value } = target;
     this.setState({ [name]: value });
@@ -40,19 +55,27 @@ class ProductsTool extends Component {
             name: '',
             description: '',
             inv_quantity: '',
+            photo: '',
             price: '',
             tags: [],
           })
-        );
+        )
+        .then(() => (this.fileInput.value = ''));
     } else {
-      this.props.createProduct(this.state).then(() =>
-        this.setState({
-          name: '',
-          description: '',
-          inv_quantity: '',
-          price: '',
-        })
-      );
+      this.props
+        .createProduct(this.state)
+        .then(() =>
+          this.setState({
+            name: '',
+            description: '',
+            inv_quantity: '',
+            price: '',
+            photo: '',
+          })
+        )
+        .then(() => {
+          this.fileInput.value = '';
+        });
     }
   };
 
@@ -119,6 +142,18 @@ class ProductsTool extends Component {
               value={this.state.inv_quantity}
               onChange={this.handleChange}
             />
+            <br />
+            <div className="file">
+              <label htmlFor="file-input">Pick an image</label>
+              <input
+                id="file-input"
+                type="file"
+                onChange={this.fileSelectedHandler}
+                accept=".jpg, .jpeg, .png"
+                ref={ref => (this.fileInput = ref)}
+              />
+            </div>
+
             <br />
             <div className="bt">
               <Button

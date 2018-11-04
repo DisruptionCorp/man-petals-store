@@ -17,11 +17,12 @@ const ordersRouter = require('./api/orders');
 const lineItemsRouter = require('./api/lineitems');
 const reviewsRouter = require('./api/reviews');
 const authRouter = require('./api/auth');
+const imagesRouter = require('./api/images');
 
 //Middleware
 app.use(morgan('dev')); //logging
-app.use(express.json()); //body-parsing
-app.use(express.urlencoded()); //body-parsing
+app.use(express.json({ limit: '10mb', extended: true })); //body-parsing
+app.use(express.urlencoded({ limit: '10mb', extended: true })); //body-parsing
 app.use(express.static(path.join(__dirname, '../public'))); //static
 
 //Token Authentication Middleware
@@ -54,6 +55,7 @@ app.use('/api/orders', ordersRouter);
 app.use('/api/lineitems', lineItemsRouter);
 app.use('/api/reviews', reviewsRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/images', imagesRouter);
 
 //DB Sync
 sync()

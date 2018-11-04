@@ -4,6 +4,7 @@ const Order = require('./models/Order');
 const LineItem = require('./models/LineItem');
 const User = require('./models/User');
 const Review = require('./models/Review');
+const Image = require('./models/Image');
 
 //Associations
 Order.hasMany(LineItem, { as: 'Item' });
@@ -26,4 +27,4 @@ const sync = () => {
   return conn.sync({ force: true });
 };
 
-module.exports = { conn, Product, Order, LineItem, User, Review, sync };
+module.exports = { conn, Product, Order, LineItem, User, Review, Image, sync };
