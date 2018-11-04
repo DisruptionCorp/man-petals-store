@@ -22,6 +22,7 @@ import SignUp from './SignUp';
 class App extends Component {
   componentDidMount() {
     this.props.init();
+    console.log(this.props.auth);
   }
 
   render() {
@@ -102,6 +103,7 @@ class App extends Component {
 
 const mapStateToProps = ({ products, orders }, ownProps) => {
   const auth = window.localStorage.getItem('token') ? true : false;
+  console.log(auth);
   const { allProducts } = products;
   return { allProducts, orders, auth };
 };
