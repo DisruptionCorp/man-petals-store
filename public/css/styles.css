@@ -1,9 +1,18 @@
 .loginBox {
-  width: 175px;
+  width: 40%;
   border-color: lightgray;
   border-style: solid;
   padding: 10px;
   border-radius: 5%;
+}
+
+.loginTF {
+
+}
+
+.signUp {
+  padding: 35px;
+  flex-direction: "column";
 }
 
 .cartContainer {

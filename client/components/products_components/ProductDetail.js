@@ -77,7 +77,7 @@ class ProductDetail extends Component {
 
 const mapStateToProps = ({ products, orders }, { productId, history }) => {
   const product = products.selectedProduct;
-  const reviews = product ? product.reviews : {};
+  const reviews = product ? product.reviews : [];
   const order = orders.find(o => o.status == 'CART');
   const lineItem = order ? order.Item.find(i => i.productId == productId) : [];
   const quantity = lineItem ? lineItem.quantity : 0;

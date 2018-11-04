@@ -18,7 +18,7 @@ import { logout } from '../reducers/authReducer';
 
 class Navbar extends Component {
   render() {
-    const { auth, isLoggedIn, id, logout, history } = this.props;
+    const { auth, isLoggedIn, id, logout, history, count } = this.props;
     return (
       <div>
         <nav className="navbar navbar-expand-md navbar-dark bg-dark">
@@ -50,9 +50,11 @@ class Navbar extends Component {
                 </Link>
               </li>
               <li className={id == 'cart' ? 'nav-item active' : 'nav-item'}>
+              <Badge badgeContent={count} color="secondary">
                 <Link to="/cart" className="nav-link">
                   Cart
                 </Link>
+              </Badge>
               </li>
               <li className={id == 'orders' ? 'nav-item active' : 'nav-item'}>
                 <Link to="/orders" className="nav-link">
