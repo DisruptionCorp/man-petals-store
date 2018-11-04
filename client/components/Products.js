@@ -9,7 +9,7 @@ import {
   Button,
   SvgIcon,
   CircularProgress,
-  Typography
+  Typography,
 } from '@material-ui/core';
 
 //presentation components
@@ -43,11 +43,9 @@ class Products extends Component {
       count,
       createOrder,
       idx,
-      totalPages
+      totalPages,
     } = this.props;
     const id = order ? order.id : '';
-    const lastPage = Math.ceil(allProducts.length / 20);
-
 
     return this.state.loading ? (
       <div
@@ -67,7 +65,7 @@ class Products extends Component {
         </div>
         <div>Your cart contains {count} items.</div>
         <hr />
-        <div>
+        <div className="container">
           <h2>Products</h2>
           <div>
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -87,49 +85,62 @@ class Products extends Component {
               </Button>
             </div>
           </div>
-          {pageProducts.map(_product => {
-            return (
-              <Grid
-                container
-                spacing={24}
-                direction="row"
-                display="space-around"
-                alignItems="center"
-                style={{ display: 'flex' }}
-                key={_product.id}
-              >
+          <div className="row">
+            {pageProducts.map(_product => {
+              return (
                 <ProductCard
                   key={_product.id}
                   product={_product}
                   order={order}
+                  className="col-sm-3 border rounded p-3"
                 />
-              </Grid>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between'}}>
-        <Button
-          disabled={!count}
-          onClick={() => createOrder(order)}
-          component={Link}
-          to="/orders"
-        >
-          <Icon>shopping-cart-plus</Icon>
-          {' CREATE'}
-        </Button>
-        <div>
-        <div style={{ display: 'flex', justifyContent: 'row'}}>
-        {idx > 2 && <Button component={Link} to='/products/page/1'>1</Button>}
-        {idx > 1 && <Typography>..</Typography>}
-        {idx > 1 && <Button component={Link} to={`/products/page/${idx-1}`}>{idx-1}</Button>}
-        <Button>{idx}</Button>
-        {idx+1 < totalPages && <Button component={Link} to={`/products/page/${idx+1}`}>{idx+1}</Button>}
-        {idx < totalPages && <Typography>..</Typography>}
-        {idx !== totalPages && <Button component={Link} to={`/products/page/${totalPages}`}>{totalPages}</Button>}
-        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Button
+            disabled={!count}
+            onClick={() => createOrder(order)}
+            component={Link}
+            to="/orders"
+          >
+            <Icon>shopping-cart-plus</Icon>
+            {' CREATE'}
+          </Button>
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'row' }}>
+              {idx > 2 && (
+                <Button component={Link} to="/products/page/1">
+                  1
+                </Button>
+              )}
+              {idx > 1 && <Typography>..</Typography>}
+              {idx > 1 && (
+                <Button component={Link} to={`/products/page/${idx - 1}`}>
+                  {idx - 1}
+                </Button>
+              )}
+              <Button>{idx}</Button>
+              {idx + 1 < totalPages && (
+                <Button component={Link} to={`/products/page/${idx + 1}`}>
+                  {idx + 1}
+                </Button>
+              )}
+              {idx < totalPages && <Typography>..</Typography>}
+              {idx !== totalPages && (
+                <Button component={Link} to={`/products/page/${totalPages}`}>
+                  {totalPages}
+                </Button>
+              )}
+            </div>
 
-        <div style={{ display: 'flex', justifyContent: 'center'}}><Typography variant='body1'>Page {idx} of {totalPages}</Typography></div>
-        </div>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Typography variant="body1">
+                Page {idx} of {totalPages}
+              </Typography>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -147,7 +158,7 @@ const mapStateToProps = ({ products, orders }, { idx }) => {
   return {
     allProducts,
     pageProducts: pageProducts.rows,
-    totalPages: Math.ceil(pageProducts.count/4),
+    totalPages: Math.ceil(pageProducts.count / 12),
     order,
     idx,
     count,
