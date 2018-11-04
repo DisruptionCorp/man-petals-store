@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import ProductReview from './ProductReview';
 import { connect } from 'react-redux';
-import { incrementLineItem, decrementLineItem, createOrder } from '../../reducers/orderReducer';
-import { getProduct } from '../../reducers/productReducer'
+import {
+  incrementLineItem,
+  decrementLineItem,
+  createOrder,
+} from '../../reducers/orderReducer';
+import { getProduct } from '../../reducers/productReducer';
 import ReviewForm from './ReviewForm';
 
 class ProductDetail extends Component {
-  
-  componentDidMount () {
+  componentDidMount() {
     this.props.getProduct(this.props.productId);
   }
 
@@ -25,14 +28,14 @@ class ProductDetail extends Component {
 
     console.log('the props are: ', this.props);
     // defensive code to deal with products not having loaded yet
-    if (!product || !order) {
+    if (!product || !order || !reviews) {
       return null;
     }
     const { name, description, photo, tags, inv_quantity, price } = product;
     let stockRemaining = 'In Stock';
     if (inv_quantity < 10) stockRemaining = 'Limited Stock!';
     if (inv_quantity === 0) stockRemaining = 'Sold Out';
-    
+
     return (
       <div>
         <img src={photo} alt={name} height="100" width="100" />
@@ -93,7 +96,7 @@ const mapStateToProps = ({ products, orders }, { productId, history }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getProduct: (productId)=> {
+    getProduct: productId => {
       dispatch(getProduct(productId));
     },
     handleInc: (product, order) => {
