@@ -20,20 +20,19 @@ class ProductsTool extends Component {
     };
   }
 
-  componentDidMount() {
-    const fileReader = new FileReader();
+  fileSelectedHandler = ev => {
+    const files = ev.target.files;
+    console.log('got here', ev.target.files);
+    const reader = new FileReader();
+    reader.readAsDataURL(files[0]);
 
-    fileReader.addEventListener('load', () => {
+    reader.onload = e => {
       axios
-        .post('/api/images', { data: fileReader.result })
+        .post('/api/images', { data: e.target.result })
         .then(res => res.data)
         .then(image => this.setState({ photo: image.url }));
-    });
-
-    this.el.addEventListener('change', () => {
-      fileReader.readAsDataURL(this.el.files[0]);
-    });
-  }
+    };
+  };
 
   handleChange = ({ target }) => {
     let { name, value } = target;
@@ -61,17 +60,21 @@ class ProductsTool extends Component {
             price: '',
             tags: [],
           })
-        );
+        )
+        .then(() => (this.fileInput.value = ''));
     } else {
-      this.props.createProduct(this.state).then(() =>
-        this.setState({
-          name: '',
-          description: '',
-          inv_quantity: '',
-          price: '',
-          photo: '',
-        })
-      );
+      this.props
+        .createProduct(this.state)
+        .then(() =>
+          this.setState({
+            name: '',
+            description: '',
+            inv_quantity: '',
+            price: '',
+            photo: '',
+          })
+        )
+        .then(() => (this.fileInput.value = ''));
     }
   };
 
@@ -141,6 +144,18 @@ class ProductsTool extends Component {
               onChange={this.handleChange}
             />
             <br />
+            <div class="file">
+              <label for="file-input">Pick an image</label>
+              <input
+                id="file-input"
+                type="file"
+                onChange={this.fileSelectedHandler}
+                accept=".jpg, .jpeg, .png"
+                ref={ref => (this.fileInput = ref)}
+              />
+            </div>
+
+            <br />
             <div className="bt">
               <Button
                 disabled={
@@ -158,9 +173,6 @@ class ProductsTool extends Component {
                 Send
                 <Icon>send</Icon>
               </Button>
-            </div>
-            <div>
-              <input ref={el => (this.el = el)} type="file" />
             </div>
           </form>
           <form name="deleteProduct" className="productDelete">
