@@ -21,18 +21,20 @@ router.get('/', (req, res, next) => {
     .catch(next);
 });
 
-
 //get product by id
 router.get('/:id', (req, res, next) => {
   console.log(req.params.id);
-  Product.findOne({ where: {id: req.params.id}, 
-    include: [{
-      model: Review,
-      include: [User]
-    }]
+  Product.findOne({
+    where: { id: req.params.id },
+    include: [
+      {
+        model: Review,
+        include: [User],
+      },
+    ],
   })
-  .then(data => res.send(data))
-  .catch(next)
+    .then(data => res.send(data))
+    .catch(next);
 });
 
 //add product
@@ -41,7 +43,6 @@ router.post('/', (req, res, next) => {
     .then(product => res.send(product))
     .catch(next);
 });
-
 
 //delete product, send back all products
 router.post('/:id', async (req, res, next) => {
@@ -79,7 +80,7 @@ router.post('/search/tags/:index?', (req, res, next) => {
       tags: {
         [Op.contains]: [
           ...req.body.tags.reduce((acc, each) => {
-            return [...acc, each.toLowerCase()];
+            return [...acc, each];
           }, []),
         ],
       },
@@ -101,8 +102,8 @@ router.get('/page/:index', async (req, res, next) => {
   }
   Product.findAndCountAll({ offset: index * limit, limit: 4 })
     .then(products => {
-      res.send(products)
-      })
+      res.send(products);
+    })
     .catch(next);
 });
 

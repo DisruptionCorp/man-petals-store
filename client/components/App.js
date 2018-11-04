@@ -22,11 +22,10 @@ import SignUp from './SignUp';
 class App extends Component {
   componentDidMount() {
     this.props.init();
-    console.log(this.props.auth);
   }
 
   render() {
-    const { auth, admin } = this.props;
+    const { token, auth, admin } = this.props;
 
     const renderNavbar = ({ history, location }) => {
       const id = location.pathname.split('/').pop();
@@ -84,7 +83,7 @@ class App extends Component {
 
     return (
       <HashRouter>
-        {!auth ? (
+        {!token ? (
           <div>
             <Route render={renderNavbar} />
             <Route exact path="/" render={renderLogin} />
@@ -121,11 +120,11 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ products, orders }, ownProps) => {
-  const auth = window.localStorage.getItem('token') ? true : false;
+const mapStateToProps = ({ products, orders, auth }, ownProps) => {
+  const token = window.localStorage.getItem('token') ? true : false;
   const admin = auth ? auth.admin : false;
   const { allProducts } = products;
-  return { allProducts, orders, auth, admin };
+  return { allProducts, orders, token, auth, admin };
 };
 
 const mapDispatchToProps = (dispatch, { history }) => {

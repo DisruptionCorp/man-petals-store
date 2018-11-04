@@ -12,7 +12,7 @@ import {
   Button,
   Icon,
   CircularProgress,
-  Typography
+  Typography,
 } from '@material-ui/core';
 import { _getProducts, getProductsByPage } from '../../reducers/productReducer';
 
@@ -75,7 +75,18 @@ class PaginatedProducts extends Component {
           })}
         </div>
         <div>
-        <div style={{ display: 'flex', justifyContent: 'center'}}><Typography variant='body1'>Page {idx} of {totalPages}</Typography></div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              position: 'fixed',
+              float: 'bottom',
+            }}
+          >
+            <Typography variant="body1">
+              Page {idx} of {totalPages}
+            </Typography>
+          </div>
         </div>
         {!products.length && (
           <Dialog
@@ -116,7 +127,7 @@ const mapStateToProps = ({ products, orders }, { idx }) => {
   const start = (idx - 1) * productsPerPage;
   const end = start + productsPerPage;
   const tagProductsPerPage = rows.slice(start, end);
-  const totalPages = Math.ceil(count/productsPerPage);
+  const totalPages = Math.ceil(count / productsPerPage);
   return {
     products: tagProductsPerPage,
     orders,
