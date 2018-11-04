@@ -23,7 +23,7 @@ class Navbar extends Component {
       <div>
         <nav className="navbar navbar-expand-md navbar-dark bg-dark">
           <a className="navbar-brand" href="/">
-            DisruptCo
+            MANPETALS
           </a>
           <button
             className="navbar-toggler"
@@ -50,11 +50,11 @@ class Navbar extends Component {
                 </Link>
               </li>
               <li className={id == 'cart' ? 'nav-item active' : 'nav-item'}>
-              <Badge badgeContent={count} color="secondary">
-                <Link to="/cart" className="nav-link">
-                  Cart
-                </Link>
-              </Badge>
+                <Badge badgeContent={count} color="secondary">
+                  <Link to="/cart" className="nav-link">
+                    Cart
+                  </Link>
+                </Badge>
               </li>
               <li className={id == 'orders' ? 'nav-item active' : 'nav-item'}>
                 <Link to="/orders" className="nav-link">
