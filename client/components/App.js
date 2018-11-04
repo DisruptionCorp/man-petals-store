@@ -68,6 +68,7 @@ class App extends Component {
             <Route render={renderNavbar} />
             <Route exact path="/" render={renderLogin} />
             <Route exact path="/signup" render={renderSignUp}/>
+            <Route exact path="/login" render={renderLogin}/>
           </div>
         ) : (
           <div>
