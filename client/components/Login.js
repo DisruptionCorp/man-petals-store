@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { TextField, Button, Paper, FormGroup } from '@material-ui/core';
 
@@ -71,6 +72,7 @@ class Login extends Component {
             >
               Sign in
             </Button>
+            <div>Don't have an account? Sign Up {<Link to='/signup'>Here.</Link>}</div>
           </FormGroup>
           <h2>{this.state.err}</h2>
         </div>

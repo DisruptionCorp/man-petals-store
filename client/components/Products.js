@@ -119,7 +119,7 @@ class Products extends Component {
         </Button>
         <div>
         <div style={{ display: 'flex', justifyContent: 'row'}}>
-        {idx > 1 && <Button component={Link} to='/products/page/1'>1</Button>}
+        {idx > 2 && <Button component={Link} to='/products/page/1'>1</Button>}
         {idx > 1 && <Typography>..</Typography>}
         {idx > 1 && <Button component={Link} to={`/products/page/${idx-1}`}>{idx-1}</Button>}
         <Button>{idx}</Button>
