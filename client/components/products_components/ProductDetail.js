@@ -36,8 +36,6 @@ class ProductDetail extends Component {
     if (!product || !order || !reviews) {
       return null;
     }
-    console.log('product detail props');
-    console.log(this.props);
     const { name, description, photo, tags, inv_quantity, price } = product;
     let stockRemaining = 'In Stock';
     if (inv_quantity < 10) stockRemaining = 'Limited Stock!';
