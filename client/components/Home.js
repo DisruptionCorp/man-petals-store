@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
-import { Typography } from '@material-ui/core'
+import { Typography } from '@material-ui/core';
 
 //Components
-import SearchBar from './SearchBar'
+import SearchBar from './SearchBar';
 
 export default class Home extends Component {
-
-    constructor(props){
-        super(props)
-    }
+  constructor(props) {
+    super(props);
+  }
 
   render() {
-    const {history} = this.props
+    const { history } = this.props;
     return (
-      <div >
-        <SearchBar history={history}/>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <img  src="https://ak5.picdn.net/shutterstock/videos/6291365/thumb/1.jpg"/>
+      <div>
+        <div className="hero-text">
+          MANPETALS
+          <SearchBar history={history} />
         </div>
 
+        {/* <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <img src="https://ak5.picdn.net/shutterstock/videos/6291365/thumb/1.jpg" />
+        </div> */}
       </div>
-    )
+    );
   }
 }
