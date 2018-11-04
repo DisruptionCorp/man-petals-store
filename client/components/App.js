@@ -26,6 +26,8 @@ class App extends Component {
   }
 
   render() {
+    const { auth, admin } = this.props;
+
     const renderNavbar = ({ history, location }) => {
       const id = location.pathname.split('/').pop();
       return <Navbar id={id} history={history} />;
@@ -51,16 +53,34 @@ class App extends Component {
 
     const renderLogin = ({ history }) => <Login history={history} />;
 
-    const renderAdmin = () => <AdminTool />;
+    const renderAdmin = () => {
+      if (admin) {
+        return <AdminTool />;
+      }
+      return <div>You do not have Admin privileges</div>;
+    };
 
-    const renderProductsTool = ({ history }) => (
-      <ProductsTool history={history} />
-    );
-    const renderOrdersTool = () => <OrdersTool />;
+    const renderProductsTool = ({ history }) => {
+      if (admin) {
+        return <ProductsTool history={history} />;
+      }
+      return <div>You do not have Admin privileges</div>;
+    };
 
-    const renderSignUp = ({ history }) => <SignUp history={history} />
+    // const renderProductsTool = ({ history }) => (
+    //   <ProductsTool history={history} />
+    // );
 
-    const { auth } = this.props;
+    const renderOrdersTool = () => {
+      if (admin) {
+        return <OrdersTool />;
+      }
+      return <div>You do not have Admin privileges</div>;
+    };
+
+    // const renderOrdersTool = () => <OrdersTool />;
+
+    const renderSignUp = ({ history }) => <SignUp history={history} />;
 
     return (
       <HashRouter>
@@ -68,15 +88,15 @@ class App extends Component {
           <div>
             <Route render={renderNavbar} />
             <Route exact path="/" render={renderLogin} />
-            <Route exact path="/signup" render={renderSignUp}/>
-            <Route exact path="/login" render={renderLogin}/>
+            <Route exact path="/signup" render={renderSignUp} />
+            <Route exact path="/login" render={renderLogin} />
           </div>
         ) : (
           <div>
             <Route render={renderNavbar} />
             <Route exact path="/" render={renderHome} />
             <Route exact path="/login" render={renderLogin} />
-            <Route exact path="/signup" render={renderSignUp}/>
+            <Route exact path="/signup" render={renderSignUp} />
             <Route exact path="/home" render={renderHome} />
             <Route exact path="/cart" component={Cart} />
             <Route exact path="/orders" component={Orders} />
@@ -103,9 +123,9 @@ class App extends Component {
 
 const mapStateToProps = ({ products, orders }, ownProps) => {
   const auth = window.localStorage.getItem('token') ? true : false;
-  console.log(auth);
+  const admin = auth ? auth.admin : false;
   const { allProducts } = products;
-  return { allProducts, orders, auth };
+  return { allProducts, orders, auth, admin };
 };
 
 const mapDispatchToProps = (dispatch, { history }) => {
