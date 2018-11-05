@@ -84,11 +84,12 @@ export const getOrder = id => {
 
 //Increment and decrement lineitems, creating and deliting as needed
 export const incrementLineItem = (product, order) => {
+  console.log(order)
   let lineItem = order.Item.find(item => item.productId === product.id);
   return dispatch => {
     if (lineItem) {
       lineItem.quantity++;
-      lineItem.cost = lineItem.quantity * lineItem.cost;
+      lineItem.cost = lineItem.quantity * product.price*1;
       dispatch(updateLineItem(lineItem, order.id));
     } else {
       lineItem = {
