@@ -59,11 +59,11 @@ class Products extends Component {
       </div>
     ) : (
       <div className="cartContainer">
-        <div>
+        {/*<div>
           Your Order ID is ({id}
           ).
         </div>
-        <div>Your cart contains {count} items.</div>
+        <div>Your cart contains {count} items.</div>*/}
         <hr />
         <div className="container">
           <h2>Products</h2>
