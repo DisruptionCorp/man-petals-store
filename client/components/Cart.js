@@ -1,22 +1,32 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LineItem from './cart_components/LineItem';
-import { Typography, Card, CardContent } from '@material-ui/core';
+import { Typography, Card, CardContent, Button } from '@material-ui/core';
 import { deleteLineItem } from '../reducers/orderReducer';
+import StripeCheckout from 'react-stripe-checkout'
+import axios from 'axios';
 
 class Cart extends Component {
-  constructor(props) {
-    super(props);
+  onToken = () => {
+    const { history, total, order, token } = this.props;
+    const payment = { stripeToken:token.id, 
+                      currency: 'usd', 
+                      amount: total, 
+                      orderID: order.id };
+    axios
+      .post('/api/payment/charge', payment)
+      .then(()=>{ history.push('/products/page/1') });
   }
 
   render() {
-    const { order, items, allProducts, totalCost, handleDelete } = this.props;
+    const { order, items, allProducts, totalCost, tax, total, token, handleDelete } = this.props;
+    const { onToken } = this;
     const count = items.reduce((acc, el) => {
       return (acc += el.quantity);
     }, 0);
     const id = order ? order.id : 'loading';
-    const tax = totalCost*0.045;
-    const total = (totalCost + 3.99 + tax).toFixed(2);
+
     // console.log('Cart Order is: ', order)
     return (
       <div className="cartContainer">
@@ -30,6 +40,7 @@ class Cart extends Component {
                style={{ width: "250px", height: "250px"}}/>
         </div>
           <hr />
+          <div>
         <Card style={{ width: '450px'}}>
         <CardContent >
           {items.map(item => {
@@ -56,16 +67,21 @@ class Cart extends Component {
         </div>)
         } 
         <hr />
-        <Typography align="right" variant='headline'> Grand Total: ${total}</Typography>
+        <Typography align="right" variant='headline'> Grand Total: ${totalCost > 0 ? total : totalCost.toFixed(2)}</Typography>
         </CardContent>
         </Card>
+        <StripeCheckout 
+        token={onToken}
+        stripeKey="pk_test_lWACQb7URwiEVS6EHfUAuqwS"/>
         </div>
+        </div>
+        
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ products, orders }) => {
+const mapStateToProps = ({ products, orders }, { history }) => {
   const { allProducts } = products;
   console.log('state of orders in mapStateToProps: ', orders);
   const order = orders.find(_order => {
@@ -74,14 +90,19 @@ const mapStateToProps = ({ products, orders }) => {
   const totalCost = order.Item.reduce((total, curr)=>{
     return total += curr.cost*1
   }, 0)
-
   let items = order ? order.Item : [];
-  console.log(totalCost)
+  const tax = totalCost*0.045;
+  const total = (totalCost + 3.99 + tax).toFixed(2);
+  const token = window.localStorage.token;
   return {
     order,
     items,
     allProducts,
     totalCost,
+    tax,
+    total,
+    token,
+    history
   };
 };
 
