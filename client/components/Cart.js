@@ -15,7 +15,8 @@ class Cart extends Component {
       return (acc += el.quantity);
     }, 0);
     const id = order ? order.id : 'loading';
-
+    const tax = totalCost*0.045;
+    const total = (totalCost + 3.99 + tax).toFixed(2);
     // console.log('Cart Order is: ', order)
     return (
       <div className="cartContainer">
@@ -44,12 +45,14 @@ class Cart extends Component {
                 handleDelete={() => handleDelete(item, id)}
               />
             );
-          })}
+          })}         
         <br />
         <br />
         <br />
+        <Typography align="right" variant='headline'> Tax: ${tax.toFixed(2)}</Typography>
+        <Typography align="right" variant='headline'> Shipping: $3.99</Typography> 
         <hr />
-        <Typography align="right" variant='headline'> Grand Total: ${totalCost.toFixed(2)}</Typography>
+        <Typography align="right" variant='headline'> Grand Total: ${total}</Typography>
         </CardContent>
         </Card>
         </div>
