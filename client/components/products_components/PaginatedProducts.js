@@ -128,9 +128,10 @@ const mapStateToProps = ({ products, orders }, { idx }) => {
   const end = start + productsPerPage;
   const tagProductsPerPage = rows.slice(start, end);
   const totalPages = Math.ceil(count / productsPerPage);
+  const order = orders.find(_order => _order.status === 'CART');
   return {
     products: tagProductsPerPage,
-    orders,
+    order,
     totalPages,
     idx,
   };

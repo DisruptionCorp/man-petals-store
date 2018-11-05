@@ -10,7 +10,7 @@ const LineItem = db.define(
       defaultValue: 1,
     },
     cost: {
-      type: Sequelize.DECIMAL,
+      type: Sequelize.DECIMAL(10,2),
       allowNull: true,
       validate: {
         isDecimal: true,
