@@ -49,8 +49,12 @@ class Cart extends Component {
         <br />
         <br />
         <br />
-        <Typography align="right" variant='headline'> Tax: ${tax.toFixed(2)}</Typography>
-        <Typography align="right" variant='headline'> Shipping: $3.99</Typography> 
+        {totalCost > 0 && 
+        (<div>
+          <Typography align="right" variant='headline'> Tax: ${tax.toFixed(2)}</Typography>
+        <Typography align="right" variant='headline'> Shipping: $3.99</Typography>
+        </div>)
+        } 
         <hr />
         <Typography align="right" variant='headline'> Grand Total: ${total}</Typography>
         </CardContent>
