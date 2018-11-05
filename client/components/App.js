@@ -81,6 +81,7 @@ class App extends Component {
 
     const renderSignUp = ({ history }) => <SignUp history={history} />;
 
+    const renderCart = ({ history }) => <Cart history={history} />;
     return (
       <HashRouter>
         {!token ? (
@@ -97,7 +98,7 @@ class App extends Component {
             <Route exact path="/login" render={renderLogin} />
             <Route exact path="/signup" render={renderSignUp} />
             <Route exact path="/home" render={renderHome} />
-            <Route exact path="/cart" component={Cart} />
+            <Route exact path="/cart" render={renderCart} />
             <Route exact path="/orders" component={Orders} />
             <Route
               exact
