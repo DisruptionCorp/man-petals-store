@@ -7,13 +7,12 @@ module.exports = router;
 
 // create a lineItem
 router.post('/:id/lineItems/', async(req, res, next) => {
-  console.log('thereq.body when posting a lineItem is: ', req.body);
   const product = await Product.findById(req.body.productId)
   LineItem.create({
     orderId: req.params.id,
     quantity: req.body.quantity,
     productId: req.body.productId,
-    cost: product.price*1
+    cost: parseFloat(product.price)
   })
     .then(lineItem => res.send(lineItem))
     .catch(next);

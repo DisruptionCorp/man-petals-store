@@ -88,7 +88,7 @@ export const incrementLineItem = (product, order) => {
   return dispatch => {
     if (lineItem) {
       lineItem.quantity++;
-      lineItem.cost = lineItem.quantity * product.price*1;
+      lineItem.cost = lineItem.quantity * parseFloat(product.price);
       dispatch(updateLineItem(lineItem, order.id));
     } else {
       lineItem = {
