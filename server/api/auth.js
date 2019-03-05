@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jwt-simple')
 const { User } = require('../../db')
+const jwtKey = process.env.JWT_SECRET || 'foo'
 module.exports = router;
+
+
 
 // // persist session
 // router.get('/', (req, res, next) => {
@@ -22,17 +25,17 @@ module.exports = router;
 
 // begin session
 router.post('/', (req, res, next) => {
-	User.findOne({ 
+	User.findOne({
     where: {
-      email: req.body.email, 
+      email: req.body.email,
       password: req.body.password
-    } 
+    }
   })
   .then( user => {
     if (!user) {
       return next({ status: 401 })
     }
-    const token = jwt.encode({ id: user.id }, process.env.JWT_SECRET)
+    const token = jwt.encode({ id: user.id }, jwtKey)
     res.send({ token })
   })
 	.catch(next)
