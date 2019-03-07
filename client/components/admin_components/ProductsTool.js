@@ -10,14 +10,18 @@ import axios from 'axios';
 class ProductsTool extends Component {
   constructor() {
     super();
+    const defaultPhoto = 'https://cdn.pixabay.com/photo/2016/05/05/08/45/vase-1373443_960_720.jpg'
     this.state = {
       name: '',
       description: '',
       inv_quantity: '',
-      photo: '',
+      photo: defaultPhoto,
       price: '',
       tags: [],
     };
+    this.handleChange = this.handleChange.bind(this)
+    this.onSave = this.onSave.bind(this)
+    this.fileSelectedHandler = this.fileSelectedHandler.bind(this)
   }
 
   fileSelectedHandler = ev => {
@@ -35,7 +39,9 @@ class ProductsTool extends Component {
 
   handleChange = ({ target }) => {
     let { name, value } = target;
-    this.setState({ [name]: value });
+    this.setState({
+      [name]: value
+    });
   };
 
   onSave = ev => {
@@ -61,7 +67,8 @@ class ProductsTool extends Component {
           })
         )
         .then(() => (this.fileInput.value = ''));
-    } else {
+    }
+    else {
       this.props
         .createProduct(this.state)
         .then(() =>

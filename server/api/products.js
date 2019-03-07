@@ -8,13 +8,11 @@ const { Product, Review, LineItem, User } = require('../../db/index');
 //all products
 router.get('/', (req, res, next) => {
   Product.findAll({
-    include: [
-      {
+      include: [{
         model: Review,
         include: [User],
-      },
-    ],
-  })
+      }, ],
+    })
     .then(products => {
       res.send(products);
     })
@@ -24,27 +22,26 @@ router.get('/', (req, res, next) => {
 //get product by id
 router.get('/:id', (req, res, next) => {
   Product.findOne({
-    where: { id: req.params.id },
-    include: [
-      {
+      where: { id: req.params.id },
+      include: [{
         model: Review,
         include: [User],
-      },
-    ],
-  })
+      }, ],
+    })
     .then(data => res.send(data))
     .catch(next);
 });
 
 //add product
 router.post('/', (req, res, next) => {
+  console.log('NEW PRODUCT ADDED:', req.body)
   Product.create(req.body)
     .then(product => res.send(product))
     .catch(next);
 });
 
 //delete product, send back all products
-router.post('/:id', async (req, res, next) => {
+router.post('/:id', async(req, res, next) => {
   await Product.destroy({
     where: {
       id: req.params.id,
@@ -75,16 +72,16 @@ router.put('/:id', (req, res, next) => {
 router.post('/search/tags/:index?', (req, res, next) => {
   const Op = Sequelize.Op;
   Product.findAndCountAll({
-    where: {
-      tags: {
-        [Op.contains]: [
-          ...req.body.tags.reduce((acc, each) => {
-            return [...acc, each];
-          }, []),
-        ],
+      where: {
+        tags: {
+          [Op.contains]: [
+            ...req.body.tags.reduce((acc, each) => {
+              return [...acc, each];
+            }, []),
+          ],
+        },
       },
-    },
-  })
+    })
     .then(products => {
       res.send(products);
     })
@@ -92,7 +89,7 @@ router.post('/search/tags/:index?', (req, res, next) => {
 });
 
 //pagination count
-router.get('/page/:index', async (req, res, next) => {
+router.get('/page/:index', async(req, res, next) => {
   let index = 0;
   let limit = 12;
 
