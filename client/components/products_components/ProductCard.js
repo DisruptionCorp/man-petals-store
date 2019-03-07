@@ -20,10 +20,10 @@ class ProductCard extends Component {
     const { product, order, itemQuantity, handleInc, handleDec } = this.props;
 
     return (
-      <Grid item xs={4} style={{ padding: '25px' }}>
+      <Grid item xs={4} className="productGridItem">
         <Paper className="productContainer">
           <Typography variant="display1" color="textPrimary">
-            <Link to={`/products/${product.id}`}>{product.name}</Link>
+            <Link to={`/products/${product.id}`} className="productNameLink">{product.name}</Link>
           </Typography>
           <Typography variant="body1">
             Price: {product.price ? `$${product.price}` : 'tbd'}
