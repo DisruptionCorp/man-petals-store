@@ -38,7 +38,16 @@ export const getProductsByPage = (index = 1) => {
   return dispatch => {
     return axios
       .get(`/api/products/page/${index}`)
-      .then(resp => {
+      .then( async resp => {
+        const flowerPics = await axios.get(`https://pixabay.com/api/?key=11819391-597f72f9615ec78156f395173&q=flowers&image_type=all`)
+        console.log(flowerPics.data)
+        resp.data.rows.map((each, i) => {
+          let num = Math.round(Math.random()*flowerPics.data.hits.length)
+          console.log(num)
+          let randomFlower = flowerPics.data.hits[num]
+          each.photo = randomFlower.webformatURL || randomFlower.largeImageURL // || randomFlower.previewURL || randomFlower.userImageURL
+          console.log(randomFlower)
+        })
         dispatch(_getProductsByPage(resp.data));
       })
       .catch(console.error.bind(console));

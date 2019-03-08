@@ -8,21 +8,21 @@ class ArrowNavigation extends Component {
   }
 
   render() {
-    const { idx, totalPages } = this.props;
+    const { idx, totalPages, type } = this.props;
     console.log(idx, totalPages)
     return (
         <div className="arrowNavContainer">
             <Button
                 disabled={idx < 2}
                 component={Link}
-                to={`/products/page/${idx - 1}`}
+                to={`/${type}/page/${idx - 1}`}
                 >
                 <Icon>arrow_back</Icon>
             </Button>
             <Button
                 disabled={idx >= totalPages}
                 component={Link}
-                to={`/products/page/${idx + 1}`}
+                to={`/${type}/page/${idx + 1}`}
                 >
                 <Icon>arrow_forward</Icon>
             </Button>

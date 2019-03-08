@@ -46,7 +46,7 @@ class SearchBar extends Component {
     const { name } = e.target;
 
     getProductsByTags(name || filteredTags).then(() => {
-      history.push('/search/tags/1');
+      history.push('/search/page/1');
     });
   }
 

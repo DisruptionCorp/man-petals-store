@@ -17,11 +17,13 @@ import {
 
 class ProductCard extends Component {
   render() {
-    const { product, order, itemQuantity, handleInc, handleDec } = this.props;
+    const { product, order, itemQuantity, handleInc, handleDec, i } = this.props;
 
     return (
-      <Grid item xs={4} className="productGridItem">
-        <Paper className="productContainer">
+      <div className="productGridItem">
+      
+        <img src={product.photo} className="animated fadeInUpBig productCardImg materialboxed"/>
+        {/* <Paper className="productContainer">
           <Typography variant="display1" color="textPrimary">
             <Link to={`/products/${product.id}`} className="productNameLink">{product.name}</Link>
           </Typography>
@@ -46,8 +48,8 @@ class ProductCard extends Component {
               <Icon>remove</Icon>
             </Button>
           </div>
-        </Paper>
-      </Grid>
+        </Paper> */}
+      </div>
     );
   }
 }

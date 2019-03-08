@@ -42,7 +42,7 @@ class Products extends Component {
       totalPages,
     } = this.props;
     const id = order ? order.id : '';
-
+    console.log(pageProducts)
     return this.state.loading ? (
       <div className="allProductsContainer">
         <CircularProgress />
@@ -50,15 +50,15 @@ class Products extends Component {
     ) : (
       <div className="cartContainer">
         <hr />
-        <div className="container">
           {/* <h2>Products</h2> */}
           <div>
-            <ArrowNavigation idx={idx} totalPages={totalPages}/>
+            <ArrowNavigation idx={idx} totalPages={totalPages} type="products"/>
           </div>
-          <div className="row">
-            {pageProducts.map(_product => {
+          <div className="theGrid">
+            {pageProducts.map((_product, i) => {
               return (
                 <ProductCard
+                  i={i}
                   key={_product.id}
                   product={_product}
                   order={order}
@@ -67,7 +67,6 @@ class Products extends Component {
               );
             })}
           </div>
-        </div>
         <PageNavigation idx={idx} totalPages={totalPages} count={count}/>
       </div>
     );

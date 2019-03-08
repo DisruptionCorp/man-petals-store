@@ -109,7 +109,7 @@ class App extends Component {
             <Route path="/admin" render={renderAdmin} />
             <Route
               exact
-              path="/search/tags/:index?"
+              path="/search/page/:index?"
               render={renderSearchPaginated}
             />
             <Route exact path="/admin/products" render={renderProductsTool} />
