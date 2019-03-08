@@ -20,6 +20,7 @@ class Navbar extends Component {
   render() {
     const { auth, isLoggedIn, id, logout, history, count, admin } = this.props;
     const isAuth = auth.id ? true : false;
+    console.log(count)
     return (
       <div>
         <nav className="navbar navbar-expand-md navbar-dark bg-dark">
@@ -50,7 +51,7 @@ class Navbar extends Component {
                   Products
                 </Link>
               </li>
-              <li className={id == 'cart' ? 'nav-item active' : 'nav-item'}>
+              <li >
                 {isAuth === true ? (
                   <Badge badgeContent={count} color="secondary">
                     <Link to="/cart" className="nav-link">

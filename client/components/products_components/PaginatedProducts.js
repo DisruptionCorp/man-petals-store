@@ -53,12 +53,15 @@ class PaginatedProducts extends Component {
     ) : (
       <div style={{ padding: '50px' }}>
         <ArrowNavigation idx={idx} totalPages={totalPages} type="search"/>
-        <div>
-          {products.map(product => {
+        <div className="theGrid">
+          {products.map((product, i) => {
             return (
-              <div>
-                <ProductCard product={product} order={order} />
-              </div>
+                <ProductCard 
+                  i={i}
+                  key={product.id}
+                  product={product}
+                  order={order}
+                  className="col-sm-3 border rounded p-3"/>
             );
           })}
         </div>
@@ -122,6 +125,7 @@ const mapStateToProps = ({ products, orders }, { idx }) => {
     order,
     totalPages,
     idx,
+    count
   };
 };
 

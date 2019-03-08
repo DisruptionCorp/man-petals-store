@@ -40,13 +40,10 @@ export const getProductsByPage = (index = 1) => {
       .get(`/api/products/page/${index}`)
       .then( async resp => {
         const flowerPics = await axios.get(`https://pixabay.com/api/?key=11819391-597f72f9615ec78156f395173&q=flowers&image_type=all`)
-        console.log(flowerPics.data)
         resp.data.rows.map((each, i) => {
           let num = Math.round(Math.random()*flowerPics.data.hits.length)
-          console.log(num)
           let randomFlower = flowerPics.data.hits[num]
           each.photo = randomFlower.webformatURL || randomFlower.largeImageURL // || randomFlower.previewURL || randomFlower.userImageURL
-          console.log(randomFlower)
         })
         dispatch(_getProductsByPage(resp.data));
       })
@@ -91,8 +88,15 @@ export const updateProduct = product => dispatch =>
 export const getProductsByTags = (tags, index = 1) => dispatch =>
   axios
     .post(`/api/products/search/tags`, { tags })
-    .then(response => {
-      dispatch(_getByTag(response.data));
+    .then(async resp => {
+      const flowerPics = await axios.get(`https://pixabay.com/api/?key=11819391-597f72f9615ec78156f395173&q=flowers&image_type=all`)
+      resp.data.rows.map((each, i) => {
+        let num = Math.round(Math.random()*flowerPics.data.hits.length)
+        let randomFlower = flowerPics.data.hits[num]
+        console.log(randomFlower)
+        each.photo = "https://pixel77.com/wp-content/uploads/2015/05/pixel77-flat-flower-1065-900x900.jpg" || randomFlower.webformatURL
+      })
+      dispatch(_getByTag(resp.data));
     })
     .catch(console.error.bind(console));
 

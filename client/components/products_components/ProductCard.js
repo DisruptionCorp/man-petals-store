@@ -30,10 +30,11 @@ class ProductCard extends Component {
     const { product, itemQuantity, order, i } = this.props;
     const { handleClick, handleClickAway } = this;
     const { drawerOpen } = this.state;
+    console.log(order)
     return (
-      <div className="productGridItem">
+      <div className="productGridItem animated fadeInUpBig">
         <div className="boxImgContainer">
-          <img src={product.photo} className="animated fadeInUpBig productCardImg"/>
+          <img src={product.photo} className="productCardImg"/>
           <div className="priceBadge">{product.price ? `$${product.price}` : 'Cost coming soon!'}</div>
           <div className="overlay">
             <Button className="addToCartButton" onClick={handleClick}>ADD TO CART</Button>
