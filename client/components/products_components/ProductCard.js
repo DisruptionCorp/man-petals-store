@@ -1,54 +1,50 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import ProductDetail from './ProductDetail';
-import {
-  incrementLineItem,
-  decrementLineItem,
-} from '../../reducers/orderReducer';
-import {
-  Grid,
-  Paper,
-  Typography,
-  Button,
-  ButtonBase,
-  Icon,
-} from '@material-ui/core';
+// import ProductDetail from './ProductDetail';
+import { Button, ClickAwayListener } from '@material-ui/core';
+import ItemAddDrawer from '../cart_components/ItemAddDrawer';
 
 class ProductCard extends Component {
-  render() {
-    const { product, order, itemQuantity, handleInc, handleDec, i } = this.props;
+  constructor(props){
+    super(props)
+    this.state = {
+      drawerOpen: false,
+    }
+    this.handleClick = this.handleClick.bind(this);
+    this.handleClickAway = this.handleClickAway.bind(this);
+  }
+  handleClick = (evt) => {
+    this.setState({ 
+      drawerOpen: true 
+    })
+  }
 
+  handleClickAway = (evt) => {
+    this.setState({
+      drawerOpen: false,
+    });
+  };
+
+  render() {
+    const { product, itemQuantity, order, i } = this.props;
+    const { handleClick, handleClickAway } = this;
+    const { drawerOpen } = this.state;
     return (
       <div className="productGridItem">
-      
-        <img src={product.photo} className="animated fadeInUpBig productCardImg materialboxed"/>
-        {/* <Paper className="productContainer">
-          <Typography variant="display1" color="textPrimary">
-            <Link to={`/products/${product.id}`} className="productNameLink">{product.name}</Link>
-          </Typography>
-          <Typography variant="body1">
-            Price: {product.price ? `$${product.price}` : 'tbd'}
-          </Typography>
-          <Typography variant="body1">{itemQuantity} units in cart</Typography>
-          <div className="buttonContainer">
-            <Button
-              variant="fab"
-              color="primary"
-              onClick={() => handleInc(product, order)}
-            >
-              <Icon>add</Icon>
-            </Button>
-            <Button
-              disabled={!itemQuantity}
-              variant="fab"
-              color="secondary"
-              onClick={() => handleDec(product, order)}
-            >
-              <Icon>remove</Icon>
-            </Button>
+        <div className="boxImgContainer">
+          <img src={product.photo} className="animated fadeInUpBig productCardImg"/>
+          <div className="priceBadge">{product.price ? `$${product.price}` : 'Cost coming soon!'}</div>
+          <div className="overlay">
+            <Button className="addToCartButton" onClick={handleClick}>ADD TO CART</Button>
           </div>
-        </Paper> */}
+        </div>
+        <div className="flowerDetails">
+            <Link className="productNameLink" to={`/products/${product.id}`}>{product.name}</Link>
+        </div>
+        <ClickAwayListener onClickAway={handleClickAway}>
+          <ItemAddDrawer drawerOpen={drawerOpen} product={product} order={order} itemQuantity={itemQuantity}/>
+        </ClickAwayListener>
       </div>
     );
   }
@@ -65,18 +61,5 @@ const mapStateToProps = (state, { order, product }) => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    handleInc: (product, order) => {
-      dispatch(incrementLineItem(product, order));
-    },
-    handleDec: (product, order) => {
-      dispatch(decrementLineItem(product, order));
-    },
-  };
-};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProductCard);
+export default connect(mapStateToProps)(ProductCard);
