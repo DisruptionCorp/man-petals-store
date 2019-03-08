@@ -13,6 +13,7 @@
   "dependencies": {
     "@material-ui/core": "^3.3.2",
     "@material-ui/icons": "^3.0.1",
+    "animate.css": "^3.7.0",
     "aws-sdk": "^2.348.0",
     "axios": "^0.18.0",
     "babel-core": "^6.26.3",
@@ -30,6 +31,7 @@
     "faker": "^4.1.0",
     "heroku": "^7.16.0",
     "jwt-simple": "^0.5.5",
+    "materialize-css": "^1.0.0-rc.2",
     "mocha": "^5.2.0",
     "morgan": "^1.9.1",
     "npm": "^6.4.1",

@@ -84,14 +84,14 @@ class App extends Component {
     const renderCart = ({ history }) => <Cart history={history} />;
     return (
       <HashRouter>
-        {!token ? (
+        {/*!token ? (
           <div>
             <Route render={renderNavbar} />
             <Route exact path="/" render={renderLogin} />
             <Route exact path="/signup" render={renderSignUp} />
             <Route exact path="/login" render={renderLogin} />
           </div>
-        ) : (
+        ) : (*/
           <div>
             <Route render={renderNavbar} />
             <Route exact path="/" render={renderHome} />
@@ -109,13 +109,14 @@ class App extends Component {
             <Route path="/admin" render={renderAdmin} />
             <Route
               exact
-              path="/search/tags/:index?"
+              path="/search/page/:index?"
               render={renderSearchPaginated}
             />
             <Route exact path="/admin/products" render={renderProductsTool} />
             <Route exact path="/admin/orders" render={renderOrdersTool} />
           </div>
-        )}
+        /*)*/
+        }
       </HashRouter>
     );
   }

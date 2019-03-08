@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { createOrder } from '../reducers/orderReducer';
 import { getProductsByPage } from '../reducers/productReducer';
 import {
   Grid,
-  Icon,
-  Button,
   SvgIcon,
   CircularProgress,
-  Typography,
 } from '@material-ui/core';
 
 //presentation components
 import ProductCard from './products_components/ProductCard';
+import ArrowNavigation from './pagination_components/ArrowNavigation';
+import PageNavigation from './pagination_components/PageNavigation';
 
 class Products extends Component {
   constructor() {
@@ -41,54 +38,27 @@ class Products extends Component {
       pageProducts,
       order,
       count,
-      createOrder,
       idx,
       totalPages,
     } = this.props;
     const id = order ? order.id : '';
-
+    console.log(pageProducts)
     return this.state.loading ? (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          padding: '30px',
-        }}
-      >
+      <div className="allProductsContainer">
         <CircularProgress />
       </div>
     ) : (
       <div className="cartContainer">
-        {/*<div>
-          Your Order ID is ({id}
-          ).
-        </div>
-        <div>Your cart contains {count} items.</div>*/}
         <hr />
-        <div className="container">
-          <h2>Products</h2>
+          {/* <h2>Products</h2> */}
           <div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Button
-                disabled={idx < 2}
-                component={Link}
-                to={`/products/page/${idx - 1}`}
-              >
-                <Icon>arrow_back</Icon>
-              </Button>
-              <Button
-                disabled={idx >= totalPages}
-                component={Link}
-                to={`/products/page/${idx + 1}`}
-              >
-                <Icon>arrow_forward</Icon>
-              </Button>
-            </div>
+            <ArrowNavigation idx={idx} totalPages={totalPages} type="products"/>
           </div>
-          <div className="row">
-            {pageProducts.map(_product => {
+          <div className="theGrid">
+            {pageProducts.map((_product, i) => {
               return (
                 <ProductCard
+                  i={i}
                   key={_product.id}
                   product={_product}
                   order={order}
@@ -97,51 +67,7 @@ class Products extends Component {
               );
             })}
           </div>
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Button
-            disabled={!count}
-            onClick={() => createOrder(order)}
-            component={Link}
-            to="/orders"
-          >
-            <Icon>shopping-cart-plus</Icon>
-            {' CREATE'}
-          </Button>
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'row' }}>
-              {idx > 2 && (
-                <Button component={Link} to="/products/page/1">
-                  1
-                </Button>
-              )}
-              {idx > 1 && <Typography>..</Typography>}
-              {idx > 1 && (
-                <Button component={Link} to={`/products/page/${idx - 1}`}>
-                  {idx - 1}
-                </Button>
-              )}
-              <Button>{idx}</Button>
-              {idx + 1 < totalPages && (
-                <Button component={Link} to={`/products/page/${idx + 1}`}>
-                  {idx + 1}
-                </Button>
-              )}
-              {idx < totalPages && <Typography>..</Typography>}
-              {idx !== totalPages && (
-                <Button component={Link} to={`/products/page/${totalPages}`}>
-                  {totalPages}
-                </Button>
-              )}
-            </div>
-
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Typography variant="body1">
-                Page {idx} of {totalPages}
-              </Typography>
-            </div>
-          </div>
-        </div>
+        <PageNavigation idx={idx} totalPages={totalPages} count={count}/>
       </div>
     );
   }
@@ -167,7 +93,6 @@ const mapStateToProps = ({ products, orders }, { idx }) => {
 
 const mapDispatchToProps = dispatch => ({
   getProductsByPage: idx => dispatch(getProductsByPage(idx)),
-  createOrder: order => dispatch(createOrder(order)),
 });
 
 export default connect(

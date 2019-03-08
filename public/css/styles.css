@@ -1,57 +1,42 @@
-@media screen and (min-width: 601px) {
-  div.hero-text {
-    font-size: 120px;
-    font-weight: bold;
-    text-align: center;
-    position: absolute;
-    font-family: 'Helvetica Neue';
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-  }
-}
-@media screen and (max-width: 600px) {
-  div.hero-text {
-    font-size: 30px;
-    font-weight: bold;
-    text-align: center;
-    position: absolute;
-    font-family: 'Helvetica Neue';
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-  }
-}
-.motto {
-  font-size: 10px;
-  font-family: 'Helvetica Neue';
+* {
+  font-family: 'Raleway', sans-serif;
 }
 
-.loginBox {
-  width: 40%;
-  border-color: lightgray;
-  border-style: solid;
-  padding: 10px;
-  border-radius: 5%;
+.addDeleteProduct {
+  display: flex;
+  flex-direction: row;
+  margin: 10px, 10px, 50px, 50px;
 }
 
-.loginTF {
+.addToCartButton {
+  width: 250px;
+  height: 50px;
+  font-size: 1.3em;
+  font-weight: bold;
 }
 
-.signUp {
-  padding: 35px;
-  flex-direction: 'column';
+.allProductsContainer {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
 }
 
-.cartContainer {
-  padding: 40px;
+.arrowNavContainer {
+  display: flex;
+  justify-content: flex-end;
 }
 
-.productContainer {
-  height: 100%;
-  padding: 10px;
+.boxImgContainer {
+  position: relative;
+  height: 80%;
+}
+
+.boxImgContainer:hover .overlay {
+  opacity: 1;
+}
+
+.boxImgContainer:hover .priceBadge {
+  opacity: 1;
 }
 
 .buttonContainer {
@@ -60,60 +45,10 @@
   justify-content: 'space-around';
 }
 
-.searchToolbar {
-  display: 'flex';
-  justify-content: 'center';
-}
-.productTool {
-  border-color: lightgray;
-  border-style: solid;
-  padding: 10px;
-  border-radius: 2%;
-  width: 750px;
-  height: 650px;
-}
-.addDeleteProduct {
-  display: flex;
-  flex-direction: row;
-  margin: 10px, 10px, 50px, 50px;
-}
-.productCreate {
-  display: flex;
-  width: 325px;
-  height: 575px;
-  flex-direction: column;
-  margin: 20px;
-  border-color: lightgray;
-  border-style: solid;
-  padding: 10px;
-  border-radius: 5%;
-}
-.productDelete {
-  display: flex;
-  width: 325px;
-  height: 575px;
-  flex-direction: column;
-  margin: 20px;
-  border-color: lightgray;
-  border-style: solid;
-  padding: 10px;
-  border-radius: 5%;
-}
-label {
-  width: 200px;
-  margin-right: 10px;
+.cartContainer {
+  padding: 50px;
 }
 
-input {
-  margin-left: 10x;
-  padding: 1px;
-  align-items: right;
-  border-radius: 5px;
-}
-
-.mytext {
-  width: 300px;
-}
 .file {
   position: relative;
   height: 40px;
@@ -141,4 +76,182 @@ input {
   line-height: 30px;
   text-align: center;
   cursor: pointer;
+}
+
+.flowerDetails {
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  font-size: 1.3em;
+  padding: 10px;
+}
+
+input {
+  margin-left: 10x;
+  padding: 1px;
+  align-items: right;
+  border-radius: 5px;
+}
+
+label {
+  width: 200px;
+  margin-right: 10px;
+}
+
+.loginBox {
+  width: 40%;
+  border-color: lightgray;
+  border-style: solid;
+  padding: 10px;
+  border-radius: 5%;
+}
+
+.motto {
+  font-size: 10px;
+  font-family: 'Helvetica Neue';
+}
+
+.mytext {
+  width: 300px;
+}
+
+.overlay {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+  background-color: rgba(253, 250, 250, 0.8)
+}
+
+.pageButtons {
+  display: flex;
+  flex-direction: row;
+}
+
+.paginationFooter {
+  display: flex;
+  justify-content: space-between;
+}
+
+.priceBadge {
+  position: absolute;
+  right: 3%;
+  top: 3%;
+  border-radius: 50%;
+  padding-top: 10px;
+  text-align: center;
+  width: 50px;
+  height: 50px;
+  background-color: rgba(253, 250, 250, 0.8);
+  opacity: 0;
+}
+
+.productCardImg {
+  opacity: 1;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.productCreate {
+  display: flex;
+  width: 325px;
+  height: 575px;
+  flex-direction: column;
+  margin: 20px;
+  border-color: lightgray;
+  border-style: solid;
+  padding: 10px;
+  border-radius: 5%;
+}
+.productDelete {
+  display: flex;
+  width: 325px;
+  height: 575px;
+  flex-direction: column;
+  margin: 20px;
+  border-color: lightgray;
+  border-style: solid;
+  padding: 10px;
+  border-radius: 5%;
+}
+
+.productGridItem {
+  padding: 10px;
+  height: 350px;
+  width: 350px;
+  /* border: 1px solid black; */
+}
+
+.productNameLink{
+  color: black;
+  text-decoration: none;
+}
+
+.productNameLink:hover {
+  color: black;
+  text-decoration: none;
+}
+
+.productTool {
+  border-color: lightgray;
+  border-style: solid;
+  padding: 10px;
+  border-radius: 2%;
+  width: 750px;
+  height: 650px;
+}
+
+.searchToolbar {
+  display: 'flex';
+  justify-content: 'center';
+}
+
+.signUp {
+  padding: 35px;
+  flex-direction: 'column';
+}
+
+.theGrid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.totalPagesContainer {
+  display: flex;
+  justify-content: center;
+}
+
+
+/* MEDIA QUERIES */
+@media screen and (min-width: 601px) {
+  div.hero-text {
+    font-size: 120px;
+    font-weight: bold;
+    text-align: center;
+    position: absolute;
+    font-family: 'Helvetica Neue';
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+  }
+}
+@media screen and (max-width: 600px) {
+  div.hero-text {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    position: absolute;
+    font-family: 'Helvetica Neue';
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+  }
 }

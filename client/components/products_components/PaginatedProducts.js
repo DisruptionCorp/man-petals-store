@@ -16,6 +16,9 @@ import {
 } from '@material-ui/core';
 import { _getProducts, getProductsByPage } from '../../reducers/productReducer';
 
+// components import
+import ArrowNavigation from '../pagination_components/ArrowNavigation';
+
 class PaginatedProducts extends Component {
   constructor() {
     super();
@@ -49,28 +52,16 @@ class PaginatedProducts extends Component {
       </div>
     ) : (
       <div style={{ padding: '50px' }}>
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button
-            disabled={idx < 2}
-            component={Link}
-            to={`/search/tags/${idx - 1}`}
-          >
-            <Icon>arrow_back</Icon>
-          </Button>
-          <Button
-            disabled={idx >= totalPages}
-            component={Link}
-            to={`/search/tags/${idx + 1}`}
-          >
-            <Icon>arrow_forward</Icon>
-          </Button>
-        </div>
-        <div>
-          {products.map(product => {
+        <ArrowNavigation idx={idx} totalPages={totalPages} type="search"/>
+        <div className="theGrid">
+          {products.map((product, i) => {
             return (
-              <div>
-                <ProductCard product={product} order={order} />
-              </div>
+                <ProductCard 
+                  i={i}
+                  key={product.id}
+                  product={product}
+                  order={order}
+                  className="col-sm-3 border rounded p-3"/>
             );
           })}
         </div>
@@ -134,6 +125,7 @@ const mapStateToProps = ({ products, orders }, { idx }) => {
     order,
     totalPages,
     idx,
+    count
   };
 };
 
