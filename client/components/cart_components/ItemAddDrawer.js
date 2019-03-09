@@ -4,15 +4,19 @@ import { Drawer, Button, Icon, Typography } from '@material-ui/core';
 import { incrementLineItem, decrementLineItem } from '../../reducers/orderReducer';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
+import CartItem from './CartItem';
 
-const drawerWidth = 600
+const drawerWidth = 450
 const styles = theme => ({
   drawer: {
     width: drawerWidth,
-    
+    padding: '10px',    
   },
+  header: {
+      display: 'flex',
+      justifyContent: 'center',
+  }
 })
 
 class ItemAddDrawer extends Component {
@@ -21,16 +25,31 @@ class ItemAddDrawer extends Component {
   }
 
   render(){
-    const { classes, drawerOpen, product, itemQuantity, order, handleDec, handleInc } = this.props;
+    const { 
+        classes, 
+        drawerOpen, 
+        product, 
+        itemQuantity, 
+        order, 
+        handleClickAway 
+    } = this.props;
+    console.log(order)
   	return (
   	  <div>
-        {/* having some issues here with the clickaway listener constantly clicking away even when I'm clicking within the drawer */}
           <Drawer 
             variant="temporary"
             anchor='right'
-            className={classes.drawer}
-            open={drawerOpen}>
-            <Typography variant="display1" color="textPrimary">
+            open={drawerOpen}
+            onClose={handleClickAway}>
+            <div className={classes.drawer}>
+                <h4 className={classes.header}>Your Cart</h4>
+                <hr />
+            {order.Item.map(item => {
+                return (
+                    <CartItem item={item} order={order} product={product} />
+                )
+            })}
+            {/* <Typography variant="display1" color="textPrimary">
                 <Link to={`/products/${product.id}`} className="productNameLink">{product.name}</Link>
             </Typography>
             <Typography variant="body1">
@@ -53,6 +72,7 @@ class ItemAddDrawer extends Component {
                 >
                     <Icon>remove</Icon>
                 </Button>
+            </div> */}
             </div>
   	    </Drawer>
   	  </div>
@@ -64,19 +84,19 @@ ItemAddDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
-  
-  const mapDispatchToProps = dispatch => {
+
+const mapStateToProps = (state, { order, product }) => {
+    let item = order
+    ? order.Item.find(item => item.productId === product.id)
+    : null;
     return {
-      handleInc: (product, order) => {
-        dispatch(incrementLineItem(product, order));
-      },
-      handleDec: (product, order) => {
-        dispatch(decrementLineItem(product, order));
-      },
+      order,
+      itemQuantity: item ? item.quantity : 0,
+      product
     };
   };
+
   
   export default connect(
-    null,
-    mapDispatchToProps
+    mapStateToProps
   )(withStyles(styles)(ItemAddDrawer));

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getProductsByPage } from '../reducers/productReducer';
+import { incrementLineItem } from '../reducers/orderReducer';
+
 import {
-  Grid,
-  SvgIcon,
+  ClickAwayListener, 
   CircularProgress,
 } from '@material-ui/core';
 
@@ -11,12 +12,42 @@ import {
 import ProductCard from './products_components/ProductCard';
 import ArrowNavigation from './pagination_components/ArrowNavigation';
 import PageNavigation from './pagination_components/PageNavigation';
+import ItemAddDrawer from './cart_components/ItemAddDrawer';
 
 class Products extends Component {
   constructor() {
     super();
-    this.state = { loading: true };
+    this.state = { 
+      loading: true,
+      drawerOpen: false,
+      currentProduct: {},
+    };
+    this.openAddToCartDrawer = this.openAddToCartDrawer.bind(this);
+    this.handleClickAway = this.handleClickAway.bind(this);
+    this.addItemAndViewCart = this.addItemAndViewCart.bind(this);
   }
+
+  openAddToCartDrawer = () => {
+    this.setState({
+      drawerOpen: true,
+    })
+  }
+  
+  addItemAndViewCart = (product) => (evt) => {
+    const { handleInc, order } = this.props;
+    this.setState({ 
+      currentProduct: product,
+    })
+    handleInc(product, order)
+    this.openAddToCartDrawer();
+  }
+
+  handleClickAway = (evt) => {
+    this.setState({
+      drawerOpen: false,
+    });
+  };
+
   componentDidMount() {
     const { idx, getProductsByPage } = this.props;
     getProductsByPage(idx);
@@ -33,48 +64,45 @@ class Products extends Component {
   }
 
   render() {
-    const {
-      allProducts,
-      pageProducts,
-      order,
-      count,
-      idx,
-      totalPages,
-    } = this.props;
+    const { pageProducts, order, count, idx, totalPages } = this.props;
+    const { addItemAndViewCart, handleClickAway } = this;
+    const { drawerOpen, currentProduct, loading } = this.state;
     const id = order ? order.id : '';
-    console.log(pageProducts)
-    return this.state.loading ? (
+    return loading ? (
       <div className="allProductsContainer">
         <CircularProgress />
       </div>
     ) : (
       <div className="cartContainer">
-        <hr />
-          {/* <h2>Products</h2> */}
-          <div>
-            <ArrowNavigation idx={idx} totalPages={totalPages} type="products"/>
-          </div>
-          <div className="theGrid">
-            {pageProducts.map((_product, i) => {
-              return (
-                <ProductCard
-                  i={i}
-                  key={_product.id}
-                  product={_product}
-                  order={order}
-                  className="col-sm-3 border rounded p-3"
-                />
-              );
-            })}
-          </div>
+        <div>
+          <ArrowNavigation idx={idx} totalPages={totalPages} type="products"/>
+        </div>
+        <div className="theGrid">
+          {pageProducts.map((_product, i) => {
+            return (
+              <ProductCard
+                i={i}
+                key={_product.id}
+                product={_product}
+                order={order}
+                addItemAndViewCart={addItemAndViewCart}
+              />
+            );
+          })}
+        </div>
         <PageNavigation idx={idx} totalPages={totalPages} count={count}/>
+        <ItemAddDrawer 
+          drawerOpen={drawerOpen} 
+          product={currentProduct} 
+          order={order} 
+          handleClickAway={handleClickAway}/>
       </div>
     );
   }
 }
 
 const mapStateToProps = ({ products, orders }, { idx }) => {
-  const { allProducts, pageProducts } = products;
+  const { pageProducts } = products;
   const order = orders.find(_order => _order.status === 'CART');
   const items = order ? order.Item : [];
   const count = items.reduce((acc, el) => {
@@ -82,7 +110,6 @@ const mapStateToProps = ({ products, orders }, { idx }) => {
   }, 0);
 
   return {
-    allProducts,
     pageProducts: pageProducts.rows,
     totalPages: Math.ceil(pageProducts.count / 12),
     order,
@@ -93,6 +120,9 @@ const mapStateToProps = ({ products, orders }, { idx }) => {
 
 const mapDispatchToProps = dispatch => ({
   getProductsByPage: idx => dispatch(getProductsByPage(idx)),
+  handleInc: (product, order) => {
+    dispatch(incrementLineItem(product, order));
+  }
 });
 
 export default connect(
