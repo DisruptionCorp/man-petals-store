@@ -49,6 +49,29 @@
   padding: 50px;
 }
 
+.cartItem {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cartImg {
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
+}
+
+.cartItemInfoLeft {
+  display: flex;
+}
+
+.cartItemPriceRight {
+
+}
+
+.cartQuantity {
+  padding: 1px;
+}
+
 .file {
   position: relative;
   height: 40px;
@@ -204,6 +227,12 @@ label {
   border-radius: 2%;
   width: 750px;
   height: 650px;
+}
+
+.quantityButtons {
+  display: flex;
+  padding: 1px;
+  font-size: 1.3em;
 }
 
 .searchToolbar {

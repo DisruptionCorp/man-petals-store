@@ -114,7 +114,7 @@ class PaginatedProducts extends Component {
 
 const mapStateToProps = ({ products, orders }, { idx }) => {
   const { rows, count } = products.tagProducts;
-  const productsPerPage = 4;
+  const productsPerPage = 9;
   const start = (idx - 1) * productsPerPage;
   const end = start + productsPerPage;
   const tagProductsPerPage = rows.slice(start, end);
