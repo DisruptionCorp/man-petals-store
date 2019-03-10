@@ -71,15 +71,18 @@ router.put('/:id', (req, res, next) => {
 //search products by tags
 router.post('/search/tags/:index?', (req, res, next) => {
   const Op = Sequelize.Op;
-  console.log(req.body.tags)
+  // tags will come in as a space delimited string and casing may be off
+  // tags stored in the db are all Capitalized, 
+  // so before sending them in for a search, they have to be Capitalized as well
+  const tags = req.body.tags.split(' ').reduce((acc, each) => {
+    each = each.charAt(0).toUpperCase() + each.slice(1)
+    return [...acc, each];
+  }, [])
+
   Product.findAndCountAll({
       where: {
         tags: {
-          [Op.contains]: [
-            ...req.body.tags.reduce((acc, each) => {
-              return [...acc, each];
-            }, []),
-          ],
+          [Op.contains]: tags,
         },
       },
     })

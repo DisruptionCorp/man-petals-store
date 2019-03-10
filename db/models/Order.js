@@ -1,5 +1,4 @@
 const conn = require('../conn');
-//const { LineItem } = require('../index');
 
 const Order = conn.define('order', {
   id: {
@@ -19,23 +18,13 @@ const Order = conn.define('order', {
       isDecimal: true
     }
   },
-}, /*{
-  include: {
-    model: LineItem,
-    as: 'Item'
-  }
-},*/ {
+}, {
   hooks: {
     afterValidate(order){
       if(order.total) {
         order.total = order.total.toFixed(2)
       }
-    }/*,
-    afterUpdate(order){
-      if(order.Item){
-        order.total = order.Item.reduce((grandTotal, curr, idx)=>{grandTotal+=curr.cost}, 0)
-      }
-    }*/
+    }
   }
 });
 

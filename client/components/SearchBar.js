@@ -33,6 +33,7 @@ class SearchBar extends Component {
     const { input } = this.state;
     // NOT DOING ANYTHING WITH INPUT HERE, CHANGE THIS LOGIC TEMPORARILY TO OPERATE WITH INPUT TEXT
     this.setState({ [e.target.name]: e.target.value });
+    console.log(input)
     const filtered = tags.reduce((acc, each) => {
       return each.includes(e.target.value) && !acc.includes(each)
         ? [...acc, each]
@@ -43,10 +44,10 @@ class SearchBar extends Component {
 
   handleClick(e) {
     const { getProductsByTags, history } = this.props;
-    const { filteredTags } = this.state;
+    const { filteredTags, input } = this.state;
     const { name } = e.target;
-    console.log(filteredTags)
-    getProductsByTags(filteredTags).then(() => {
+    console.log(input)
+    getProductsByTags(input).then(() => {
       history.push('/search/page/1');
     });
   }
@@ -61,7 +62,7 @@ class SearchBar extends Component {
     const { input, filteredTags, loading } = this.state;
     const { handleChange, handleClick } = this;
     const { tags, random } = this.props;
-
+    console.log(this.state)
     return loading ? (
       <div
         style={{
@@ -75,12 +76,7 @@ class SearchBar extends Component {
     ) : (
       <div>
         <div>
-          <Toolbar
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          >
+          <Toolbar className="toolbar">
             <Input
               placeholder="Search a tag..."
               name="input"
@@ -93,9 +89,7 @@ class SearchBar extends Component {
             </IconButton>
           </Toolbar>
         </div>
-        <div
-          style={{ padding: '20px', display: 'flex', justifyContent: 'center' }}
-        >
+        <div className="chipsRow">
           {random.map((each, idx) => {
             return (
               <Chip
@@ -104,7 +98,7 @@ class SearchBar extends Component {
                 label={each}
                 clickable={false}
                 color={'default'}
-                style={{ margin: '5px' }}
+                className="chip"
               />
             );
           })}

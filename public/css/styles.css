@@ -64,12 +64,22 @@
   display: flex;
 }
 
-.cartItemPriceRight {
+/* .cartItemPriceRight {
 
-}
+} */
 
 .cartQuantity {
   padding: 1px;
+}
+
+.chip {
+  margin: 5px;
+}
+
+.chipsRow {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
 }
 
 .file {
@@ -249,6 +259,11 @@ label {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: center;
 }
 
 .totalPagesContainer {

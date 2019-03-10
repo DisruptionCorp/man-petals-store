@@ -84,17 +84,24 @@ export const getOrder = id => {
 
 //Increment and decrement lineitems, creating and deliting as needed
 export const incrementLineItem = (product, order) => {
-  let lineItem = order.Item.find(item => item.productId === product.id);
+  // product = product associated to item to be created or update, order = order attached to line item
+  const { Item } = order;
+  console.log("from order reducer increment: ", Item)
+  let lineItem = Item.map(item => item.productId === product.id);
+  console.log("from order reducer increment: ", lineItem)
   return dispatch => {
-    if (lineItem) {
+    // if item is in order, increment/update its cost
+    if (lineItem.length) {
+      lineItem = lineItem[0]
       lineItem.quantity++;
       lineItem.cost = lineItem.quantity * parseFloat(product.price);
-      dispatch(updateLineItem(lineItem, order.id));
+      dispatch(updateLineItem(lineItem));
     } else {
       lineItem = {
         orderId: order.id,
         productId: product.id,
         cost: product.cost,
+        quantity: 1,
         product,
       };
       dispatch(createLineItem(lineItem, order.id));
@@ -104,7 +111,6 @@ export const incrementLineItem = (product, order) => {
 
 export const decrementLineItem = (product, order) => {
   let lineItem = order.Item.find(item => item.productId === product.id);
-
   return dispatch => {
     if (lineItem) {
       if (lineItem.quantity > 1) {
@@ -120,16 +126,16 @@ export const decrementLineItem = (product, order) => {
 const createLineItem = (lineItem, orderId) => {
   return dispatch => {
     return axios
-      .post(`/api/orders/${orderId}/lineItems`, lineItem)
+      .post(`/api/lineItems/${orderId}`, lineItem)
       .then(resp => dispatch(_createLineItem(resp.data)))
       .catch(console.error.bind(console));
   };
 };
 
-const updateLineItem = (lineItem, orderId) => {
+const updateLineItem = (lineItem) => {
   return dispatch => {
     return axios
-      .put(`/api/orders/${orderId}/lineItems/${lineItem.id}`, lineItem)
+      .put(`/api/lineItems/${lineItem.id}`, lineItem)
       .then(resp => dispatch(_updateLineItem(resp.data)))
       .catch(console.error.bind(console));
   };
@@ -138,7 +144,7 @@ const updateLineItem = (lineItem, orderId) => {
 export const deleteLineItem = (lineItem, orderId) => {
   return dispatch => {
     return axios
-      .delete(`/api/orders/${orderId}/lineItems/${lineItem.id}`)
+      .delete(`/api/lineItems/${orderId}/${lineItem.id}`)
       .then(() => dispatch(_deleteLineItem(lineItem, orderId)))
       .catch(console.error.bind(console));
   };

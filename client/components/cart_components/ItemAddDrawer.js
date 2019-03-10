@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Drawer, Button, Icon, Typography } from '@material-ui/core';
-import { incrementLineItem, decrementLineItem } from '../../reducers/orderReducer';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -46,7 +45,11 @@ class ItemAddDrawer extends Component {
                 <hr />
             {order.Item.map(item => {
                 return (
-                    <CartItem item={item} order={order} product={product} />
+                    <CartItem 
+                        item={item} 
+                        order={order} 
+                        product={product} 
+                        itemQuantity={itemQuantity}/>
                 )
             })}
             {/* <Typography variant="display1" color="textPrimary">

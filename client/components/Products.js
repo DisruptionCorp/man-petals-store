@@ -75,7 +75,7 @@ class Products extends Component {
     const { addItemAndViewCart, handleClickAway, handleClose } = this;
     const { drawerOpen, currentProduct, loading } = this.state;
     const id = order ? order.id : '';
-    // console.log(products, count, totalPages)
+    console.log("from all products component: ", order)
     return loading ? (
       <div className="allProductsContainer">
         <CircularProgress />

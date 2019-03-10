@@ -9,7 +9,9 @@ class CartItem extends Component {
     }
 
     render() {
-        const { item, order, product, handleDec, handleInc } = this.props;
+        const { item, order, product, handleDec, handleInc, itemQuantity } = this.props;
+        console.log("from cart item component: ", order)
+        console.log(item)
         return (
             <div className="cartItem">
                 <div className="cartItemInfoLeft">
@@ -24,7 +26,7 @@ class CartItem extends Component {
                     </div>
                 </div>
                 <div className="cartItemPriceRight">
-                {item.cost}
+                {product.price ? `$${product.price * itemQuantity}` : 'tbd'}
                 </div>
             </div>
           )

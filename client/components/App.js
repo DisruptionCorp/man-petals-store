@@ -13,7 +13,6 @@ import ProductDetail from './products_components/ProductDetail';
 import Cart from './Cart';
 import Orders from './Orders';
 import Home from './Home';
-import PaginatedProducts from './products_components/PaginatedProducts';
 import AdminTool from './admin_components/AdminTool';
 import OrdersTool from './admin_components/OrdersTool';
 import ProductsTool from './admin_components/ProductsTool';
@@ -40,11 +39,6 @@ class App extends Component {
       const idx = match.params.index * 1;
       return <Products type={match.params.type} idx={idx} />;
     };
-
-    // const renderSearchPaginated = ({ match }) => {
-    //   const idx = match.params.index * 1;
-    //   return <Products type={match.params.type} idx={idx} />;
-    // };
 
     const renderHome = ({ history }) => {
       return <Home history={history} />;
@@ -102,11 +96,6 @@ class App extends Component {
             />
             <Route exact path="/products/:id" render={renderProductDetail} />
             <Route path="/admin" render={renderAdmin} />
-            {/* <Route
-              exact
-              path="/:type/page/:index?"
-              render={renderSearchPaginated}
-            /> */}
             <Route exact path="/admin/products" render={renderProductsTool} />
             <Route exact path="/admin/orders" render={renderOrdersTool} />
           </div>
@@ -121,6 +110,7 @@ const mapStateToProps = ({ products, orders, auth }, ownProps) => {
   const token = window.localStorage.getItem('token') ? true : false;
   const admin = auth ? auth.admin : false;
   const { allProducts } = products;
+  console.log("from root APP component: ", orders)
   return { allProducts, orders, token, auth, admin };
 };
 

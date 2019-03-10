@@ -9,7 +9,6 @@ class ArrowNavigation extends Component {
 
   render() {
     const { idx, totalPages, type } = this.props;
-    console.log(idx, totalPages)
     return (
         <div className="arrowNavContainer">
             <Button

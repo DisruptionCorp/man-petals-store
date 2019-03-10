@@ -3,40 +3,40 @@ const router = express.Router();
 const { Order, LineItem, User, Product, Review } = require('../../db/index');
 module.exports = router;
 
-/////LINEITEMS/////
+// /////LINEITEMS/////
 
-// create a lineItem
-router.post('/:id/lineItems/', async(req, res, next) => {
-  const product = await Product.findById(req.body.productId)
-  LineItem.create({
-    orderId: req.params.id,
-    quantity: req.body.quantity,
-    productId: req.body.productId,
-    cost: parseFloat(product.price)
-  })
-    .then(lineItem => res.send(lineItem))
-    .catch(next);
-});
+// // create a lineItem
+// router.post('/:id/lineItems/', async(req, res, next) => {
+//   const product = await Product.findById(req.body.productId)
+//   LineItem.create({
+//     orderId: req.params.id,
+//     quantity: req.body.quantity,
+//     productId: req.body.productId,
+//     cost: parseFloat(product.price)
+//   })
+//     .then(lineItem => res.send(lineItem))
+//     .catch(next);
+// });
 
-//delete lineItem
-router.delete('/:id/lineItems/:liId', (req, res, next) => {
-  LineItem.destroy({
-    where: {
-      orderId: req.params.id,
-      id: req.params.liId,
-    },
-  })
-    .then(() => res.sendStatus(204))
-    .catch(next);
-});
+// //delete lineItem
+// router.delete('/:id/lineItems/:liId', (req, res, next) => {
+//   LineItem.destroy({
+//     where: {
+//       orderId: req.params.id,
+//       id: req.params.liId,
+//     },
+//   })
+//     .then(() => res.sendStatus(204))
+//     .catch(next);
+// });
 
-//update line item
-router.put('/:id/lineItems/:liId', (req, res, next) => {
-  LineItem.findById(req.params.liId)
-    .then(lineItem => lineItem.update(req.body))
-    .then(lineItem => res.send(lineItem))
-    .catch(next);
-});
+// //update line item
+// router.put('/:id/lineItems/:liId', (req, res, next) => {
+//   LineItem.findById(req.params.liId)
+//     .then(lineItem => lineItem.update(req.body))
+//     .then(lineItem => res.send(lineItem))
+//     .catch(next);
+// });
 
 /////ORDERS/////
 
