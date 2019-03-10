@@ -31,6 +31,7 @@ class SearchBar extends Component {
   handleChange(e) {
     const { tags } = this.props;
     const { input } = this.state;
+    // NOT DOING ANYTHING WITH INPUT HERE, CHANGE THIS LOGIC TEMPORARILY TO OPERATE WITH INPUT TEXT
     this.setState({ [e.target.name]: e.target.value });
     const filtered = tags.reduce((acc, each) => {
       return each.includes(e.target.value) && !acc.includes(each)
@@ -44,8 +45,8 @@ class SearchBar extends Component {
     const { getProductsByTags, history } = this.props;
     const { filteredTags } = this.state;
     const { name } = e.target;
-
-    getProductsByTags(name || filteredTags).then(() => {
+    console.log(filteredTags)
+    getProductsByTags(filteredTags).then(() => {
       history.push('/search/page/1');
     });
   }

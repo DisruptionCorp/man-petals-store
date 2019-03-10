@@ -38,13 +38,13 @@ class App extends Component {
 
     const renderProductsByPage = ({ match }) => {
       const idx = match.params.index * 1;
-      return <Products idx={idx} />;
+      return <Products type={match.params.type} idx={idx} />;
     };
 
-    const renderSearchPaginated = ({ match }) => {
-      const idx = match.params.index * 1;
-      return <PaginatedProducts idx={idx} />;
-    };
+    // const renderSearchPaginated = ({ match }) => {
+    //   const idx = match.params.index * 1;
+    //   return <Products type={match.params.type} idx={idx} />;
+    // };
 
     const renderHome = ({ history }) => {
       return <Home history={history} />;
@@ -66,10 +66,6 @@ class App extends Component {
       return <div>You do not have Admin privileges</div>;
     };
 
-    // const renderProductsTool = ({ history }) => (
-    //   <ProductsTool history={history} />
-    // );
-
     const renderOrdersTool = () => {
       if (admin) {
         return <OrdersTool />;
@@ -77,7 +73,6 @@ class App extends Component {
       return <div>You do not have Admin privileges</div>;
     };
 
-    // const renderOrdersTool = () => <OrdersTool />;
 
     const renderSignUp = ({ history }) => <SignUp history={history} />;
 
@@ -102,16 +97,16 @@ class App extends Component {
             <Route exact path="/orders" component={Orders} />
             <Route
               exact
-              path="/products/page/:index"
+              path="/:type/page/:index"
               render={renderProductsByPage}
             />
             <Route exact path="/products/:id" render={renderProductDetail} />
             <Route path="/admin" render={renderAdmin} />
-            <Route
+            {/* <Route
               exact
-              path="/search/page/:index?"
+              path="/:type/page/:index?"
               render={renderSearchPaginated}
-            />
+            /> */}
             <Route exact path="/admin/products" render={renderProductsTool} />
             <Route exact path="/admin/orders" render={renderOrdersTool} />
           </div>

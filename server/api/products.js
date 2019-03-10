@@ -71,6 +71,7 @@ router.put('/:id', (req, res, next) => {
 //search products by tags
 router.post('/search/tags/:index?', (req, res, next) => {
   const Op = Sequelize.Op;
+  console.log(req.body.tags)
   Product.findAndCountAll({
       where: {
         tags: {
