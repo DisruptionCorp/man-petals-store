@@ -87,7 +87,6 @@ export const updateProduct = product => dispatch =>
 
 export const getProductsByTags = (tags, index = 1) => {
   return dispatch => {
-    console.log(tags)
     return axios
       .post(`/api/products/search/tags/${index}`, { tags })
       .then(async resp => {

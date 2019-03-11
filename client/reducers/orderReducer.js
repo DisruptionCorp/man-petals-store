@@ -11,57 +11,27 @@ const CREATE_ORDER = 'CREATE_ORDER';
 
 const CREATE_LINEITEM = 'CREATE_LINEITEM';
 const UPDATE_LINEITEM = 'UPDATE_LINEITEM';
-const DELETE_LINEITEM = 'DELETE_LINEITEM';
 
 //action creator
-const _getOrders = orders => {
-  return {
+const _getOrders = orders => ({
     type: GET_ORDERS,
     orders,
-  };
-};
+});
 
-const _getOrder = order => {
-  return {
+const _getOrder = order => ({
     type: GET_ORDER,
     order,
-  };
-};
+})
 
-const _createLineItem = lineItem => {
-  return {
+const _createLineItem = lineItem => ({
     type: CREATE_LINEITEM,
     lineItem,
-  };
-};
+});
 
-const _updateLineItem = lineItem => {
-  return {
+const _updateLineItem = lineItem => ({
     type: UPDATE_LINEITEM,
     lineItem,
-  };
-};
-
-const _deleteLineItem = lineItem => {
-  return {
-    type: DELETE_LINEITEM,
-    lineItem,
-  };
-};
-
-const _deleteOrder = orderId => {
-  return {
-    type: DELETE_ORDER,
-    orderId,
-  };
-};
-
-const _createOrder = order => {
-  return {
-    type: CREATE_ORDER,
-    order,
-  };
-};
+});
 
 //thunks
 export const getOrders = () => {
@@ -85,25 +55,26 @@ export const getOrder = id => {
 //Increment and decrement lineitems, creating and deliting as needed
 export const incrementLineItem = (product, order) => {
   // product = product associated to item to be created or update, order = order attached to line item
-  const { Item } = order;
-  console.log("from order reducer increment: ", Item)
-  let lineItem = Item.map(item => item.productId === product.id);
-  console.log("from order reducer increment: ", lineItem)
+  let lineItem = order.Item.find(item => item.productId == product.id);
   return dispatch => {
     // if item is in order, increment/update its cost
-    if (lineItem.length) {
-      lineItem = lineItem[0]
-      lineItem.quantity++;
+    if (lineItem) {
+      lineItem.quantity+=1;
       lineItem.cost = lineItem.quantity * parseFloat(product.price);
-      dispatch(updateLineItem(lineItem));
-    } else {
+      // order.total += product.price
+      dispatch(updateLineItem(lineItem, order.id));
+      // dispatch(updateOrder(order))
+    }
+    // else, create new item 
+    else {
       lineItem = {
         orderId: order.id,
         productId: product.id,
-        cost: product.cost,
+        cost: product.price,
         quantity: 1,
         product,
       };
+      // order.total = order.total === null ? product.price : order.total+product.price
       dispatch(createLineItem(lineItem, order.id));
     }
   };
@@ -115,8 +86,10 @@ export const decrementLineItem = (product, order) => {
     if (lineItem) {
       if (lineItem.quantity > 1) {
         lineItem.quantity--;
+        lineItem.cost -= product.price;
         dispatch(updateLineItem(lineItem, order.id));
-      } else if (lineItem.quantity === 1) {
+      } 
+      else if (lineItem.quantity === 1) {
         dispatch(deleteLineItem(lineItem, order.id));
       }
     }
@@ -126,17 +99,17 @@ export const decrementLineItem = (product, order) => {
 const createLineItem = (lineItem, orderId) => {
   return dispatch => {
     return axios
-      .post(`/api/lineItems/${orderId}`, lineItem)
-      .then(resp => dispatch(_createLineItem(resp.data)))
+      .post(`/api/lineItems/${orderId}`, { lineItem })
+      .then(() => dispatch(getOrder(orderId)))
       .catch(console.error.bind(console));
   };
 };
 
-const updateLineItem = (lineItem) => {
+const updateLineItem = (lineItem, orderId) => {
   return dispatch => {
     return axios
-      .put(`/api/lineItems/${lineItem.id}`, lineItem)
-      .then(resp => dispatch(_updateLineItem(resp.data)))
+      .put(`/api/lineItems/${lineItem.id}`, { lineItem, orderId })
+      .then(() => dispatch(getOrder(orderId)))
       .catch(console.error.bind(console));
   };
 };
@@ -145,7 +118,7 @@ export const deleteLineItem = (lineItem, orderId) => {
   return dispatch => {
     return axios
       .delete(`/api/lineItems/${orderId}/${lineItem.id}`)
-      .then(() => dispatch(_deleteLineItem(lineItem, orderId)))
+      .then(() => dispatch(getOrder(orderId)))
       .catch(console.error.bind(console));
   };
 };
@@ -170,39 +143,27 @@ export const createOrder = order => {
 
 //reducer
 export const orderReducer = (state = initialState, action) => {
-  //need to refactor this, action.lineItem doesnt always exist
-  let lineItemIdx, orderIdx;
-  if (action.lineItem) {
-    orderIdx = state.findIndex(_order => {
-      return _order.id === action.lineItem.orderId;
-    });
-    if (orderIdx >= 0) {
-      lineItemIdx = state[orderIdx].Item.findIndex(_item => {
-        return _item.id === action.lineItem.id;
-      });
-    }
-  }
-
+  // simplified logic here:
+  // prior to this, complex lineitem logic was written so that each time an individual lineitem was edited
+  // db would be queried to return the individual item
+  // then we'd edit the item in our order.Item list when the list itself was already edited in our db
+  // we simply had to query to return the entire order, which is what the logic is currently
+  // after each edit, ajax call is made to db to get the newly edited order and replacing it in our reducer here
   switch (action.type) {
     case GET_ORDERS:
       return (state = action.orders);
 
-    case CREATE_LINEITEM:
-      return Object.assign([], state, {
-        orderIdx: state[orderIdx].Item.push(action.lineItem),
-      });
-
-    case UPDATE_LINEITEM:
-      let orderUpdate = state[orderIdx].Item;
-      orderUpdate[lineItemIdx] = action.lineItem;
-      return Object.assign([], state, {
-        orderIdx: orderUpdate,
-      });
-
-    case DELETE_LINEITEM:
-      let updateOrder = Object.assign([], state);
-      updateOrder[orderIdx].Item.splice(lineItemIdx, 1);
-      return updateOrder;
+    case GET_ORDER:
+      action.order.Item = action.order.Item.sort((a,b) => a.createdAt-b.createdAt)
+      console.log(action.order)
+      let orders = state.reduce((all, order) => {
+        if (order.status == "CART") {
+          return [...all, action.order]
+        } else {
+          return [...all, order]
+        }
+      }, [])
+      return orders;
 
     case DELETE_ORDER:
       const _orders = state.filter(o => o.id != action.orderId);

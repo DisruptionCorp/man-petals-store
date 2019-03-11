@@ -67,7 +67,6 @@ class App extends Component {
       return <div>You do not have Admin privileges</div>;
     };
 
-
     const renderSignUp = ({ history }) => <SignUp history={history} />;
 
     const renderCart = ({ history }) => <Cart history={history} />;
@@ -110,7 +109,6 @@ const mapStateToProps = ({ products, orders, auth }, ownProps) => {
   const token = window.localStorage.getItem('token') ? true : false;
   const admin = auth ? auth.admin : false;
   const { allProducts } = products;
-  console.log("from root APP component: ", orders)
   return { allProducts, orders, token, auth, admin };
 };
 

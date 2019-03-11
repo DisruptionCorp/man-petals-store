@@ -52,6 +52,8 @@
 .cartItem {
   display: flex;
   justify-content: space-between;
+  background-color: white;
+  padding: 10px;
 }
 
 .cartImg {
@@ -64,12 +66,24 @@
   display: flex;
 }
 
-/* .cartItemPriceRight {
-
-} */
+.cartItemPriceRight {
+  text-align: center;
+  padding: 20px 10px 20px 10px;
+}
 
 .cartQuantity {
-  padding: 1px;
+  margin: 0px 5px 0px 5px;
+}
+
+.checkoutButton {
+  width: 100%;
+  text-align: center;
+  background-color: lightslategrey;
+}
+
+.checkoutButtonContainer {
+  display: flex;
+  justify-content: center;
 }
 
 .chip {
@@ -124,6 +138,14 @@ input {
   padding: 1px;
   align-items: right;
   border-radius: 5px;
+}
+
+.itemIncrementor {
+  text-align: center;
+  /* height: 100%;
+  width: 100%;
+  align-content: center; */
+  padding: 20px 10px 20px 10px;
 }
 
 label {
@@ -266,9 +288,20 @@ label {
     justify-content: center;
 }
 
+.totalAndCheckoutContainer {
+  padding: 20px 10px 20px 10px;
+  background-color: white; 
+}
+
 .totalPagesContainer {
   display: flex;
   justify-content: center;
+}
+
+.totalSummary {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 
 

@@ -1,5 +1,5 @@
 const conn = require('../conn');
-
+// const { LineItem } = require('../index');
 const Order = conn.define('order', {
   id: {
     type: conn.Sequelize.UUID,
@@ -20,11 +20,10 @@ const Order = conn.define('order', {
   },
 }, {
   hooks: {
-    afterValidate(order){
-      if(order.total) {
-        order.total = order.total.toFixed(2)
-      }
-    }
+    // afterValidate(order){
+    //   console.log(this.associations)
+    //   order.total = this.associations.Item.reduce((total, item) => {return total += item.cost}, 0).toFixed(2)
+    // }
   }
 });
 

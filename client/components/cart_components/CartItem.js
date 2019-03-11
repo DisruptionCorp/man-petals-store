@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { incrementLineItem, decrementLineItem } from '../../reducers/orderReducer';
-import { Button } from '@material-ui/core'
+import { Button, Icon } from '@material-ui/core'
 
 class CartItem extends Component {
     constructor(props){
@@ -9,24 +9,23 @@ class CartItem extends Component {
     }
 
     render() {
-        const { item, order, product, handleDec, handleInc, itemQuantity } = this.props;
-        console.log("from cart item component: ", order)
+        const { item, order, handleDec, handleInc } = this.props;
         console.log(item)
         return (
             <div className="cartItem">
                 <div className="cartItemInfoLeft">
-                    <img className="cartImg" src={product.photo}/>
-                    <div>
-                        <div>{product.name}</div>
+                    <img className="cartImg" src={item.product.photo}/>
+                    <div className="itemIncrementor">
+                        <div>{item.product.name}</div>
                         <div className="quantityButtons">
-                            <Button onClick={()=>handleDec(product, order)}>-</Button>
+                            <Button onClick={()=>handleDec(item.product, order)}><Icon>remove</Icon></Button>
                             <div className="cartQuantity">{item.quantity}</div>
-                            <Button onClick={()=>handleInc(product, order)}>+</Button>
+                            <Button onClick={()=>handleInc(item.product, order)}><Icon>add</Icon></Button>
                         </div>
                     </div>
                 </div>
                 <div className="cartItemPriceRight">
-                {product.price ? `$${product.price * itemQuantity}` : 'tbd'}
+                ${item.cost}
                 </div>
             </div>
           )

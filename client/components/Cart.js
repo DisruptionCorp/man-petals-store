@@ -87,6 +87,7 @@ const mapStateToProps = ({ products, orders }, { history }) => {
   const order = orders.find(_order => {
     return _order.status === 'CART';
   });
+  console.log(order)
   const totalCost = order.Item.reduce((total, curr)=>{
     return total += curr.cost*1
   }, 0)

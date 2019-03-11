@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getProductsByTags } from '../reducers/productReducer';
 import {
@@ -7,14 +6,9 @@ import {
   Input,
   Icon,
   IconButton,
-  Paper,
-  Typography,
-  MenuItem,
-  MenuList,
   Chip,
   CircularProgress,
 } from '@material-ui/core';
-import { BeatLoader } from 'react-spinners';
 
 class SearchBar extends Component {
   constructor() {
@@ -31,9 +25,8 @@ class SearchBar extends Component {
   handleChange(e) {
     const { tags } = this.props;
     const { input } = this.state;
-    // NOT DOING ANYTHING WITH INPUT HERE, CHANGE THIS LOGIC TEMPORARILY TO OPERATE WITH INPUT TEXT
+    // CHANGED THIS LOGIC TEMPORARILY TO OPERATE WITH INPUT TEXT
     this.setState({ [e.target.name]: e.target.value });
-    console.log(input)
     const filtered = tags.reduce((acc, each) => {
       return each.includes(e.target.value) && !acc.includes(each)
         ? [...acc, each]
@@ -45,8 +38,7 @@ class SearchBar extends Component {
   handleClick(e) {
     const { getProductsByTags, history } = this.props;
     const { filteredTags, input } = this.state;
-    const { name } = e.target;
-    console.log(input)
+    // const { name } = e.target;
     getProductsByTags(input).then(() => {
       history.push('/search/page/1');
     });
@@ -64,13 +56,7 @@ class SearchBar extends Component {
     const { tags, random } = this.props;
     console.log(this.state)
     return loading ? (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          padding: '30px',
-        }}
-      >
+      <div className="allProductsContainer">
         <CircularProgress />
       </div>
     ) : (
@@ -114,9 +100,7 @@ const mapStateToProps = ({ products }, { history }) => {
     return curr.tags ? [...acc, ...curr.tags] : [...acc];
   }, []);
 
-  const random = Array(5)
-    .fill('')
-    .map(curr => {
+  const random = Array(5).fill('').map(curr => {
       return tags[Math.floor(Math.random() * tags.length)];
     });
   return { tags, random, allProducts, history };

@@ -1,22 +1,43 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Drawer, Button, Icon, Typography } from '@material-ui/core';
+import { Drawer, Button, Icon } from '@material-ui/core';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import CartItem from './CartItem';
+import { createOrder } from '../../reducers/orderReducer';
 
 const drawerWidth = 450
 const styles = theme => ({
   drawer: {
     width: drawerWidth,
-    padding: '10px',    
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    backgroundColor: "rgb(216, 216, 216)",    
+  },
+  drawerInfoContainer: {
+    backgroundColor: 'white',
   },
   header: {
+      fontSize: '2em',
+      height: '70px',
+      width: '100%',
+      padding: '20px',
       display: 'flex',
       justifyContent: 'center',
-  }
+      backgroundColor: 'white'
+  },
 })
+
+const StyledButton = withStyles({
+    root: {
+      background: 'lightslategrey',
+      borderRadius: 3,
+      height: 48,
+    },
+  })(Button);
 
 class ItemAddDrawer extends Component {
   constructor(props){
@@ -26,13 +47,14 @@ class ItemAddDrawer extends Component {
   render(){
     const { 
         classes, 
-        drawerOpen, 
-        product, 
-        itemQuantity, 
+        drawerOpen,  
         order, 
-        handleClickAway 
+        handleClickAway, 
+        subTotal,
+        tax,
+        total,
+        createOrder 
     } = this.props;
-    console.log(order)
   	return (
   	  <div>
           <Drawer 
@@ -41,41 +63,41 @@ class ItemAddDrawer extends Component {
             open={drawerOpen}
             onClose={handleClickAway}>
             <div className={classes.drawer}>
-                <h4 className={classes.header}>Your Cart</h4>
-                <hr />
-            {order.Item.map(item => {
-                return (
-                    <CartItem 
-                        item={item} 
-                        order={order} 
-                        product={product} 
-                        itemQuantity={itemQuantity}/>
-                )
-            })}
-            {/* <Typography variant="display1" color="textPrimary">
-                <Link to={`/products/${product.id}`} className="productNameLink">{product.name}</Link>
-            </Typography>
-            <Typography variant="body1">
-                Price: {product.price ? `$${product.price}` : 'tbd'}
-            </Typography>
-            <Typography variant="body1">{itemQuantity} units in cart</Typography>
-            <div className="buttonContainer">
-                <Button
-                    variant="fab"
-                    color="primary"
-                    onClick={() => handleInc(product, order)}
-                >
-                    <Icon>add</Icon>
-                </Button>
-                <Button
-                    disabled={!itemQuantity}
-                    variant="fab"
-                    color="secondary"
-                    onClick={() => handleDec(product, order)}
-                >
-                    <Icon>remove</Icon>
-                </Button>
-            </div> */}
+                <div className={classes.drawerInfoContainer}>
+                    <div className={classes.header}>Your Cart</div>
+                    <hr className={classes.hr}/>
+                    {order.Item.map(item => {
+                        return (
+                            <CartItem 
+                                item={item} 
+                                order={order}/>
+                        )
+                    })}
+                </div>
+                <div className="totalAndCheckoutContainer">
+                    <div className="totalSummary">
+                        <div>Subtotal</div>
+                        <div>${subTotal}</div>
+                    </div>
+                    <div className="totalSummary">
+                        <div>Tax</div>
+                        <div>${tax}</div>
+                    </div>
+                    <div className="totalSummary">
+                        <div>Shipping</div>
+                        <div>$3.99</div>
+                    </div>
+                    <div className="totalSummary">
+                        <div>Total</div>
+                        <div>${total}</div>
+                    </div>
+                    <div className="checkoutButtonContainer">
+                        <StyledButton 
+                            className="checkoutButton" 
+                            component={Link}
+                            to="/cart">Checkout</StyledButton>
+                    </div>
+                </div>
             </div>
   	    </Drawer>
   	  </div>
@@ -89,17 +111,25 @@ ItemAddDrawer.propTypes = {
 };
 
 const mapStateToProps = (state, { order, product }) => {
-    let item = order
-    ? order.Item.find(item => item.productId === product.id)
-    : null;
+    let subTotal = parseFloat(order.Item.reduce((total, item) => {
+        return total += item.cost*1
+    }, 0)).toFixed(2)
+    let tax = parseFloat(subTotal*1*0.045).toFixed(2)
+    let total = (parseFloat(subTotal) + parseFloat(tax) + parseFloat(3.99)).toFixed(2)
     return {
+      subTotal,
+      tax,
+      total,
       order,
-      itemQuantity: item ? item.quantity : 0,
       product
     };
   };
 
+const mapDispatchToProps = dispatch => ({
+    createOrder: order => dispatch(createOrder(order)),
+});
   
   export default connect(
-    mapStateToProps
+    mapStateToProps,
+    mapDispatchToProps
   )(withStyles(styles)(ItemAddDrawer));

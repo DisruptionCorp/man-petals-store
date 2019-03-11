@@ -1,19 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
-import {
-  Paper,
-  Typography,
-  AppBar,
-  Toolbar,
-  IconButton,
-  MenuList,
-  MenuItem,
-  ClickAwayListener,
-  Grow,
-  Badge,
-} from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
+import { Badge } from '@material-ui/core';
 import { logout } from '../reducers/authReducer';
 
 class Navbar extends Component {
@@ -115,6 +103,7 @@ class Navbar extends Component {
 }
 
 const mapStateToProps = ({ auth, orders }, { id, history }) => {
+  
   const order = orders.find(_order => {
     return _order.status === 'CART';
   });

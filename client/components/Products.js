@@ -75,7 +75,6 @@ class Products extends Component {
     const { addItemAndViewCart, handleClickAway, handleClose } = this;
     const { drawerOpen, currentProduct, loading } = this.state;
     const id = order ? order.id : '';
-    console.log("from all products component: ", order)
     return loading ? (
       <div className="allProductsContainer">
         <CircularProgress />
@@ -126,7 +125,6 @@ const mapStateToProps = ({ products, orders }, { idx, type }) => {
     const end = start + productsPerPage;
     tagProductsPerPage = tagProducts.rows.slice(start, end);
     totalPages = Math.ceil(tagProducts.count / productsPerPage);
-    console.log(tagProducts)
   } 
   // offset and limit pagination logic happens in backend for all products
   else if (type=="products") {
