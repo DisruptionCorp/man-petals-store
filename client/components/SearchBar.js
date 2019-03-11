@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getProductsByTags } from '../reducers/productReducer';
 import {
@@ -7,14 +6,9 @@ import {
   Input,
   Icon,
   IconButton,
-  Paper,
-  Typography,
-  MenuItem,
-  MenuList,
   Chip,
   CircularProgress,
 } from '@material-ui/core';
-import { BeatLoader } from 'react-spinners';
 
 class SearchBar extends Component {
   constructor() {
@@ -31,6 +25,7 @@ class SearchBar extends Component {
   handleChange(e) {
     const { tags } = this.props;
     const { input } = this.state;
+    // CHANGED THIS LOGIC TEMPORARILY TO OPERATE WITH INPUT TEXT
     this.setState({ [e.target.name]: e.target.value });
     const filtered = tags.reduce((acc, each) => {
       return each.includes(e.target.value) && !acc.includes(each)
@@ -42,10 +37,9 @@ class SearchBar extends Component {
 
   handleClick(e) {
     const { getProductsByTags, history } = this.props;
-    const { filteredTags } = this.state;
-    const { name } = e.target;
-
-    getProductsByTags(name || filteredTags).then(() => {
+    const { filteredTags, input } = this.state;
+    // const { name } = e.target;
+    getProductsByTags(input).then(() => {
       history.push('/search/page/1');
     });
   }
@@ -60,26 +54,15 @@ class SearchBar extends Component {
     const { input, filteredTags, loading } = this.state;
     const { handleChange, handleClick } = this;
     const { tags, random } = this.props;
-
+    console.log(this.state)
     return loading ? (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          padding: '30px',
-        }}
-      >
+      <div className="allProductsContainer">
         <CircularProgress />
       </div>
     ) : (
       <div>
         <div>
-          <Toolbar
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          >
+          <Toolbar className="toolbar">
             <Input
               placeholder="Search a tag..."
               name="input"
@@ -92,9 +75,7 @@ class SearchBar extends Component {
             </IconButton>
           </Toolbar>
         </div>
-        <div
-          style={{ padding: '20px', display: 'flex', justifyContent: 'center' }}
-        >
+        <div className="chipsRow">
           {random.map((each, idx) => {
             return (
               <Chip
@@ -103,7 +84,7 @@ class SearchBar extends Component {
                 label={each}
                 clickable={false}
                 color={'default'}
-                style={{ margin: '5px' }}
+                className="chip"
               />
             );
           })}
@@ -119,9 +100,7 @@ const mapStateToProps = ({ products }, { history }) => {
     return curr.tags ? [...acc, ...curr.tags] : [...acc];
   }, []);
 
-  const random = Array(5)
-    .fill('')
-    .map(curr => {
+  const random = Array(5).fill('').map(curr => {
       return tags[Math.floor(Math.random() * tags.length)];
     });
   return { tags, random, allProducts, history };

@@ -1,6 +1,5 @@
 const conn = require('../conn');
-//const { LineItem } = require('../index');
-
+// const { LineItem } = require('../index');
 const Order = conn.define('order', {
   id: {
     type: conn.Sequelize.UUID,
@@ -19,23 +18,12 @@ const Order = conn.define('order', {
       isDecimal: true
     }
   },
-}, /*{
-  include: {
-    model: LineItem,
-    as: 'Item'
-  }
-},*/ {
+}, {
   hooks: {
-    afterValidate(order){
-      if(order.total) {
-        order.total = order.total.toFixed(2)
-      }
-    }/*,
-    afterUpdate(order){
-      if(order.Item){
-        order.total = order.Item.reduce((grandTotal, curr, idx)=>{grandTotal+=curr.cost}, 0)
-      }
-    }*/
+    // afterValidate(order){
+    //   console.log(this.associations)
+    //   order.total = this.associations.Item.reduce((total, item) => {return total += item.cost}, 0).toFixed(2)
+    // }
   }
 });
 

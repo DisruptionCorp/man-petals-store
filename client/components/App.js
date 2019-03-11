@@ -13,7 +13,6 @@ import ProductDetail from './products_components/ProductDetail';
 import Cart from './Cart';
 import Orders from './Orders';
 import Home from './Home';
-import PaginatedProducts from './products_components/PaginatedProducts';
 import AdminTool from './admin_components/AdminTool';
 import OrdersTool from './admin_components/OrdersTool';
 import ProductsTool from './admin_components/ProductsTool';
@@ -38,12 +37,7 @@ class App extends Component {
 
     const renderProductsByPage = ({ match }) => {
       const idx = match.params.index * 1;
-      return <Products idx={idx} />;
-    };
-
-    const renderSearchPaginated = ({ match }) => {
-      const idx = match.params.index * 1;
-      return <PaginatedProducts idx={idx} />;
+      return <Products type={match.params.type} idx={idx} />;
     };
 
     const renderHome = ({ history }) => {
@@ -66,18 +60,12 @@ class App extends Component {
       return <div>You do not have Admin privileges</div>;
     };
 
-    // const renderProductsTool = ({ history }) => (
-    //   <ProductsTool history={history} />
-    // );
-
     const renderOrdersTool = () => {
       if (admin) {
         return <OrdersTool />;
       }
       return <div>You do not have Admin privileges</div>;
     };
-
-    // const renderOrdersTool = () => <OrdersTool />;
 
     const renderSignUp = ({ history }) => <SignUp history={history} />;
 
@@ -102,16 +90,11 @@ class App extends Component {
             <Route exact path="/orders" component={Orders} />
             <Route
               exact
-              path="/products/page/:index"
+              path="/:type/page/:index"
               render={renderProductsByPage}
             />
             <Route exact path="/products/:id" render={renderProductDetail} />
             <Route path="/admin" render={renderAdmin} />
-            <Route
-              exact
-              path="/search/page/:index?"
-              render={renderSearchPaginated}
-            />
             <Route exact path="/admin/products" render={renderProductsTool} />
             <Route exact path="/admin/orders" render={renderOrdersTool} />
           </div>

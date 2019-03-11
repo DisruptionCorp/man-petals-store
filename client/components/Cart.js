@@ -26,8 +26,6 @@ class Cart extends Component {
       return (acc += el.quantity);
     }, 0);
     const id = order ? order.id : 'loading';
-
-    // console.log('Cart Order is: ', order)
     return (
       <div className="cartContainer">
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -83,7 +81,6 @@ class Cart extends Component {
 
 const mapStateToProps = ({ products, orders }, { history }) => {
   const { allProducts } = products;
-  console.log('state of orders in mapStateToProps: ', orders);
   const order = orders.find(_order => {
     return _order.status === 'CART';
   });

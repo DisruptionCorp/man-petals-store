@@ -9,7 +9,7 @@ class PageNavigation extends Component {
         super(props)
     }
     render() {
-        const { idx, totalPages, count } = this.props;
+        const { idx, totalPages, count, type } = this.props;
         return (
             <div className="paginationFooter">
                 <Button
@@ -26,7 +26,7 @@ class PageNavigation extends Component {
                     {idx > 2 && (
                         <Button 
                             component={Link} 
-                            to="/products/page/1">
+                            to={`/${type}/page/1`}>
                             1
                         </Button>
                     )}
@@ -34,7 +34,7 @@ class PageNavigation extends Component {
                     {idx > 1 && (
                         <Button 
                             component={Link} 
-                            to={`/products/page/${idx - 1}`}>
+                            to={`/${type}/page/${idx - 1}`}>
                             {idx - 1}
                         </Button>
                     )}
@@ -42,7 +42,7 @@ class PageNavigation extends Component {
                     {idx + 1 < totalPages && (
                         <Button 
                             component={Link} 
-                            to={`/products/page/${idx + 1}`}>
+                            to={`/${type}/page/${idx + 1}`}>
                             {idx + 1}
                         </Button>
                     )}
@@ -50,7 +50,7 @@ class PageNavigation extends Component {
                     {idx !== totalPages && (
                         <Button 
                             component={Link} 
-                            to={`/products/page/${totalPages}`}>
+                            to={`/${type}/page/${totalPages}`}>
                             {totalPages}
                         </Button>
                     )}

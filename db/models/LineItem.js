@@ -28,7 +28,7 @@ const LineItem = db.define(
     	}
     }*/
   {
-    include: [Product],
+    include: [{model: Product}],
   }
 );
 

@@ -85,20 +85,23 @@ export const updateProduct = product => dispatch =>
     .put(`/api/products/${product.id}`, product)
     .then(resp => dispatch(_updateProduct(resp.data)));
 
-export const getProductsByTags = (tags, index = 1) => dispatch =>
-  axios
-    .post(`/api/products/search/tags`, { tags })
-    .then(async resp => {
-      const flowerPics = await axios.get(`https://pixabay.com/api/?key=11819391-597f72f9615ec78156f395173&q=flowers&image_type=all`)
-      resp.data.rows.map((each, i) => {
-        let num = Math.round(Math.random()*flowerPics.data.hits.length)
-        let randomFlower = flowerPics.data.hits[num]
-        console.log(randomFlower)
-        each.photo = "https://pixel77.com/wp-content/uploads/2015/05/pixel77-flat-flower-1065-900x900.jpg" || randomFlower.webformatURL
+export const getProductsByTags = (tags, index = 1) => {
+  return dispatch => {
+    return axios
+      .post(`/api/products/search/tags/${index}`, { tags })
+      .then(async resp => {
+        console.log("search: ", resp)
+        const flowerPics = await axios.get(`https://pixabay.com/api/?key=11819391-597f72f9615ec78156f395173&q=flowers&image_type=all`)
+        resp.data.rows.map((each, i) => {
+          let num = Math.round(Math.random()*flowerPics.data.hits.length)
+          let randomFlower = flowerPics.data.hits[num]
+          each.photo = "https://pixel77.com/wp-content/uploads/2015/05/pixel77-flat-flower-1065-900x900.jpg" || randomFlower.webformatURL
+        })
+        dispatch(_getByTag(resp.data));
       })
-      dispatch(_getByTag(resp.data));
-    })
-    .catch(console.error.bind(console));
+      .catch(console.error.bind(console));
+    }
+}
 
 export const addReview = review => {
   return dispatch => {
