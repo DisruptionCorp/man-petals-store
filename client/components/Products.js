@@ -22,27 +22,19 @@ class Products extends Component {
       loading: true,
       closeDialog: false,
       drawerOpen: false,
-      currentProduct: {},
+      // currentProduct: {},
     };
     this.openAddToCartDrawer = this.openAddToCartDrawer.bind(this);
     this.handleClickAway = this.handleClickAway.bind(this);
-    this.addItemAndViewCart = this.addItemAndViewCart.bind(this);
     this.handleClose = this.handleClose.bind(this);
   }
 
-  openAddToCartDrawer = () => {
+  openAddToCartDrawer = (product) => (evt) => {
+    const { handleInc, order } = this.props;
+    handleInc(product, order)
     this.setState({
       drawerOpen: true,
     })
-  }
-  
-  addItemAndViewCart = (product) => (evt) => {
-    const { handleInc, order } = this.props;
-    this.setState({ 
-      currentProduct: product,
-    })
-    handleInc(product, order)
-    this.openAddToCartDrawer();
   }
 
   handleClose() {
@@ -72,8 +64,8 @@ class Products extends Component {
 
   render() {
     const { products, order, count, idx, totalPages, type } = this.props;
-    const { addItemAndViewCart, handleClickAway, handleClose } = this;
-    const { drawerOpen, currentProduct, loading } = this.state;
+    const { openAddToCartDrawer, handleClickAway, handleClose } = this;
+    const { drawerOpen, loading } = this.state;
     const id = order ? order.id : '';
     return loading ? (
       <div className="allProductsContainer">
@@ -82,7 +74,10 @@ class Products extends Component {
     ) : (
       <div className="cartContainer">
         <div>
-          <ArrowNavigation idx={idx} totalPages={totalPages} type={type}/>
+          <ArrowNavigation 
+            idx={idx} 
+            totalPages={totalPages} 
+            type={type}/>
         </div>
         <div className="theGrid">
           {products.map((_product, i) => {
@@ -92,7 +87,7 @@ class Products extends Component {
                 key={_product.id}
                 product={_product}
                 order={order}
-                addItemAndViewCart={addItemAndViewCart}
+                openAddToCartDrawer={openAddToCartDrawer}
               />
             );
           })}
@@ -100,7 +95,6 @@ class Products extends Component {
         <PageNavigation idx={idx} totalPages={totalPages} count={count} type={type}/>
         <ItemAddDrawer 
           drawerOpen={drawerOpen} 
-          product={currentProduct} 
           order={order} 
           handleClickAway={handleClickAway}/>
         {(!products.length && type == "search") && (

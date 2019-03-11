@@ -9,8 +9,8 @@ const GET_ORDER = 'GET_ORDER';
 const DELETE_ORDER = 'DELETE_ORDER';
 const CREATE_ORDER = 'CREATE_ORDER';
 
-const CREATE_LINEITEM = 'CREATE_LINEITEM';
-const UPDATE_LINEITEM = 'UPDATE_LINEITEM';
+// const CREATE_LINEITEM = 'CREATE_LINEITEM';
+// const UPDATE_LINEITEM = 'UPDATE_LINEITEM';
 
 //action creator
 const _getOrders = orders => ({
@@ -23,17 +23,17 @@ const _getOrder = order => ({
     order,
 })
 
-const _createLineItem = lineItem => ({
-    type: CREATE_LINEITEM,
-    lineItem,
-});
+// const _createLineItem = lineItem => ({
+//     type: CREATE_LINEITEM,
+//     lineItem,
+// });
 
-const _updateLineItem = lineItem => ({
-    type: UPDATE_LINEITEM,
-    lineItem,
-});
+// const _updateLineItem = lineItem => ({
+//     type: UPDATE_LINEITEM,
+//     lineItem,
+// });
 
-//thunks
+// THUNKS
 export const getOrders = () => {
   return dispatch => {
     return axios
@@ -52,7 +52,7 @@ export const getOrder = id => {
   };
 };
 
-//Increment and decrement lineitems, creating and deliting as needed
+//Increment and decrement lineitems, creating and deleting as needed
 export const incrementLineItem = (product, order) => {
   // product = product associated to item to be created or update, order = order attached to line item
   let lineItem = order.Item.find(item => item.productId == product.id);
@@ -61,9 +61,7 @@ export const incrementLineItem = (product, order) => {
     if (lineItem) {
       lineItem.quantity+=1;
       lineItem.cost = lineItem.quantity * parseFloat(product.price);
-      // order.total += product.price
       dispatch(updateLineItem(lineItem, order.id));
-      // dispatch(updateOrder(order))
     }
     // else, create new item 
     else {
@@ -74,7 +72,6 @@ export const incrementLineItem = (product, order) => {
         quantity: 1,
         product,
       };
-      // order.total = order.total === null ? product.price : order.total+product.price
       dispatch(createLineItem(lineItem, order.id));
     }
   };
@@ -96,6 +93,8 @@ export const decrementLineItem = (product, order) => {
   };
 };
 
+// create, update, or delete, then get order associated to lineitem and edit redux store
+// by replacing newly edited order
 const createLineItem = (lineItem, orderId) => {
   return dispatch => {
     return axios
@@ -123,6 +122,7 @@ export const deleteLineItem = (lineItem, orderId) => {
   };
 };
 
+// create or delete order
 export const deleteOrder = orderId => {
   return dispatch => {
     return axios
@@ -154,8 +154,9 @@ export const orderReducer = (state = initialState, action) => {
       return (state = action.orders);
 
     case GET_ORDER:
+      // attempted to sort items by createdAt so that each time quantity is updated, cart item order remains the same
+      // logic also in the backend atm but neither is working
       action.order.Item = action.order.Item.sort((a,b) => a.createdAt-b.createdAt)
-      console.log(action.order)
       let orders = state.reduce((all, order) => {
         if (order.status == "CART") {
           return [...all, action.order]

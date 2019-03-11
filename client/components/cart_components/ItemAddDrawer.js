@@ -69,6 +69,7 @@ class ItemAddDrawer extends Component {
                     {order.Item.map(item => {
                         return (
                             <CartItem 
+                                key={item.id}
                                 item={item} 
                                 order={order}/>
                         )
@@ -110,7 +111,9 @@ ItemAddDrawer.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state, { order, product }) => {
+const mapStateToProps = (state, { order }) => {
+    // order total logic atm until we can get sequelize validation hook for order total
+    // by reducing all item costs to order.total to work
     let subTotal = parseFloat(order.Item.reduce((total, item) => {
         return total += item.cost*1
     }, 0)).toFixed(2)
@@ -120,8 +123,7 @@ const mapStateToProps = (state, { order, product }) => {
       subTotal,
       tax,
       total,
-      order,
-      product
+      order
     };
   };
 

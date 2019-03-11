@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { LineItem, Order, Product } = require('../../db');
+const { LineItem, Product } = require('../../db');
 
 // create line items
 router.post('/:orderId', (req, res, next) => {

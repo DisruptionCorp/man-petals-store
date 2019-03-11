@@ -10,7 +10,6 @@ class CartItem extends Component {
 
     render() {
         const { item, order, handleDec, handleInc } = this.props;
-        console.log(item)
         return (
             <div className="cartItem">
                 <div className="cartItemInfoLeft">

@@ -10,7 +10,6 @@ class PageNavigation extends Component {
     }
     render() {
         const { idx, totalPages, count, type } = this.props;
-        console.log("from page nav: ", count)
         return (
             <div className="paginationFooter">
                 <Button
