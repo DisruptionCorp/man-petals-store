@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
-import { Badge } from '@material-ui/core';
+import { Badge, Paper } from '@material-ui/core';
 import { logout } from '../reducers/authReducer';
 
 class Navbar extends Component {
@@ -9,13 +9,11 @@ class Navbar extends Component {
     const { auth, isLoggedIn, id, logout, history, count, admin } = this.props;
     const isAuth = auth.id ? true : false;
     return (
-      <div>
-        <nav className="navbar navbar-expand-md navbar-dark bg-dark">
-          <a className="navbar-brand" href="/">
-            MANPETALS
-          </a>
+      <div className="navCover">
+      <Paper>
+        <nav className="navbar navbar-expand-md">
           <button
-            className="navbar-toggler"
+            className="navbar-toggler btn-dark btn"
             type="button"
             data-toggle="collapse"
             data-target="#myNavbar"
@@ -64,7 +62,9 @@ class Navbar extends Component {
                 </li>
               ) : null}
             </ul>
-
+            <a className="brand" href="/">
+              MANPETALS
+            </a>
             <ul className="navbar-nav my-2 my-lg-0">
               <li className="nav-item">
                 <p className="navbar-text">
@@ -97,6 +97,7 @@ class Navbar extends Component {
             </ul>
           </div>
         </nav>
+        </Paper>
       </div>
     );
   }

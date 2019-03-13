@@ -36,6 +36,7 @@ const StyledButton = withStyles({
       background: 'lightslategrey',
       borderRadius: 3,
       height: 48,
+      color: 'white',
     },
   })(Button);
 
