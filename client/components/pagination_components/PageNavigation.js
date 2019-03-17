@@ -3,6 +3,18 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button, Typography, Icon } from '@material-ui/core';
 import { createOrder } from '../../reducers/orderReducer';
+import { withStyles } from '@material-ui/core/styles';
+
+const StyledButton = withStyles({
+  root: {
+    background: 'lightslategrey',
+    borderRadius: 3,
+    height: 35,
+    width: 'auto',
+    margin: 10,
+    color: 'white',
+  },
+})(Button);
 
 class PageNavigation extends Component {
     constructor(props) {
@@ -12,53 +24,52 @@ class PageNavigation extends Component {
         const { idx, totalPages, count, type } = this.props;
         return (
             <div className="paginationFooter">
-                <Button
+            {/* with checkout button in item drawer, not sure how much this checkout button is anymore */}
+                <StyledButton
                     disabled={!count}
                     onClick={() => createOrder(order)}
                     component={Link}
                     to="/orders"
                 >
+                     CHECKOUT
                     <Icon>shopping-cart-plus</Icon>
-                    {' CREATE'}
-                </Button>
+                </StyledButton>
                 <div>
                     <div className="pageButtons">
                     {idx > 2 && (
-                        <Button 
+                        <StyledButton 
                             component={Link} 
                             to={`/${type}/page/1`}>
                             1
-                        </Button>
+                        </StyledButton>
                     )}
-                    {idx > 1 && <Typography>..</Typography>}
+                    {idx > 1 && <div>..</div>}
                     {idx > 1 && (
-                        <Button 
+                        <StyledButton 
                             component={Link} 
                             to={`/${type}/page/${idx - 1}`}>
-                            {idx - 1}
-                        </Button>
+                            {/* {idx - 1} */}<Icon>arrow_back</Icon>
+                        </StyledButton>
                     )}
-                    <Button>{idx}</Button>
+                    <StyledButton>{idx}</StyledButton>
                     {idx + 1 < totalPages && (
-                        <Button 
+                        <StyledButton 
                             component={Link} 
                             to={`/${type}/page/${idx + 1}`}>
-                            {idx + 1}
-                        </Button>
+                            {/* {idx + 1} */}<Icon>arrow_forward</Icon>
+                        </StyledButton>
                     )}
-                    {idx < totalPages && <Typography>..</Typography>}
+                    {idx < totalPages && <div>..</div>}
                     {idx !== totalPages && (
-                        <Button 
+                        <StyledButton 
                             component={Link} 
                             to={`/${type}/page/${totalPages}`}>
                             {totalPages}
-                        </Button>
+                        </StyledButton>
                     )}
                     </div>
-                    <div className="totalPagesContainer">
-                        <Typography variant="body1">
+                    <div align="center">
                             Page {idx} of {totalPages}
-                        </Typography>
                     </div>
                 </div>
             </div>
